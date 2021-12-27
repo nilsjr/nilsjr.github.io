@@ -1,0 +1,24 @@
+formatting:
+  ImportOrdering:
+    active: true
+  Indentation:
+    active: false
+  FinalNewline:
+    insertFinalNewLine: false
+  ParameterListWrapping:
+    indentSize: 2
+
+performance:
+  SpreadOperator:
+    active: false
+
+style:
+  MagicNumber:
+    active: false
+  NewLineAtEndOfFile:
+    active: false
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated:
+      - 'Composable'
