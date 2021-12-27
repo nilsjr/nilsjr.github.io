@@ -1,0 +1,13 @@
+[versions]
+# libVersion = "0.0.1"
+
+[libraries]
+# dependency as described in the script file
+# exampleAlias1 = "com.example:libName:0.0.1"
+# dependency name and version
+# exampleAlias2 = { module = "com.example:libName", version = "0.0.1" }
+# refer version from a constant
+# exampleAlias4 = { module = "com.example:libName", version.ref = "libVersion" }
+
+[bundles]
+# exampleBundle = ["exampleAlias1", "exampleAlias2"]
