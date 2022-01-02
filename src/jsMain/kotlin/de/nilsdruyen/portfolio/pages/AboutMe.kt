@@ -5,3 +5,13 @@
 
 package de.nilsdruyen.portfolio.pages
 
+import androidx.compose.runtime.Composable
+import org.jetbrains.compose.web.dom.P
+import org.jetbrains.compose.web.dom.Text
+
+@Composable
+fun AboutMe() {
+  P {
+    Text("About me kommt noch")
+  }
+}

@@ -3,8 +3,8 @@ import org.jetbrains.compose.compose
 
 plugins {
   kotlin("multiplatform") version "1.6.10"
-  id("org.jetbrains.compose") version "1.0.1"
-  id("com.github.ben-manes.versions") version "0.39.0"
+  id("org.jetbrains.compose") version "1.1.0-alpha1-dev536"
+  id("com.github.ben-manes.versions") version "0.40.0"
   id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
