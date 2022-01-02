@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import de.nilsdruyen.portfolio.pages.AboutMe
 import de.nilsdruyen.portfolio.pages.Intro
+import de.nilsdruyen.portfolio.pages.Maintainance
 import de.nilsdruyen.portfolio.pages.Projects
 import de.nilsdruyen.portfolio.pages.Skills
 import de.nilsdruyen.portfolio.style.AppStylesheet
@@ -49,6 +50,8 @@ fun Routing() {
     "/imprint" -> Intro()
     else -> Intro()
   }
+
+  Maintainance()
 
   Footer()
 }

@@ -5,6 +5,8 @@
 
 package de.nilsdruyen.portfolio.style
 
+object Constants
+
 object FontConst {
 
   const val DEFAULT = """

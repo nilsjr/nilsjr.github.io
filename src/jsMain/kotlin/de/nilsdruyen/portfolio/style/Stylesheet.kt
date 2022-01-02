@@ -13,11 +13,13 @@ import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.background
+import org.jetbrains.compose.web.css.bottom
 import org.jetbrains.compose.web.css.boxSizing
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.justifyContent
+import org.jetbrains.compose.web.css.keywords.auto
 import org.jetbrains.compose.web.css.left
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.listStyle
@@ -28,6 +30,7 @@ import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.right
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.top
@@ -104,5 +107,15 @@ object Component : StyleSheet(AppStylesheet) {
     self + " a" style {
       opacity(1)
     }
+  }
+  val centerImage by style {
+    position(Position.Absolute)
+    top(0.px)
+    left(0.px)
+    right(0.px)
+    bottom(0.px)
+    property("margin", auto)
+    width(50.percent)
+    maxWidth(400.px)
   }
 }

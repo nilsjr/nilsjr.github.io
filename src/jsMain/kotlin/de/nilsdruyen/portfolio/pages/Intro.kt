@@ -1,6 +1,6 @@
 /*
- * Created by Nils Druyen on 12-27-2021
- * Copyright © 2021 Nils Druyen. All rights reserved.
+ * Created by Nils Druyen on 01-02-2022
+ * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
 package de.nilsdruyen.portfolio.pages
