@@ -4,7 +4,7 @@ import org.jetbrains.compose.compose
 plugins {
   kotlin("multiplatform") version "1.6.10"
   id("org.jetbrains.compose") version "1.1.0-alpha1-dev536"
-  id("com.github.ben-manes.versions") version "0.40.0"
+  id("com.github.ben-manes.versions") version "0.41.0"
   id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
@@ -24,6 +24,17 @@ kotlin {
         implementation(compose.runtime)
       }
     }
+  }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+  kotlinOptions {
+    val arguments = listOf(
+      "-progressive",
+      "-Xopt-in=kotlin.RequiresOptIn"
+    )
+    freeCompilerArgs = freeCompilerArgs + arguments
+    jvmTarget = "11"
   }
 }
 

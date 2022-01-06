@@ -6,12 +6,27 @@
 package de.nilsdruyen.portfolio.pages
 
 import androidx.compose.runtime.Composable
-import org.jetbrains.compose.web.dom.P
+import de.nilsdruyen.portfolio.style.AppStyle
+import org.jetbrains.compose.web.dom.Br
+import org.jetbrains.compose.web.dom.H1
+import org.jetbrains.compose.web.dom.Img
+import org.jetbrains.compose.web.dom.Section
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun Intro() {
-  P {
-    Text("Intro kommt noch")
+  Section({
+    classes(AppStyle.homeSection)
+  }) {
+    H1({
+      classes(AppStyle.heroHeading)
+    }) {
+      Text("hello, i am")
+      Br { }
+      Text(" thea")
+    }
+    Img(src = "assets/thea.jpg", attrs = {
+      classes(AppStyle.homeImage)
+    })
   }
 }

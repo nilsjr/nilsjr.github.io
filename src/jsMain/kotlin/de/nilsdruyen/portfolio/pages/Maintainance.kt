@@ -6,12 +6,27 @@
 package de.nilsdruyen.portfolio.pages
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.style.Component
+import de.nilsdruyen.portfolio.style.AppStyle
+import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
+import org.jetbrains.compose.web.dom.P
+import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun Maintainance() {
-  Img(src = "assets/lego.png", attrs = {
-    classes(Component.centerImage)
-  })
+  Div({
+    classes(AppStyle.centerContainer)
+  }) {
+    Img(src = "assets/lego.png")
+    P({
+      classes(AppStyle.maintainanceText)
+    }) {
+      Text("Whoops...")
+    }
+    P({
+      classes(AppStyle.maintainanceText)
+    }) {
+      Text("Kurze Wartung. Bis später")
+    }
+  }
 }
