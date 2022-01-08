@@ -48,9 +48,7 @@ fun Routing() {
   when (currentPath.value) {
     "/" -> Intro()
     "/about" -> AboutMe()
-    "/projects" -> Projects { url ->
-      window.open(url = url, target = "_blank")
-    }
+    "/projects" -> Projects()
     "/skills" -> Skills()
     "/imprint" -> Intro()
     else -> Maintainance()

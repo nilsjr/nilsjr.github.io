@@ -3,6 +3,8 @@
  * Copyright © 2021 Nils Druyen. All rights reserved.
  */
 
+@file:Suppress("FunctionName")
+
 package de.nilsdruyen.portfolio.style
 
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
@@ -128,7 +130,7 @@ object AppStyle : StyleSheet(AppStylesheet) {
     height(100.vh)
     padding(0.px, 150.px)
     display(DisplayStyle.Flex)
-    alignItems("center")
+    alignItems(AlignItems.Center)
     position(Position.Fixed)
     top(0.px)
   }
@@ -346,3 +348,93 @@ object AboutStyle : StyleSheet(AppStylesheet) {
     }
   }
 }
+
+object SkillStyle : StyleSheet(AppStylesheet) {
+
+  val section by style {
+    position(Position.Relative)
+    margin(100.px, 0.px)
+  }
+
+  val heading by style {
+    textAlign("center")
+    fontSize(60.px)
+    color(Color.white)
+    property("text-transform", "capitalize")
+    fontWeight(300)
+    marginBottom(100.px)
+  }
+
+  val container by style {
+    width(95.percent)
+    property("margin", "auto")
+    display(DisplayStyle.Grid)
+    gridTemplateColumns("repeat(3, 1fr)")
+    property("grid-gap", "100px")
+    color(Color("#fff"))
+  }
+
+  val card by style {
+    position(Position.Relative)
+  }
+
+  val img by style {
+    display(DisplayStyle.Block)
+    property("margin", "auto")
+    height(200.px)
+  }
+
+  val name by style {
+    fontSize(30.px)
+    fontWeight(300)
+    textAlign("center")
+    property("text-transform", "capitalize")
+    margin(30.px, 0.px, 20.px)
+  }
+
+  val info by style {
+    textAlign("center")
+    opacity(0.5)
+    fontSize(18.px)
+    lineHeight(30.px)
+  }
+
+  val kotlinLevel by style {
+    baseLevel()
+    background("#ff4f4f28")
+    border {
+      color = Color("#ff4f4f")
+    }
+    color(Color("#ff4f4f"))
+  }
+
+  val javaLevel by style {
+    baseLevel()
+    background("#4fdfff28")
+    border {
+      width = 10.px
+      style = LineStyle.Solid
+      color = Color("#4fdfff")
+    }
+    color(Color("#4fdfff"))
+  }
+
+  private fun CSSBuilder.baseLevel() {
+    position(Position.Absolute)
+    top(80.px)
+    right(0.px)
+    width(150.px)
+    height(150.px)
+    display(DisplayStyle.Flex)
+    justifyContent(JustifyContent.Center)
+    alignItems(AlignItems.Center)
+    fontSize(22.px)
+    border {
+      width = 10.px
+      style = LineStyle.Solid
+    }
+    borderRadius(50.percent)
+  }
+}
+
+object TimeLineStyle : StyleSheet(AppStylesheet)

@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.models.Project
 import de.nilsdruyen.portfolio.style.ProjectStyle
 import de.nilsdruyen.portfolio.utils.Constants
+import kotlinx.browser.window
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
@@ -50,7 +51,11 @@ val projects = listOf(
 )
 
 @Composable
-fun Projects(openLink: (url: String) -> Unit = {}) {
+fun Projects() {
+  val openLink: (String) -> Unit = {
+    window.open(url = it, target = "_blank")
+  }
+
   Section({
     classes(ProjectStyle.projectSection)
   }) {
