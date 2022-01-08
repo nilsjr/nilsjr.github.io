@@ -23,6 +23,7 @@ val projects = listOf(
     description = """
     This is a small webpage for summarizing specific wow character statistics from Raider.IO
      """.trimIndent(),
+    imageUrl = "assets/projects/helm.jpg",
 //    linkGithubText = "github repo",
     linkGithub = "",
 //    linkProjectText = "",
@@ -31,6 +32,7 @@ val projects = listOf(
   Project(
     name = "My board games",
     description = Constants.LOREM,
+    imageUrl = "assets/projects/helm.jpg",
 //    linkGithubText = "github repo",
     linkGithub = "https://github.com/nilsjr/MyBoardGames",
 //    linkProjectText = "see live",
@@ -39,6 +41,7 @@ val projects = listOf(
   Project(
     name = "Gradle FTP upload plugin",
     description = Constants.LOREM,
+    imageUrl = "assets/projects/helm.jpg",
 //    linkGithubText = "github repo",
     linkGithub = "https://github.com/nilsjr/gradle-ftp-upload-plugin",
 //    linkProjectText = "",
@@ -71,7 +74,7 @@ fun ProjectCard(project: Project, openLink: (url: String) -> Unit = {}) {
   Div({
     classes(ProjectStyle.projectCard)
   }) {
-    Img("", attrs = {
+    Img(project.imageUrl, attrs = {
       classes(ProjectStyle.projectImg)
     })
     Div({

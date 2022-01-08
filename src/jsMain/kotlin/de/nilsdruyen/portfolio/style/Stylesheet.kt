@@ -19,6 +19,7 @@ import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundClip
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.border
+import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.bottom
 import org.jetbrains.compose.web.css.boxSizing
 import org.jetbrains.compose.web.css.color
@@ -43,10 +44,12 @@ import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.right
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.top
+import org.jetbrains.compose.web.css.transform
 import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.css.width
 
@@ -75,16 +78,6 @@ object AppStylesheet : StyleSheet() {
 //      property("-ms-transitio", "none !important")
 //      property("-o-transition", "none !important")
 //    }
-  }
-
-  val pageHeader by style {
-    padding(22.px)
-    textAlign("center")
-    fontSize(28.px)
-  }
-
-  val pageFooter by style {
-    padding(4.px)
   }
 }
 
@@ -138,8 +131,6 @@ object AppStyle : StyleSheet(AppStylesheet) {
     alignItems("center")
     position(Position.Fixed)
     top(0.px)
-//    opacity(0)
-//    property("transition", "1s")
   }
 
   val heroHeading by style {
@@ -180,6 +171,7 @@ object ButtonStyle : StyleSheet(AppStylesheet) {
     lineHeight(80.px)
     property("transition", ".3s")
     fontSize(20.px)
+    cursor("pointer")
 
     self + hover style {
       opacity(1)
@@ -200,8 +192,6 @@ object ProjectStyle : StyleSheet(AppStylesheet) {
     padding(150.px, 100.px, 100.px)
     position(Position.Fixed)
     top(0.px)
-//    property("transition", "1s")
-//    opacity(0)
   }
 
   val projectHeading by style {
@@ -222,18 +212,16 @@ object ProjectStyle : StyleSheet(AppStylesheet) {
     property("grid-gap", "100px")
   }
 
-  @OptIn(ExperimentalComposeWebApi::class)
   val projectCard by style {
     height(400.px)
     position(Position.Relative)
 
-//    self + hover + " $projectContent" style {
-//      opacity(1)
-//    }
-//
-//    self + hover + " $projectImg" style {
-//      property("filter", "blur(20px)")
-//    }
+    self + hover + " .ProjectStyle-projectImg" style {
+      property("filter", "blur(20px)")
+    }
+    self + hover + " .ProjectStyle-projectContent" style {
+      opacity(1)
+    }
   }
 
   val projectImg by style {
@@ -275,6 +263,20 @@ object ProjectStyle : StyleSheet(AppStylesheet) {
   }
 
   val projectBtn by style {
+    basicButton()
+  }
+
+  val projectBtnLive by style {
+    basicButton()
+    background("none")
+    border {
+      width = 2.px
+      style = LineStyle.Solid
+      color = Color("#fff")
+    }
+  }
+
+  private fun CSSBuilder.basicButton() {
     height(40.px)
     property("text-transform", "capitalize")
     fontSize(18.px)
@@ -283,14 +285,64 @@ object ProjectStyle : StyleSheet(AppStylesheet) {
     color(Color("#fff"))
     cursor("pointer")
   }
+}
 
-  val projectBtnLive by style {
-    projectBtn
-    background("none")
-    border {
-      width = 2.px
-      style = LineStyle.Solid
-      color = Color("#fff")
+object AboutStyle : StyleSheet(AppStylesheet) {
+
+  val section by style {
+    width(100.percent)
+    minHeight(100.vh)
+    padding(150.px, 100.px, 0.px)
+    position(Position.Fixed)
+    top(0.px)
+//    opacity(0)
+//    property("transition", "1s")
+  }
+
+  val container by style {
+    width(100.percent)
+    display(DisplayStyle.Grid)
+    gridTemplateColumns("30% 65%")
+    property("grid-gap", "40px")
+  }
+
+  val imgContainer by style {
+    position(Position.Relative)
+  }
+
+  val info by style {
+    color(Color("#fff"))
+    opacity(0.6)
+    fontSize(20.px)
+    lineHeight(40.px)
+  }
+
+  val img by style {
+    width(100.percent)
+    height(100.percent)
+    property("object-fit", "cover")
+    borderRadius(20.px)
+  }
+
+  @OptIn(ExperimentalComposeWebApi::class)
+  val githubLink by style {
+    position(Position.Absolute)
+    bottom(20.px)
+    left(50.percent)
+    transform {
+      translateX((-50).percent)
+    }
+    padding(10.px, 20.px)
+    color(Color("#fff"))
+    property("border", "none")
+    fontSize(16.px)
+    property("text-transform", "capitalize")
+    cursor("pointer")
+    property("transition", ".5s")
+    backgroundColor(rgba(0, 0, 0, 0.5))
+
+    self + hover style {
+      background("#000")
     }
   }
 }

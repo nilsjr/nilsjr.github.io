@@ -8,6 +8,7 @@ package de.nilsdruyen.portfolio.models
 data class Project(
   val name: String,
   val description: String,
+  val imageUrl: String,
 //  val linkGithubText: String,
   val linkGithub: String,
 //  val linkProjectText: String,
