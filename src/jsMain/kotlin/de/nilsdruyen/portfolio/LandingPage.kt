@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import de.nilsdruyen.portfolio.components.NavBar
 import de.nilsdruyen.portfolio.pages.AboutMe
+import de.nilsdruyen.portfolio.pages.Experience
 import de.nilsdruyen.portfolio.pages.Intro
 import de.nilsdruyen.portfolio.pages.Maintainance
 import de.nilsdruyen.portfolio.pages.Projects
@@ -50,7 +51,7 @@ fun Routing() {
     "/about" -> AboutMe()
     "/projects" -> Projects()
     "/skills" -> Skills()
-    "/imprint" -> Intro()
+    "/experience" -> Experience()
     else -> Maintainance()
   }
 }

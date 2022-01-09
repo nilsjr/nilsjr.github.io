@@ -9,7 +9,9 @@ package de.nilsdruyen.portfolio.pages
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.models.Skill
+import de.nilsdruyen.portfolio.style.CircleProgressStyle
 import de.nilsdruyen.portfolio.style.SkillStyle
+import de.nilsdruyen.portfolio.style.TextStyle
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Img
@@ -19,24 +21,18 @@ import org.jetbrains.compose.web.dom.Text
 val skillList = listOf(
   Skill("Kotlin", "assets/skills/kotlin.png", 95, "Test test", SkillStyle.kotlinLevel),
   Skill("Java", "assets/skills/java.png", 90, "", SkillStyle.javaLevel),
-  Skill("Android SDK", "", 90, "", SkillStyle.kotlinLevel),
-  Skill("Kotlin Mobile Mulitplatform", "", 80, "", SkillStyle.kotlinLevel),
-  Skill("Koltin Mulitplatform", "", 65, "", SkillStyle.kotlinLevel),
+  Skill("Android SDK", "assets/skills/android.png", 90, "", SkillStyle.androidLevel),
+  Skill("Kotlin Mobile Mulitplatform", "assets/skills/kmm.png", 70, "", SkillStyle.kmmLevel),
+  Skill("Koltin Mulitplatform", "assets/skills/kotlin.png", 45, "", SkillStyle.kotlinLevel),
 )
 
 @Composable
 fun Skills() {
-  Div({
-    classes(SkillStyle.section)
-  }) {
-    H1({
-      classes(SkillStyle.heading)
-    }) {
-      Text("")
+  Div({ classes(SkillStyle.section) }) {
+    H1({ classes(TextStyle.heading) }) {
+      Text("Skills")
     }
-    Div({
-      classes(SkillStyle.container)
-    }) {
+    Div({ classes(SkillStyle.container) }) {
       skillList.forEach { SkillItem(it) }
     }
   }
@@ -50,11 +46,8 @@ fun SkillItem(skill: Skill) {
     Img(skill.imageUrl, attrs = {
       classes(SkillStyle.img)
     })
-    Div({
-      classes(skill.levelStyle)
-    }) {
-      Text(skill.formattedLevel)
-    }
+//    LevelCircle(skill.level)
+    Circle(skill.level)
     H1({
       classes(SkillStyle.name)
     }) {
@@ -64,6 +57,36 @@ fun SkillItem(skill: Skill) {
       classes(SkillStyle.info)
     }) {
       Text(skill.info)
+    }
+  }
+}
+
+@Composable
+fun LevelCircle(level: Int) {
+  Div({
+    classes(SkillStyle.kotlinLevel)
+  }) {
+    Div({
+      classes(SkillStyle.border)
+    }) {
+      Text("$level%")
+    }
+  }
+}
+
+@Composable
+fun Circle(level: Int) {
+  Div({ classes(CircleProgressStyle.wrap) }) {
+    Div({ classes(CircleProgressStyle.container) }) {
+      Div({ classes(CircleProgressStyle.maskFull) }) {
+        Div({ classes(CircleProgressStyle.fill) }) {}
+      }
+      Div({ classes(CircleProgressStyle.maskHalf) }) {
+        Div({ classes(CircleProgressStyle.fill) }) {}
+      }
+      Div({ classes(CircleProgressStyle.inside) }) {
+        Text("$level%")
+      }
     }
   }
 }

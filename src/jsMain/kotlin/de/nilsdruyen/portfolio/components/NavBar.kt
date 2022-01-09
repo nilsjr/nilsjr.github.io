@@ -19,10 +19,10 @@ import org.w3c.dom.url.URL
 
 val pages = listOf(
   "/" to "Home",
-  "/about" to "About Me",
+  "/about" to "About",
   "/projects" to "Projects",
   "/skills" to "Skills",
-  "/imprint" to "Imprint",
+  "/experience" to "Experience",
 )
 
 @Composable

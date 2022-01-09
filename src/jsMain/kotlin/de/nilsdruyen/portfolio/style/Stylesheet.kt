@@ -9,6 +9,7 @@ package de.nilsdruyen.portfolio.style
 
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.AnimationTimingFunction
 import org.jetbrains.compose.web.css.CSSBuilder
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
@@ -17,6 +18,7 @@ import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.animation
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundClip
 import org.jetbrains.compose.web.css.backgroundColor
@@ -26,7 +28,9 @@ import org.jetbrains.compose.web.css.bottom
 import org.jetbrains.compose.web.css.boxSizing
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.cursor
+import org.jetbrains.compose.web.css.deg
 import org.jetbrains.compose.web.css.display
+import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.fontWeight
 import org.jetbrains.compose.web.css.gridTemplateColumns
@@ -38,6 +42,7 @@ import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.listStyle
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.marginBottom
+import org.jetbrains.compose.web.css.marginLeft
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.minHeight
@@ -48,6 +53,7 @@ import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.right
+import org.jetbrains.compose.web.css.s
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.top
@@ -356,15 +362,6 @@ object SkillStyle : StyleSheet(AppStylesheet) {
     margin(100.px, 0.px)
   }
 
-  val heading by style {
-    textAlign("center")
-    fontSize(60.px)
-    color(Color.white)
-    property("text-transform", "capitalize")
-    fontWeight(300)
-    marginBottom(100.px)
-  }
-
   val container by style {
     width(95.percent)
     property("margin", "auto")
@@ -401,14 +398,48 @@ object SkillStyle : StyleSheet(AppStylesheet) {
 
   val kotlinLevel by style {
     baseLevel()
-    background("#ff4f4f28")
+    background("#664ACC28")
     border {
-      color = Color("#ff4f4f")
+      width = 10.px
+      style = LineStyle.Solid
+      color = Color("#664ACC99")
     }
-    color(Color("#ff4f4f"))
+    color(Color("#664ACC"))
+  }
+
+  val border by style {
+    position(Position.Absolute)
+    top(80.px)
+    right(0.px)
+    width(150.px)
+    height(150.px)
+    borderRadius(100.percent)
+    background("linear-gradient(270deg, black 50%, transparent 50%), linear-gradient(0deg, black 50%, lightgray 50%)")
   }
 
   val javaLevel by style {
+    baseLevel()
+    background("#4fdfff28")
+    border {
+      width = 10.px
+      style = LineStyle.Solid
+      color = Color("#4fdfff")
+    }
+    color(Color("#4fdfff"))
+  }
+
+  val androidLevel by style {
+    baseLevel()
+    background("#4fdfff28")
+    border {
+      width = 10.px
+      style = LineStyle.Solid
+      color = Color("#4fdfff")
+    }
+    color(Color("#4fdfff"))
+  }
+
+  val kmmLevel by style {
     baseLevel()
     background("#4fdfff28")
     border {
@@ -429,12 +460,92 @@ object SkillStyle : StyleSheet(AppStylesheet) {
     justifyContent(JustifyContent.Center)
     alignItems(AlignItems.Center)
     fontSize(22.px)
-    border {
-      width = 10.px
-      style = LineStyle.Solid
-    }
     borderRadius(50.percent)
   }
 }
 
-object TimeLineStyle : StyleSheet(AppStylesheet)
+@OptIn(ExperimentalComposeWebApi::class)
+object CircleProgressStyle : StyleSheet(AppStylesheet) {
+
+  private val fillAnim by keyframes {
+    0.percent {
+      transform {
+        rotate(0.deg)
+      }
+    }
+    100.percent {
+      transform {
+        rotate(126.deg)
+      }
+    }
+  }
+
+  val wrap by style {
+    position(Position.Absolute)
+    top(80.px)
+    right(0.px)
+    property("margin", "50px auto")
+    width(150.px)
+    height(150.px)
+    background("#e6e2e7")
+    borderRadius(50.percent)
+  }
+
+  val container by style { }
+
+  val maskFull by style {
+    mask()
+    transform {
+      rotate(126.deg)
+    }
+    animation(fillAnim) {
+      duration = listOf(3.s)
+      timingFunction = listOf(AnimationTimingFunction.EaseInOut)
+    }
+  }
+
+  val maskHalf by style {
+    mask()
+  }
+
+  private fun CSSBuilder.mask() {
+    baseMaskFill()
+    property("clip", "rect(0px, 150px, 150px, 75px)")
+  }
+
+  private fun CSSBuilder.baseMaskFill() {
+    width(150.px)
+    height(150.px)
+    position(Position.Absolute)
+    borderRadius(50.percent)
+  }
+
+  val fill by style {
+    baseMaskFill()
+
+    property("clip", "rect(0px, 75px, 150px, 0px)")
+    backgroundColor(Color("#9e00b1"))
+    transform {
+      rotate(126.deg)
+    }
+    animation(fillAnim) {
+      duration = listOf(3.s)
+      timingFunction = listOf(AnimationTimingFunction.EaseInOut)
+    }
+  }
+
+  val inside by style {
+    width(130.px)
+    height(130.px)
+    borderRadius(50.percent)
+    background("#191919")
+    lineHeight(130.px)
+    textAlign("center")
+    marginTop(10.px)
+    marginLeft(10.px)
+    position(Position.Absolute)
+    property("z-index", "100")
+    fontWeight(700)
+    fontSize(2.em)
+  }
+}
