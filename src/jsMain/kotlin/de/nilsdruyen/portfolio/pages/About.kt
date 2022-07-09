@@ -17,23 +17,15 @@ import org.jetbrains.compose.web.dom.Section
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun AboutMe() {
+fun About() {
   val openLink: (String) -> Unit = {
     window.open(url = it, target = "_blank")
   }
 
-  Section({
-    classes(AboutStyle.section)
-  }) {
-    Div({
-      classes(AboutStyle.container)
-    }) {
-      Div({
-        classes(AboutStyle.imgContainer)
-      }) {
-        Img("assets/thea.jpg", attrs = {
-          classes(AboutStyle.img)
-        })
+  Section({ classes(AboutStyle.section) }) {
+    Div({ classes(AboutStyle.container) }) {
+      Div({ classes(AboutStyle.imgContainer) }) {
+        Img("assets/thea.jpg", attrs = { classes(AboutStyle.img) })
         Button({
           classes(AboutStyle.githubLink)
           onClick {
@@ -43,11 +35,11 @@ fun AboutMe() {
           Text("Github Profile")
         }
       }
-      P({
-        classes(AboutStyle.info)
-      }) {
+      P({ classes(AboutStyle.info) }) {
         Text(Constants.LOREM)
       }
     }
+    Skills()
+    Experience()
   }
 }

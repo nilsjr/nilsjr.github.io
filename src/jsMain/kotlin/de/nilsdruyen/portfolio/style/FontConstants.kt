@@ -5,9 +5,7 @@
 
 package de.nilsdruyen.portfolio.style
 
-object Constants
-
-object FontConst {
+object FontConstants {
 
   const val DEFAULT = """
     system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,

@@ -6,7 +6,7 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.models.Page
+import de.nilsdruyen.portfolio.models.NavItem
 import de.nilsdruyen.portfolio.style.AppStyle
 import de.nilsdruyen.portfolio.style.ButtonStyle
 import localUrl
@@ -19,32 +19,30 @@ import org.w3c.dom.url.URL
 
 val pages = listOf(
   "/" to "Home",
-  "/about" to "About",
   "/projects" to "Projects",
-  "/skills" to "Skills",
-  "/experience" to "Experience",
+  "/about" to "About",
+//  "/skills" to "Skills",
+//  "/experience" to "Experience",
 )
 
 @Composable
-fun NavBar(path: String, navigateToScreen: (URL) -> Unit) {
+fun NavBar(navigateToScreen: (URL) -> Unit) {
   val pages = pages.map { (pagePath, name) ->
-    Page(URL("${localUrl}$pagePath"), name, pagePath == path)
+    NavItem(
+      URL("${localUrl}$pagePath"),
+      name,
+//      pagePath == path
+    )
   }
 
-  Nav({
-    classes(AppStyle.navBar)
-  }) {
-    Ul({
-      classes(AppStyle.linkGroup)
-    }) {
+  Nav({ classes(AppStyle.navBar) }) {
+    Ul({ classes(AppStyle.linkGroup) }) {
       pages.forEach { page ->
         Li {
           Button({
             classes(ButtonStyle.navButton)
-            if (page.isActive) classes(ButtonStyle.navButtonActive)
-            onClick {
-              navigateToScreen(page.url)
-            }
+//            if (page.isActive) classes(ButtonStyle.navButtonActive)
+            onClick { navigateToScreen(page.url) }
           }) { Text(page.name) }
         }
       }

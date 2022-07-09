@@ -1,11 +1,13 @@
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.compose.compose
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-  kotlin("multiplatform") version "1.6.10"
-  id("org.jetbrains.compose") version "1.1.0-alpha1-dev536"
-  id("com.github.ben-manes.versions") version "0.41.0"
-  id("io.gitlab.arturbosch.detekt") version "1.19.0"
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.jetbrains.compose)
+  alias(libs.plugins.detekt)
+  alias(libs.plugins.gradleVersions)
 }
 
 group = "de.nilsdruyen"
@@ -17,7 +19,6 @@ kotlin {
     binaries.executable()
   }
   sourceSets {
-    @Suppress("UNUSED_VARIABLE")
     val jsMain by getting {
       dependencies {
         implementation(compose.web.core)
@@ -27,7 +28,7 @@ kotlin {
   }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+tasks.withType<KotlinCompile>().configureEach {
   kotlinOptions {
     val arguments = listOf(
       "-progressive",
@@ -46,8 +47,10 @@ extensions.configure<DetektExtension> {
   config = files("$rootDir/detekt.yml")
   buildUponDefaultConfig = true
 }
+val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+val detektVersion = libs.findVersion("detekt").get().toString()
 dependencies {
-  "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
+  "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 }
 
 // configure dependency updates

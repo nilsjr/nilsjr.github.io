@@ -7,8 +7,8 @@ package de.nilsdruyen.portfolio.models
 
 import org.w3c.dom.url.URL
 
-data class Page(
+data class NavItem(
   val url: URL,
   val name: String,
-  val isActive: Boolean,
+//  val isActive: Boolean,
 )

@@ -56,17 +56,11 @@ fun Projects() {
     window.open(url = it, target = "_blank")
   }
 
-  Section({
-    classes(ProjectStyle.projectSection)
-  }) {
-    H1({
-      classes(ProjectStyle.projectHeading)
-    }) {
+  Section({ classes(ProjectStyle.projectSection) }) {
+    H1({ classes(ProjectStyle.projectHeading) }) {
       Text("some of my projects")
     }
-    Div({
-      classes(ProjectStyle.projectContainer)
-    }) {
+    Div({ classes(ProjectStyle.projectContainer) }) {
       projects.forEach {
         ProjectCard(it, openLink)
       }
@@ -76,28 +70,16 @@ fun Projects() {
 
 @Composable
 fun ProjectCard(project: Project, openLink: (url: String) -> Unit = {}) {
-  Div({
-    classes(ProjectStyle.projectCard)
-  }) {
-    Img(project.imageUrl, attrs = {
-      classes(ProjectStyle.projectImg)
-    })
-    Div({
-      classes(ProjectStyle.projectContent)
-    }) {
-      H1({
-        classes(ProjectStyle.projectTitle)
-      }) {
+  Div({ classes(ProjectStyle.projectCard) }) {
+    Img(project.imageUrl, attrs = { classes(ProjectStyle.projectImg) })
+    Div({ classes(ProjectStyle.projectContent) }) {
+      H1({ classes(ProjectStyle.projectTitle) }) {
         Text(project.name)
       }
-      P({
-        classes(ProjectStyle.projectInfo)
-      }) {
+      P({ classes(ProjectStyle.projectInfo) }) {
         Text(project.description)
       }
-      Div({
-        classes(ProjectStyle.projectBtnGrp)
-      }) {
+      Div({ classes(ProjectStyle.projectBtnGrp) }) {
         Button({
           classes(ProjectStyle.projectBtn)
           onClick {

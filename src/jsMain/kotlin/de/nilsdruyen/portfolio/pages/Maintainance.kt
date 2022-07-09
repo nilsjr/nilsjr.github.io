@@ -14,18 +14,12 @@ import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun Maintainance() {
-  Div({
-    classes(AppStyle.centerContainer)
-  }) {
+  Div({ classes(AppStyle.centerContainer) }) {
     Img(src = "assets/lego.png")
-    P({
-      classes(AppStyle.maintainanceText)
-    }) {
+    P({ classes(AppStyle.maintainanceText) }) {
       Text("Whoops...")
     }
-    P({
-      classes(AppStyle.maintainanceText)
-    }) {
+    P({ classes(AppStyle.maintainanceText) }) {
       Text("Kurze Wartung. Bis später")
     }
   }

@@ -6,18 +6,14 @@
 package de.nilsdruyen.portfolio
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import de.nilsdruyen.portfolio.components.NavBar
-import de.nilsdruyen.portfolio.pages.AboutMe
-import de.nilsdruyen.portfolio.pages.Experience
-import de.nilsdruyen.portfolio.pages.Intro
+import androidx.compose.runtime.setValue
+import de.nilsdruyen.portfolio.components.Navigation
+import de.nilsdruyen.portfolio.pages.About
+import de.nilsdruyen.portfolio.pages.Home
 import de.nilsdruyen.portfolio.pages.Maintainance
 import de.nilsdruyen.portfolio.pages.Projects
-import de.nilsdruyen.portfolio.pages.Skills
-import kotlinx.browser.window
-import org.w3c.dom.url.URL
 
 @Composable
 fun WebPage() {
@@ -26,32 +22,27 @@ fun WebPage() {
 
 @Composable
 fun Routing() {
-  val currentPath = remember { mutableStateOf(window.location.pathname) }
+  var showError by mutableStateOf(false)
 
-  LaunchedEffect(Unit) {
-    window.onpopstate = {
-      val newPath = window.location.pathname
-      newPath.let {
-        println("new path: $newPath")
-        currentPath.value = it
-      }
-    }
+  println("recompose")
+
+  Navigation {
+    showError = it
   }
 
-  val navigateAction: (URL) -> Unit = {
-    println("navigate: $it")
-    window.history.pushState("", "", it.toString())
-    currentPath.value = it.pathname
+  Home()
+  Projects()
+  About()
+
+  if (showError) {
+    Maintainance()
   }
 
-  NavBar(currentPath.value, navigateAction)
-
-  when (currentPath.value) {
-    "/" -> Intro()
-    "/about" -> AboutMe()
-    "/projects" -> Projects()
-    "/skills" -> Skills()
-    "/experience" -> Experience()
-    else -> Maintainance()
-  }
+//  Crossfade(currentPath.value) { path ->
+//    when (path) {
+//      "/" -> Home()
+//      "/projects" -> Projects()
+//      "/about" -> About()
+//    }
+//  }
 }
