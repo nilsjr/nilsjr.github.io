@@ -118,7 +118,6 @@ object AppStyle : StyleSheet(AppStylesheet) {
     color(Color("#fff"))
     fontSize(24.px)
   }
-
 }
 
 object ButtonStyle : StyleSheet(AppStylesheet) {
