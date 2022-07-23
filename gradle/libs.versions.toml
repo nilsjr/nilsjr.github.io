@@ -1,10 +1,11 @@
 [versions]
-detekt = "1.21.0-RC2"
+detekt = "1.21.0"
 gradleVersionsPlugin = "0.42.0"
 jetbrainsCompose = "1.2.0-alpha01-dev741"
 kotlin = "1.7.0"
 
 [libraries]
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

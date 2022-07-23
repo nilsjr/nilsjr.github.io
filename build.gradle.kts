@@ -39,6 +39,20 @@ tasks.withType<KotlinCompile>().configureEach {
   }
 }
 
+//rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
+//  rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().apply {
+//    lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
+//    resolution("got", "12.1.0")
+//  }
+//  rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().apply {
+//    versions.webpackDevServer.version = "4.9.3"
+//    versions.webpack.version = "5.73.0"
+//    versions.webpackCli.version = "4.10.0"
+//    versions.karma.version = "6.4.0"
+//    versions.mocha.version = "10.0.0"
+//  }
+//}
+
 // configure detekt
 extensions.configure<DetektExtension> {
   toolVersion = "1.19.0"
@@ -47,10 +61,8 @@ extensions.configure<DetektExtension> {
   config = files("$rootDir/detekt.yml")
   buildUponDefaultConfig = true
 }
-val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-val detektVersion = libs.findVersion("detekt").get().toString()
 dependencies {
-  "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+  "detektPlugins"(libs.detekt.formatting)
 }
 
 // configure dependency updates
