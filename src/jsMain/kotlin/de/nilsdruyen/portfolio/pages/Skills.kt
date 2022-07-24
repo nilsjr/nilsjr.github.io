@@ -28,7 +28,10 @@ val skillList = listOf(
 
 @Composable
 fun Skills() {
-  Div({ classes(SkillStyle.section) }) {
+  Div({
+    id("test1")
+    classes(SkillStyle.section)
+  }) {
     H1({ classes(TextStyle.heading) }) {
       Text("Skills")
     }

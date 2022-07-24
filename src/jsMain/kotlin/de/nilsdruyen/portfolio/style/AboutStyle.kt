@@ -40,17 +40,18 @@ object AboutStyle : StyleSheet(AppStylesheet) {
     width(100.percent)
     minHeight(100.vh)
     padding(150.px, 100.px, 0.px)
-    position(Position.Fixed)
+//    position(Position.Fixed)
+    position(Position.Relative)
     top(0.px)
 
-    opacity(0)
+//    opacity(0)
     property("transition", "1s")
 
-    desc(self, active) style {
-      position(Position.Relative)
-      opacity(1)
-      property("z-index", "8")
-    }
+//    desc(self, active) style {
+//      position(Position.Relative)
+//      opacity(1)
+//      property("z-index", "8")
+//    }
   }
 
   val container by style {

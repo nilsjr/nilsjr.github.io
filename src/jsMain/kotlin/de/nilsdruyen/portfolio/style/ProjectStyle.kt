@@ -42,17 +42,18 @@ object ProjectStyle : StyleSheet(AppStylesheet) {
     width(100.percent)
     minHeight(100.percent)
     padding(150.px, 100.px, 100.px)
-    position(Position.Fixed)
+//    position(Position.Fixed)
+    position(Position.Relative)
     top(0.px)
 
-    opacity(0)
-    property("transition", "1s")
+//    opacity(0)
+//    property("transition", "1s")
 
-    desc(self, active) style {
-      position(Position.Relative)
-      opacity(1)
-      property("z-index", "8")
-    }
+//    desc(self, active) style {
+//      position(Position.Relative)
+//      opacity(1)
+//      property("z-index", "8")
+//    }
   }
 
   val projectHeading by style {

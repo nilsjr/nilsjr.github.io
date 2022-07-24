@@ -35,17 +35,18 @@ object HomeStyle : StyleSheet(AppStylesheet) {
     padding(0.px, 150.px)
     display(DisplayStyle.Flex)
     alignItems(AlignItems.Center)
-    position(Position.Fixed)
+//    position(Position.Fixed)
+    position(Position.Relative)
     top(0.px)
 
 //    opacity(0)
     property("transition", "1s")
 
-    desc(self, sectionActive) style {
-      position(Position.Relative)
-      opacity(1)
-      property("z-index", "8")
-    }
+//    desc(self, sectionActive) style {
+//      position(Position.Relative)
+//      opacity(1)
+//      property("z-index", "8")
+//    }
   }
 
   val heroHeading by style {
