@@ -1,14 +1,14 @@
 /*
- * Created by Nils Druyen on 01-02-2022
+ * Created by Nils Druyen on 07-29-2022
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.pages
+package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
+import de.nilsdruyen.portfolio.Constants
 import de.nilsdruyen.portfolio.models.Project
 import de.nilsdruyen.portfolio.style.ProjectStyle
-import de.nilsdruyen.portfolio.utils.Constants
 import kotlinx.browser.window
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div

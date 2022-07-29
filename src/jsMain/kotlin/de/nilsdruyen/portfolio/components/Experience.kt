@@ -1,15 +1,15 @@
 /*
- * Created by Nils Druyen on 01-09-2022
+ * Created by Nils Druyen on 07-29-2022
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.pages
+package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
+import de.nilsdruyen.portfolio.Constants
 import de.nilsdruyen.portfolio.models.TimelineExp
 import de.nilsdruyen.portfolio.style.TextStyle
 import de.nilsdruyen.portfolio.style.TimelineStyle
-import de.nilsdruyen.portfolio.utils.Constants
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.P

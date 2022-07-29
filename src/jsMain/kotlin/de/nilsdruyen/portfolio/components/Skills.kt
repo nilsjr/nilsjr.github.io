@@ -1,11 +1,11 @@
 /*
- * Created by Nils Druyen on 01-02-2022
+ * Created by Nils Druyen on 07-29-2022
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
 @file:Suppress("FunctionName")
 
-package de.nilsdruyen.portfolio.pages
+package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.models.Skill
@@ -46,7 +46,6 @@ fun SkillItem(skill: Skill) {
     Img(skill.imageUrl, attrs = {
       classes(SkillStyle.img)
     })
-//    LevelCircle(skill.level)
     Circle(skill.level)
     H1({
       classes(SkillStyle.name)
@@ -57,19 +56,6 @@ fun SkillItem(skill: Skill) {
       classes(SkillStyle.info)
     }) {
       Text(skill.info)
-    }
-  }
-}
-
-@Composable
-fun LevelCircle(level: Int) {
-  Div({
-    classes(SkillStyle.kotlinLevel)
-  }) {
-    Div({
-      classes(SkillStyle.border)
-    }) {
-      Text("$level%")
     }
   }
 }

@@ -67,7 +67,7 @@ object AppStylesheet : StyleSheet() {
       maxWidth(1400.px)
       display(DisplayStyle.Block)
       property("margin", "auto")
-      background("#191919")
+//      background(Colors.Blue)
       property("font-family", FontConstants.DEFAULT)
     }
 
@@ -92,7 +92,7 @@ object AppStyle : StyleSheet(AppStylesheet) {
     justifyContent(JustifyContent.Center)
     alignItems(AlignItems.Center)
     property("z-index", "9")
-    background("#1a1a1a")
+    background(Colors.Blue)
   }
 
   val linkGroup by style {
@@ -145,10 +145,6 @@ object ButtonStyle : StyleSheet(AppStylesheet) {
     self + hover style {
       opacity(1)
     }
-  }
-
-  val navButtonActive by style {
-    opacity(1)
   }
 }
 

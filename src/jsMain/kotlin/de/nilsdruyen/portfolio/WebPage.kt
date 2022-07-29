@@ -9,40 +9,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import de.nilsdruyen.portfolio.components.AboutMe
+import de.nilsdruyen.portfolio.components.Footer
+import de.nilsdruyen.portfolio.components.Header
+import de.nilsdruyen.portfolio.components.Maintainance
 import de.nilsdruyen.portfolio.components.Navigation
-import de.nilsdruyen.portfolio.pages.About
-import de.nilsdruyen.portfolio.pages.Home
-import de.nilsdruyen.portfolio.pages.Maintainance
-import de.nilsdruyen.portfolio.pages.Projects
+import de.nilsdruyen.portfolio.components.References
 
 @Composable
 fun WebPage() {
-  Routing()
-}
-
-@Composable
-fun Routing() {
   var showError by mutableStateOf(false)
 
   println("recompose")
 
-  Navigation {
-    showError = it
-  }
-
-  Home()
-  Projects()
-  About()
-
   if (showError) {
     Maintainance()
+  } else {
+    Navigation {
+      showError = it
+    }
+    Header()
+    AboutMe()
+    References()
+    Footer()
   }
-
-//  Crossfade(currentPath.value) { path ->
-//    when (path) {
-//      "/" -> Home()
-//      "/projects" -> Projects()
-//      "/about" -> About()
-//    }
-//  }
 }

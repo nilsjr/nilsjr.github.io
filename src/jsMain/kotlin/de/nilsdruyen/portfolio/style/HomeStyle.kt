@@ -5,13 +5,13 @@
 
 package de.nilsdruyen.portfolio.style
 
-import de.nilsdruyen.portfolio.style.SectionStyle.sectionActive
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.fontSize
@@ -37,15 +37,16 @@ object HomeStyle : StyleSheet(AppStylesheet) {
     alignItems(AlignItems.Center)
     position(Position.Fixed)
     top(0.px)
+    background(Colors.Grey)
 
 //    opacity(0)
-    property("transition", "1s")
-
-    desc(self, sectionActive) style {
-      position(Position.Relative)
-      opacity(1)
-      property("z-index", "8")
-    }
+//    property("transition", "1s")
+//
+//    desc(self, sectionActive) style {
+//      position(Position.Relative)
+//      opacity(1)
+//      property("z-index", "8")
+//    }
   }
 
   val heroHeading by style {
