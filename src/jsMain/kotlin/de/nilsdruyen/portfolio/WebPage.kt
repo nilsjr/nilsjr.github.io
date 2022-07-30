@@ -14,6 +14,7 @@ import de.nilsdruyen.portfolio.components.Footer
 import de.nilsdruyen.portfolio.components.Header
 import de.nilsdruyen.portfolio.components.Maintainance
 import de.nilsdruyen.portfolio.components.Navigation
+import de.nilsdruyen.portfolio.components.Projects
 import de.nilsdruyen.portfolio.components.References
 
 @Composable
@@ -31,6 +32,7 @@ fun WebPage() {
     Header()
     AboutMe()
     References()
+    Projects()
     Footer()
   }
 }

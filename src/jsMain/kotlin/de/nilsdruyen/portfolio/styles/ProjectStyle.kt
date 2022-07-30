@@ -3,14 +3,16 @@
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.style
+package de.nilsdruyen.portfolio.styles
 
+import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.CSSBuilder
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.StyleSheet
+import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundClip
 import org.jetbrains.compose.web.css.backgroundColor
@@ -26,9 +28,9 @@ import org.jetbrains.compose.web.css.left
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.marginBottom
-import org.jetbrains.compose.web.css.minHeight
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
+import org.jetbrains.compose.web.css.paddingTop
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
@@ -36,23 +38,26 @@ import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.top
 import org.jetbrains.compose.web.css.width
 
-object ProjectStyle : StyleSheet(AppStylesheet) {
+object ProjectStyle : StyleSheet(WebPageStyle) {
 
-  val projectSection by style {
+  val section by style {
     width(100.percent)
-    minHeight(100.percent)
-    padding(150.px, 100.px, 100.px)
-    position(Position.Fixed)
-    top(0.px)
+    paddingTop(80.px)
+    display(DisplayStyle.Table)
+    alignItems(AlignItems.Center)
+    textAlign("center")
+//    minHeight(100.percent)
+//    padding(150.px, 100.px, 100.px)
+//    top(0.px)
 
-    opacity(0)
-    property("transition", "1s")
-
-    desc(self, active) style {
-      position(Position.Relative)
-      opacity(1)
-      property("z-index", "8")
-    }
+//    opacity(0)
+//    property("transition", "1s")
+//
+//    desc(self, active) style {
+//      position(Position.Relative)
+//      opacity(1)
+//      property("z-index", "8")
+//    }
   }
 
   val projectHeading by style {

@@ -5,7 +5,7 @@
 
 @file:Suppress("FunctionName")
 
-package de.nilsdruyen.portfolio.style
+package de.nilsdruyen.portfolio.styles
 
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.AlignItems
@@ -14,34 +14,47 @@ import org.jetbrains.compose.web.css.CSSBuilder
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.JustifyContent
+import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.animation
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.backgroundImage
+import org.jetbrains.compose.web.css.backgroundPosition
+import org.jetbrains.compose.web.css.backgroundSize
+import org.jetbrains.compose.web.css.border
 import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.bottom
 import org.jetbrains.compose.web.css.boxSizing
 import org.jetbrains.compose.web.css.color
+import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.cursor
 import org.jetbrains.compose.web.css.deg
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.em
+import org.jetbrains.compose.web.css.filter
+import org.jetbrains.compose.web.css.flexBasis
+import org.jetbrains.compose.web.css.flexGrow
+import org.jetbrains.compose.web.css.fontFamily
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.fontWeight
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.keywords.auto
 import org.jetbrains.compose.web.css.left
+import org.jetbrains.compose.web.css.letterSpacing
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.listStyle
 import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.marginBottom
 import org.jetbrains.compose.web.css.marginLeft
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
+import org.jetbrains.compose.web.css.paddingTop
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
@@ -53,7 +66,7 @@ import org.jetbrains.compose.web.css.top
 import org.jetbrains.compose.web.css.transform
 import org.jetbrains.compose.web.css.width
 
-object AppStylesheet : StyleSheet() {
+object WebPageStyle : StyleSheet() {
 
   init {
     universal style {
@@ -66,22 +79,179 @@ object AppStylesheet : StyleSheet() {
       width(100.percent)
       maxWidth(1400.px)
       display(DisplayStyle.Block)
+      fontFamily("Roboto", "sans-serif")
       property("margin", "auto")
-//      background(Colors.Blue)
-      property("font-family", FontConstants.DEFAULT)
+    }
+  }
+
+  val heading by style {
+    textAlign("center")
+    fontSize(60.px)
+    color(Color.white)
+    property("text-transform", "capitalize")
+    fontWeight(300)
+    marginBottom(100.px)
+  }
+
+  val lineBreak by style {
+    flexBasis("100%")
+    height(0.px)
+  }
+
+  object Header : StyleSheet(WebPageStyle) {
+
+    val section by style {
+      width(100.percent)
+      height(600.px)
+      top(0.px)
+      padding(0.px)
+      display(DisplayStyle.Table)
+      alignItems(AlignItems.Center)
+      textAlign("center")
     }
 
-//    "body.js-stop-transition *" style {
-//      property("transition", "none !important")
-//      property("-webkit-transition", "none !important")
-//      property("-moz-transition", "none !important")
-//      property("-ms-transitio", "none !important")
-//      property("-o-transition", "none !important")
-//    }
+    val background by style {
+      width(100.percent)
+      height(400.px)
+      position(Position.Relative)
+      background(Colors.Grey)
+    }
+
+    val profileImage by style {
+      width(400.px)
+      height(400.px)
+      position(Position.Relative)
+      backgroundPosition("50% 50%")
+      borderRadius(50.percent)
+      border {
+        width = 8.px
+        style = LineStyle.Solid
+        color = Color("#fff")
+      }
+      property("margin", "-250px auto 0")
+    }
+
+    private val textWidth = 400.px
+
+    val title by style {
+      width(textWidth)
+      fontSize(3.cssRem)
+      position(Position.Relative)
+      letterSpacing(4.px)
+      fontWeight(300)
+      property("margin", "20px auto 0")
+      property("text-transform", "uppercase")
+    }
+
+    val description by style {
+      width(textWidth)
+      position(Position.Relative)
+      property("margin", "20px auto 0")
+    }
+  }
+
+  object AboutMe : StyleSheet(WebPageStyle) {
+
+    val section by style {
+      width(100.percent)
+      paddingTop(80.px)
+      display(DisplayStyle.Table)
+      alignItems(AlignItems.Center)
+      textAlign("center")
+    }
+
+    val title by style {
+      fontSize(3.cssRem)
+      position(Position.Relative)
+      letterSpacing(4.px)
+      fontWeight(300)
+      property("margin", "20px auto 0")
+      property("text-transform", "lowercase")
+    }
+
+    val subtitle by style {
+      fontSize(3.cssRem)
+      position(Position.Relative)
+      letterSpacing(4.px)
+      fontWeight(300)
+      property("margin", "20px auto 0")
+      property("text-transform", "lowercase")
+    }
+  }
+
+  object References : StyleSheet(WebPageStyle) {
+
+    val section by style {
+      width(100.percent)
+      padding(80.px, 0.px)
+      display(DisplayStyle.Table)
+      alignItems(AlignItems.Center)
+      textAlign("center")
+    }
+
+    val background by style {
+      width(100.percent)
+      height(400.px)
+      position(Position.Relative)
+      background(Colors.Grey)
+    }
+  }
+
+  object Footer : StyleSheet(WebPageStyle) {
+
+    val section by style {
+      width(100.percent)
+      height(300.px)
+      display(DisplayStyle.Flex)
+      alignItems(AlignItems.Center)
+      justifyContent(JustifyContent.Center)
+      textAlign("center")
+      backgroundImage("linear-gradient(0deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(\"assets/footer-bg.jpg\")")
+      backgroundPosition("50% 50%")
+      backgroundSize("cover")
+    }
+
+    val text by style {
+      textAlign("center")
+      color(Color("#fff"))
+      property("margin", "auto 0")
+    }
+
+    val background by style {
+      width(100.percent)
+      height(120.px)
+      position(Position.Relative)
+      background(Colors.Blue)
+      display(DisplayStyle.Flex)
+      alignItems(AlignItems.Center)
+      justifyContent(JustifyContent.Center)
+      textAlign("center")
+    }
+
+    val linksTitle by style {
+      color(Color.white)
+      flexGrow(1)
+    }
+
+    val linksContainer by style {
+      display(DisplayStyle.Flex)
+      alignItems(AlignItems.Center)
+//      paddingTop(20.px)
+    }
+
+    @OptIn(ExperimentalComposeWebApi::class)
+    val linkImage by style {
+      width(40.px)
+      height(40.px)
+//      padding(20.px)
+      filter {
+        invert(1)
+      }
+    }
   }
 }
 
-object AppStyle : StyleSheet(AppStylesheet) {
+object AppStyle : StyleSheet(WebPageStyle) {
 
   val navBar by style {
     width(100.percent)
@@ -91,7 +261,7 @@ object AppStyle : StyleSheet(AppStylesheet) {
     display(DisplayStyle.Flex)
     justifyContent(JustifyContent.Center)
     alignItems(AlignItems.Center)
-    property("z-index", "9")
+    property("z-index", "10")
     background(Colors.Blue)
   }
 
@@ -120,7 +290,7 @@ object AppStyle : StyleSheet(AppStylesheet) {
   }
 }
 
-object ButtonStyle : StyleSheet(AppStylesheet) {
+object ButtonStyle : StyleSheet(WebPageStyle) {
 
   private fun CSSBuilder.basicButton() {
     // disable button style
@@ -134,13 +304,13 @@ object ButtonStyle : StyleSheet(AppStylesheet) {
     backgroundColor(Color.transparent)
     opacity(0.5)
     textDecoration("none")
-    property("text-transform", "capitalize")
     padding(10.px, 30.px)
     margin(0.px, 20.px)
-    lineHeight(80.px)
-    property("transition", ".3s")
+    lineHeight(70.px)
     fontSize(20.px)
     cursor("pointer")
+    property("text-transform", "uppercase")
+    property("transition", ".3s")
 
     self + hover style {
       opacity(1)
@@ -149,7 +319,7 @@ object ButtonStyle : StyleSheet(AppStylesheet) {
 }
 
 @OptIn(ExperimentalComposeWebApi::class)
-object CircleProgressStyle : StyleSheet(AppStylesheet) {
+object CircleProgressStyle : StyleSheet(WebPageStyle) {
 
   private val fillAnim by keyframes {
     0.percent {

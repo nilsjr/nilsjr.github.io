@@ -8,8 +8,8 @@ package de.nilsdruyen.portfolio.components
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.Constants
 import de.nilsdruyen.portfolio.models.TimelineExp
-import de.nilsdruyen.portfolio.style.TextStyle
-import de.nilsdruyen.portfolio.style.TimelineStyle
+import de.nilsdruyen.portfolio.styles.TimelineStyle
+import de.nilsdruyen.portfolio.styles.WebPageStyle
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.P
@@ -31,7 +31,7 @@ val timeline = listOf(
 @Composable
 fun Timeline() {
   Div({ classes(TimelineStyle.container) }) {
-    H1({ classes(TextStyle.heading) }) {
+    H1({ classes(WebPageStyle.heading) }) {
       Text("Education and experience")
     }
     timeline.forEach {

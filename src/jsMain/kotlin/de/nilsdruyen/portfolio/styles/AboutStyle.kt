@@ -3,7 +3,7 @@
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.style
+package de.nilsdruyen.portfolio.styles
 
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.Color
@@ -34,7 +34,7 @@ import org.jetbrains.compose.web.css.transform
 import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.css.width
 
-object AboutStyle : StyleSheet(AppStylesheet) {
+object AboutStyle : StyleSheet(WebPageStyle) {
 
   val section by style {
     width(100.percent)

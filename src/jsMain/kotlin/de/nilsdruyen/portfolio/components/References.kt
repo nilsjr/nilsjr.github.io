@@ -6,10 +6,14 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
+import de.nilsdruyen.portfolio.styles.WebPageStyle
+import org.jetbrains.compose.web.dom.Section
 
 @Composable
 fun References() {
-//  Projects()
-  Skills()
-  Experience()
+  Section({ classes(WebPageStyle.References.section) }) {
+//    Div({ classes(WebPageStyle.References.background) }){}
+    Experience()
+    Skills()
+  }
 }

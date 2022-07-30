@@ -3,7 +3,7 @@
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.style
+package de.nilsdruyen.portfolio.styles
 
 object Colors {
 

@@ -3,7 +3,7 @@
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.style
+package de.nilsdruyen.portfolio.styles
 
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.Color
@@ -31,14 +31,14 @@ import org.jetbrains.compose.web.css.top
 import org.jetbrains.compose.web.css.transform
 import org.jetbrains.compose.web.css.width
 
-object TimelineStyle : StyleSheet(AppStylesheet) {
+object TimelineStyle : StyleSheet(WebPageStyle) {
 
   val container by style {
     display(DisplayStyle.Block)
     width(80.percent)
     property("margin", "150px auto")
 
-    desc(self, TextStyle.heading) style {
+    desc(self, WebPageStyle.heading) style {
       marginBottom(150.px)
     }
   }

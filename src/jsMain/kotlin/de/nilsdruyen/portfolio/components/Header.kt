@@ -6,7 +6,7 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.style.HeaderStyle
+import de.nilsdruyen.portfolio.styles.WebPageStyle
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Img
@@ -16,18 +16,22 @@ import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun Header() {
-  Section({ classes(HeaderStyle.section) }) {
-    Div({ classes(HeaderStyle.background) }) { }
+  Section({ classes(WebPageStyle.Header.section) }) {
+    Div({ classes(WebPageStyle.Header.background) }) { }
     Img(
       src = "assets/nils.jpg",
       attrs = {
-        classes(HeaderStyle.profileImage)
+        classes(WebPageStyle.Header.profileImage)
       }
     )
-    H2 {
+    H2({
+      classes(WebPageStyle.Header.title)
+    }) {
       Text("Hi I'm Nils")
     }
-    P {
+    P({
+      classes(WebPageStyle.Header.description)
+    }) {
       Text(Description)
     }
   }

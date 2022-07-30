@@ -4,7 +4,7 @@
  */
 
 import de.nilsdruyen.portfolio.WebPage
-import de.nilsdruyen.portfolio.style.AppStylesheet
+import de.nilsdruyen.portfolio.styles.WebPageStyle
 import kotlinx.browser.window
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.renderComposable
@@ -13,7 +13,7 @@ val localUrl = "${window.location.protocol}//${window.location.host}"
 
 fun main() {
   renderComposable(rootElementId = "root") {
-    Style(AppStylesheet)
+    Style(WebPageStyle)
     WebPage()
   }
 }

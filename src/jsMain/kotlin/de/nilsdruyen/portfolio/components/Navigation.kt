@@ -10,8 +10,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import de.nilsdruyen.portfolio.models.NavItem
-import de.nilsdruyen.portfolio.style.AppStyle
-import de.nilsdruyen.portfolio.style.ButtonStyle
+import de.nilsdruyen.portfolio.styles.AppStyle
+import de.nilsdruyen.portfolio.styles.ButtonStyle
 import kotlinx.browser.window
 import kotlinx.coroutines.delay
 import kotlinx.dom.addClass

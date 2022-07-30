@@ -8,7 +8,7 @@ package de.nilsdruyen.portfolio.components
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.Constants
 import de.nilsdruyen.portfolio.models.Project
-import de.nilsdruyen.portfolio.style.ProjectStyle
+import de.nilsdruyen.portfolio.styles.ProjectStyle
 import kotlinx.browser.window
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
@@ -56,7 +56,7 @@ fun Projects() {
     window.open(url = it, target = "_blank")
   }
 
-  Section({ classes(ProjectStyle.projectSection) }) {
+  Section({ classes(ProjectStyle.section) }) {
     H1({ classes(ProjectStyle.projectHeading) }) {
       Text("some of my projects")
     }

@@ -3,7 +3,7 @@
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.style
+package de.nilsdruyen.portfolio.styles
 
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.CSSBuilder
@@ -35,7 +35,7 @@ import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.top
 import org.jetbrains.compose.web.css.width
 
-object SkillStyle : StyleSheet(AppStylesheet) {
+object SkillStyle : StyleSheet(WebPageStyle) {
 
   val section by style {
     position(Position.Relative)

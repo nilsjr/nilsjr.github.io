@@ -9,9 +9,9 @@ package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.models.Skill
-import de.nilsdruyen.portfolio.style.CircleProgressStyle
-import de.nilsdruyen.portfolio.style.SkillStyle
-import de.nilsdruyen.portfolio.style.TextStyle
+import de.nilsdruyen.portfolio.styles.CircleProgressStyle
+import de.nilsdruyen.portfolio.styles.SkillStyle
+import de.nilsdruyen.portfolio.styles.WebPageStyle
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Img
@@ -29,8 +29,8 @@ val skillList = listOf(
 @Composable
 fun Skills() {
   Div({ classes(SkillStyle.section) }) {
-    H1({ classes(TextStyle.heading) }) {
-      Text("Skills")
+    H1({ classes(WebPageStyle.heading) }) {
+      Text("Experience")
     }
     Div({ classes(SkillStyle.container) }) {
       skillList.forEach { SkillItem(it) }
