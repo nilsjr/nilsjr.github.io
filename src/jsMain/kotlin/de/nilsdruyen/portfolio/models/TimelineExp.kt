@@ -7,5 +7,7 @@ package de.nilsdruyen.portfolio.models
 
 data class TimelineExp(
   val name: String,
-  val info: String,
+  val info: String = "",
+  val role: String = "",
+  val company: String = "",
 )

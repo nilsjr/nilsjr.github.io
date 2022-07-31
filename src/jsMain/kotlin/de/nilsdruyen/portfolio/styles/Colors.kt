@@ -5,8 +5,13 @@
 
 package de.nilsdruyen.portfolio.styles
 
+import org.jetbrains.compose.web.css.Color
+
 object Colors {
 
   const val Blue = "#002147"
   const val Grey = "#f2f2f2"
+  const val LightBlue = "#5a7696"
 }
+
+fun String.toColor() = Color(this)

@@ -5,10 +5,9 @@
 
 package de.nilsdruyen.portfolio.models
 
-import org.w3c.dom.url.URL
-
 data class NavItem(
-  val url: URL,
   val name: String,
+  val hash: String,
+//  val url: URL,
 //  val isActive: Boolean,
 )

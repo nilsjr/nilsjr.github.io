@@ -8,13 +8,12 @@ package de.nilsdruyen.portfolio.components
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.Constants
 import de.nilsdruyen.portfolio.models.Project
-import de.nilsdruyen.portfolio.styles.ProjectStyle
+import de.nilsdruyen.portfolio.styles.WebPageStyle
 import kotlinx.browser.window
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Img
-import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Section
 import org.jetbrains.compose.web.dom.Text
 
@@ -56,11 +55,14 @@ fun Projects() {
     window.open(url = it, target = "_blank")
   }
 
-  Section({ classes(ProjectStyle.section) }) {
-    H1({ classes(ProjectStyle.projectHeading) }) {
+  Section({
+    classes(WebPageStyle.Projects.section)
+    id("projects")
+  }) {
+    H1({ classes(WebPageStyle.Projects.projectHeading) }) {
       Text("some of my projects")
     }
-    Div({ classes(ProjectStyle.projectContainer) }) {
+    Div({ classes(WebPageStyle.Projects.projectContainer) }) {
       projects.forEach {
         ProjectCard(it, openLink)
       }
@@ -70,33 +72,41 @@ fun Projects() {
 
 @Composable
 fun ProjectCard(project: Project, openLink: (url: String) -> Unit = {}) {
-  Div({ classes(ProjectStyle.projectCard) }) {
-    Img(project.imageUrl, attrs = { classes(ProjectStyle.projectImg) })
-    Div({ classes(ProjectStyle.projectContent) }) {
-      H1({ classes(ProjectStyle.projectTitle) }) {
+  Div({ classes(WebPageStyle.Projects.projectCard) }) {
+    Img(project.imageUrl, attrs = { classes(WebPageStyle.Projects.projectImg) })
+    Div({ classes(WebPageStyle.Projects.projectContent) }) {
+      H1({ classes(WebPageStyle.Projects.projectTitle) }) {
         Text(project.name)
       }
-      P({ classes(ProjectStyle.projectInfo) }) {
-        Text(project.description)
-      }
-      Div({ classes(ProjectStyle.projectBtnGrp) }) {
-        Button({
-          classes(ProjectStyle.projectBtn)
-          onClick {
-            openLink(project.linkGithub)
-          }
-        }) {
-          Text("Link")
+//      P({ classes(WebPageStyle.Projects.projectInfo) }) {
+//        Text(project.description)
+//      }
+      Button({
+        classes(WebPageStyle.Projects.projectBtn)
+        onClick {
+          openLink(project.linkProject)
         }
-        Button({
-          classes(ProjectStyle.projectBtnLive)
-          onClick {
-            openLink(project.linkProject)
-          }
-        }) {
-          Text("Link")
-        }
+      }) {
+        Text("Link")
       }
+//      Div({ classes(WebPageStyle.Projects.projectBtnGrp) }) {
+////        Button({
+////          classes(WebPageStyle.Projects.projectBtn)
+////          onClick {
+////            openLink(project.linkGithub)
+////          }
+////        }) {
+////          Text("Link")
+////        }
+//        Button({
+//          classes(WebPageStyle.Projects.projectBtnLive)
+//          onClick {
+//            openLink(project.linkProject)
+//          }
+//        }) {
+//          Text("Link")
+//        }
+//      }
     }
   }
 }

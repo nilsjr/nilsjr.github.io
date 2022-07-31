@@ -39,6 +39,7 @@ import org.jetbrains.compose.web.css.flexBasis
 import org.jetbrains.compose.web.css.fontFamily
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.fontWeight
+import org.jetbrains.compose.web.css.gridTemplateColumns
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.keywords.auto
@@ -49,6 +50,7 @@ import org.jetbrains.compose.web.css.listStyle
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.marginBottom
 import org.jetbrains.compose.web.css.marginLeft
+import org.jetbrains.compose.web.css.marginRight
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.opacity
@@ -59,6 +61,7 @@ import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.right
 import org.jetbrains.compose.web.css.s
+import org.jetbrains.compose.web.css.selectors.Nth
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.top
@@ -74,9 +77,13 @@ object WebPageStyle : StyleSheet() {
       boxSizing("border-box")
     }
 
+    "html" style {
+      property("scroll-behavior", "smooth")
+    }
+
     "body" style {
       width(100.percent)
-      maxWidth(1400.px)
+//      maxWidth(1400.px)
       display(DisplayStyle.Block)
       fontFamily("Roboto", "sans-serif")
       property("margin", "auto")
@@ -84,12 +91,12 @@ object WebPageStyle : StyleSheet() {
   }
 
   val heading by style {
-    textAlign("center")
-    fontSize(60.px)
-    color(Color.white)
-    property("text-transform", "capitalize")
+    fontSize(4.cssRem)
+    position(Position.Relative)
+    letterSpacing(4.px)
     fontWeight(300)
-    marginBottom(100.px)
+    property("margin", "20px auto 0")
+    property("text-transform", "lowercase")
   }
 
   val lineBreak by style {
@@ -178,21 +185,269 @@ object WebPageStyle : StyleSheet() {
     }
   }
 
-  object References : StyleSheet(WebPageStyle) {
+  object Timeline : StyleSheet(WebPageStyle) {
 
     val section by style {
       width(100.percent)
-      padding(80.px, 0.px)
+      paddingTop(80.px)
       display(DisplayStyle.Table)
       alignItems(AlignItems.Center)
       textAlign("center")
     }
 
-    val background by style {
-      width(100.percent)
-      height(400.px)
+    val container by style {
+      display(DisplayStyle.Block)
+      width(80.percent)
+      property("margin", "120px auto")
+    }
+
+    val cardBody by style {}
+
+    val cardDetail by style {}
+
+    private val borderWidth = 1.px
+
+    @OptIn(ExperimentalComposeWebApi::class)
+    val card by style {
+      width(48.percent)
+      padding(30.px)
+      borderRadius(20.px)
+      color(Color("#fff"))
+      display(DisplayStyle.Block)
+      property("margin", "-60px 0")
       position(Position.Relative)
-      background(Colors.Grey)
+      background(Colors.LightBlue)
+
+      self + nthChild(Nth.Even) style {
+        property("margin-left", "auto")
+      }
+
+      // even
+//      self + nthChild(Nth.Even) + before style {
+//        property("content", "''")
+//        position(Position.Absolute)
+//        left((-15).percent)
+//        top(50.percent)
+//        transform {
+//          translateY((-50).percent)
+//        }
+//        width(20.px)
+//        height(20.px)
+//        borderRadius(50.percent)
+//        border {
+//          width = borderWidth
+//          style = LineStyle.Solid
+//          color = Color("#191919")
+//        }
+//      }
+//      self + nthChild(Nth.Even) + after style {
+//        property("content", "''")
+//        position(Position.Absolute)
+//        left((-8.5).percent)
+//        top(50.percent)
+//        transform {
+//          translateY((-50).percent)
+//        }
+//        width(7.percent)
+//        height(2.px)
+//        background("#fff")
+//        property("z-index", "-1")
+//      }
+      // odd
+//      self + nthChild(Nth.Odd) + before style {
+//        property("content", "''")
+//        position(Position.Absolute)
+//        right((-13).percent)
+//        top(50.percent)
+//        transform {
+//          translateY((-50).percent)
+//        }
+//        width(20.px)
+//        height(20.px)
+//        borderRadius(50.percent)
+////        border {
+////          width = borderWidth
+////          style = LineStyle.Solid
+////          color = Color("#191919")
+////        }
+//      }
+//      self + nthChild(Nth.Odd) + after style {
+//        property("content", "''")
+//        position(Position.Absolute)
+//        right((-8.5).percent)
+//        top(50.percent)
+//        transform {
+//          translateY((-50).percent)
+//        }
+//        width(7.percent)
+//        height(2.px)
+//        background("#fff")
+//        property("z-index", "-1")
+//      }
+
+//      group(
+//        self + nthChild(Nth.Functional(b = 2)),
+//        self + nthChild(Nth.Functional(b = 2)) + before,
+//      ).style {
+//        background("#ff4f4f")
+//      }
+//      group(
+//        self + nthChild(Nth.Functional(b = 3)),
+//        self + nthChild(Nth.Functional(b = 3)) + before,
+//      ).style {
+//        background("#ffb84f")
+//      }
+//      group(
+//        self + nthChild(Nth.Functional(b = 4)),
+//        self + nthChild(Nth.Functional(b = 4)) + before,
+//      ).style {
+//        background("#3dca5c")
+//      }
+//      group(
+//        self + nthChild(Nth.Functional(b = 5)),
+//        self + nthChild(Nth.Functional(b = 5)) + before,
+//      ).style {
+//        background("#565252")
+//      }
+//      group(
+//        self + nthChild(Nth.Functional(b = 6)),
+//        self + nthChild(Nth.Functional(b = 6)) + before,
+//      ).style {
+//        background("#4fa0ff")
+//      }
+
+//      desc(self + nthChild(Nth.Even), className(cardBody) + before) style {
+//        property("content", "''")
+//        position(Position.Absolute)
+//        left((-12).percent)
+//        top(0.px)
+//        width(0.px)
+//        height(100.percent)
+////        border(1.px, LineStyle.Dashed, Color("#fff"))
+//        property("z-index", "-1")
+//      }
+    }
+
+    val cardTitle by style {
+      fontSize(30.px)
+      fontWeight(300)
+      marginBottom(20.px)
+    }
+  }
+
+  object Projects : StyleSheet(WebPageStyle) {
+
+    val section by style {
+      width(100.percent)
+      display(DisplayStyle.Table)
+      alignItems(AlignItems.Center)
+      textAlign("center")
+//    minHeight(100.percent)
+//    padding(150.px, 100.px, 100.px)
+//    top(0.px)
+
+//    opacity(0)
+//    property("transition", "1s")
+//
+//    desc(self, active) style {
+//      position(Position.Relative)
+//      opacity(1)
+//      property("z-index", "8")
+//    }
+    }
+
+    val projectHeading by style {
+      fontSize(4.cssRem)
+      position(Position.Relative)
+      letterSpacing(4.px)
+      fontWeight(300)
+      property("margin", "20px auto 0")
+      property("text-transform", "lowercase")
+//    fontSize(60.px)
+//    backgroundColor(Color("#252525"))
+//    property("text-transform", "capitalize")
+//    textAlign("center")
+//    marginBottom(50.px)
+//    color(Color("#1a1a1a"))
+//    backgroundClip("text")
+//    property("-webkit-background-clip", "text")
+//    property("-webkit-text-stroke", "8px transparent")
+    }
+
+    val projectContainer by style {
+      width(60.percent)
+      display(DisplayStyle.Grid)
+      marginTop(60.px)
+      gridTemplateColumns("repeat(2, 1fr)")
+      property("grid-gap", "0px")
+    }
+
+    val projectCard by style {
+      height(250.px)
+      position(Position.Relative)
+
+      self + hover + " .ProjectStyle-projectImg" style {
+        property("filter", "blur(10px)")
+      }
+      self + hover + " .ProjectStyle-projectContent" style {
+        opacity(1)
+      }
+    }
+
+    val projectImg by style {
+      width(100.percent)
+      height(100.percent)
+      position(Position.Absolute)
+      top(0.px)
+      left(0.px)
+      property("object-fit", "cover")
+      property("transition", ".5s")
+    }
+
+    val projectContent by style {
+      position(Position.Relative)
+      padding(40.px)
+      color(Color("#fff"))
+      property("transition", ".5s")
+      opacity(0)
+    }
+
+    val projectTitle by style {
+      fontSize(50.px)
+      property("text-transform", "capitalize")
+      textAlign("center")
+      fontWeight(300)
+    }
+
+    val projectBtnGrp by style {
+      display(DisplayStyle.Grid)
+      gridTemplateColumns("repeat(1, 1fr)")
+      property("grid-gap", "20px")
+    }
+
+    val projectBtn by style {
+      width(100.percent)
+      marginLeft(40.px)
+      marginRight(40.px)
+      marginBottom(20.px)
+      marginTop(40.px)
+      basicButton()
+      background("none")
+      border {
+        width = 2.px
+        style = LineStyle.Solid
+        color = Color("#fff")
+      }
+    }
+
+    private fun CSSBuilder.basicButton() {
+      height(40.px)
+      property("text-transform", "capitalize")
+      fontSize(18.px)
+      property("border", "none")
+      backgroundColor(Color("#000"))
+      color(Color("#fff"))
+      cursor("pointer")
     }
   }
 
@@ -325,6 +580,11 @@ object ButtonStyle : StyleSheet(WebPageStyle) {
     property("transition", ".3s")
 
     self + hover style {
+      opacity(1)
+    }
+
+    self + active style {
+      backgroundColor(Colors.LightBlue.toColor())
       opacity(1)
     }
   }
