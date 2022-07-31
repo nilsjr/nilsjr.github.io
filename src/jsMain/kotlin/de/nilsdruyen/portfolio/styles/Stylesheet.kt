@@ -36,7 +36,6 @@ import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.filter
 import org.jetbrains.compose.web.css.flexBasis
-import org.jetbrains.compose.web.css.flexGrow
 import org.jetbrains.compose.web.css.fontFamily
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.fontWeight
@@ -202,17 +201,25 @@ object WebPageStyle : StyleSheet() {
     val section by style {
       width(100.percent)
       height(300.px)
-      display(DisplayStyle.Flex)
+      display(DisplayStyle.Block)
       alignItems(AlignItems.Center)
       justifyContent(JustifyContent.Center)
       textAlign("center")
       backgroundImage("linear-gradient(0deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(\"assets/footer-bg.jpg\")")
       backgroundPosition("50% 50%")
       backgroundSize("cover")
+
+      self + before style {
+        property("content", "''")
+        display(DisplayStyle.InlineBlock)
+        height(100.percent)
+        property("vertical-align", "middle")
+      }
     }
 
     val text by style {
       textAlign("center")
+      display(DisplayStyle.TableRow)
       color(Color("#fff"))
       property("margin", "auto 0")
     }
@@ -230,22 +237,27 @@ object WebPageStyle : StyleSheet() {
 
     val linksTitle by style {
       color(Color.white)
-      flexGrow(1)
+      textAlign("center")
+      margin(30.px)
     }
 
     val linksContainer by style {
-      display(DisplayStyle.Flex)
-      alignItems(AlignItems.Center)
-//      paddingTop(20.px)
+      margin(30.px)
     }
 
     @OptIn(ExperimentalComposeWebApi::class)
     val linkImage by style {
       width(40.px)
       height(40.px)
-//      padding(20.px)
       filter {
         invert(1)
+      }
+      property("transition", "transform .2s")
+
+      self + hover style {
+        transform {
+          scale(1.2)
+        }
       }
     }
   }
@@ -261,8 +273,8 @@ object AppStyle : StyleSheet(WebPageStyle) {
     display(DisplayStyle.Flex)
     justifyContent(JustifyContent.Center)
     alignItems(AlignItems.Center)
-    property("z-index", "10")
     background(Colors.Blue)
+    property("z-index", "10")
   }
 
   val linkGroup by style {

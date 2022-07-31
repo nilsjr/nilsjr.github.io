@@ -7,6 +7,10 @@ package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.styles.WebPageStyle
+import org.jetbrains.compose.web.css.DisplayStyle
+import org.jetbrains.compose.web.css.display
+import org.jetbrains.compose.web.css.marginLeft
+import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H3
@@ -29,12 +33,19 @@ val links = listOf(
 @Composable
 fun Footer() {
   Section({ classes(WebPageStyle.Footer.section) }) {
-    H3({ classes(WebPageStyle.Footer.linksTitle) }) {
-      Text("stay in touch with me")
-    }
-    Div({ classes(WebPageStyle.Footer.linksContainer) }) {
-      links.forEach {
-        Link(it)
+    Div({
+      style {
+        display(DisplayStyle.InlineBlock)
+        property("vertical-align", "middle")
+      }
+    }) {
+      H3({ classes(WebPageStyle.Footer.linksTitle) }) {
+        Text("stay in touch with me")
+      }
+      Div({ classes(WebPageStyle.Footer.linksContainer) }) {
+        links.forEachIndexed { index, link ->
+          Link(link, index != 0)
+        }
       }
     }
   }
@@ -48,12 +59,17 @@ fun Footer() {
 }
 
 @Composable
-fun Link(profileLink: ProfileLink) {
+fun Link(profileLink: ProfileLink, addMargin: Boolean) {
   A(href = profileLink.link) {
     Img(
       "assets/links/${profileLink.image}",
       attrs = {
         classes(WebPageStyle.Footer.linkImage)
+        if (addMargin) {
+          style {
+            marginLeft(30.px)
+          }
+        }
       }
     )
   }
