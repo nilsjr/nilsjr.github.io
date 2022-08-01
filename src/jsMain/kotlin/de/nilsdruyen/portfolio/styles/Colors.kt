@@ -11,7 +11,7 @@ object Colors {
 
   const val Blue = "#002147"
   const val Grey = "#f2f2f2"
-  const val LightBlue = "#5a7696"
+  const val LightBlue = "#213a57"
 }
 
 fun String.toColor() = Color(this)

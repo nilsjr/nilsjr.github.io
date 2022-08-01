@@ -6,7 +6,12 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
+import de.nilsdruyen.portfolio.data.Description
 import de.nilsdruyen.portfolio.styles.WebPageStyle
+import org.jetbrains.compose.web.attributes.href
+import org.jetbrains.compose.web.css.marginTop
+import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Img
@@ -34,10 +39,16 @@ fun Header() {
     }) {
       Text(Description)
     }
+    P({
+      style {
+        marginTop(20.px)
+      }
+    }) {
+      A(attrs = {
+        href("mailto:info@nilsdruyen.de")
+      }) {
+        Text("info@nilsdruyen.de")
+      }
+    }
   }
 }
-
-const val Description = """
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-"""

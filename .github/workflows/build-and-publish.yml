@@ -1,255 +1,31 @@
-  Skip to content
-    DEV Community
-    Search...
-    
-    Create Post
-    
-    
-    23
-    
-    5
-    
-    31
-    
-    Cover image for Hosting Kotlin/JS on GitHub Pages via GitHub Actions
-    Kotlin profile imageSebastian Aigner
-    Sebastian Aigner for Kotlin
-    Posted on 5. Feb. 2021
-    
-    Hosting Kotlin/JS on GitHub Pages via GitHub Actions
-    #
-    kotlin
-    #
-    javascript
-    #
-    github
-    #
-    webdev
-    GitHub Pages is an easy way to host your Kotlin/JS application - and in combination with the continuous integration service GitHub Actions, you can easily set up a smooth development (and deployment!) experience for your projects. Read on to learn how you can build and test your application on GitHub's CI, and get your Kotlin/JS web apps published for free.
-    
-    In this post, we are going to configure GitHub Actions and Pages so that new code pushed to our repository or added via pull request is automatically validated (by having the project built and our tests run on GitHub's servers), and code pushed to the main branch of our project is automatically made available to the public (by generating and publishing production artifacts of our app).
+name: Build and Publish
+on: [ push, pull_request ]
+jobs:
+  build:
+    name: Test and Build
+    runs-on: ubuntu-latest
+    steps:
 
-  To achieve this, we are going to:
+      # Setup Java 1.8 environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
 
-    Set up a quick Kotlin/JS project
-    Share its code on GitHub (via IntelliJ IDEA's Git integration)
-    Set up GitHub Actions' workflow YAML
-    Set up GitHub pages to work with the result of our Actions workflow
-    If you already know the basics, and want to skip straight to the configuration section, click here – or find the sample project directly on GitHub
-    
-    Setting up our sample Kotlin/JS application
-    To deploy a project, we must first have a project. For this demo, I will use an example generated via project wizard – if you already have a Kotlin/JS application you would like to deploy, feel free to skip ahead and use it instead.
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v2
 
-  A boilerplate Kotlin/JS project is quickly generated in IntelliJ IDEA by navigating to File | New | Project..., selecting "Kotlin" in the sidebar, and choosing a project template in the "Kotlin/JS" section (I'm choosing a React project). We just need to make sure that a Project JDK is selected. For everything else, the default settings are fine and don't need to be adjusted:
+      # Build application
+      - name: Test and Build
+        run: ./gradlew build
 
-    new-project-wizard
-    
-    Now that we have a basic project, let's start by getting it on GitHub - creating a repository and pushing our code.
-    
-    Putting our code on GitHub
-    We could, of course, use GitHub's web interface to set up our repository, and wire up our local repository manually – but IntelliJ IDEA's Version Control Integration makes it even smoother to move our project code into a new GitHub Repository. We simply select "Share Project on GitHub" in the "VCS" tab.
-    
-    share project on github
-
-  If this is your first time using this feature, IntelliJ IDEA might ask you to authenticate using your GitHub account. You then get to specify your repository name, its visibility (private/public), and can provide a short description that will show up on GitHub:
-
-    share proj
-
-  Once confirmed, IntelliJ IDEA will create a GitHub project for you, and show you the "Add Files For Initial Commit" window, which we can simply accept by pressing "Add":
-
-    initial commit including gitignore
-    
-    As you might have noticed, IntelliJ IDEA makes our life a bit easier here by auto-generating a default set of .gitignore files, making sure that any files which shouldn't be checked into source control (such as build artifacts or local configurations) are correctly ignored.
-
-  Once the commit is finished, we see a small notification bubble containing a link to our GitHub repository:
-
-    success
-    
-    Setting up GitHub Actions
-    Time to set up GitHub Actions! Actions will be responsible for building and testing our project – turning our Kotlin source files into .js and .html artifacts, running any unit tests we might have, and copying files into the right location for deployment on GitHub Pages (a branch called gh-pages by convention). We configure Actions using so-called workflows, which are YAML configuration files containing instructions on how to transform and build code.
-
-  GitHub looks for workflows in the .github/workflows directory, so let's create this directory structure at our project's root. Inside, let's create a new file called build-and-publish-kjs.yml, and add the following configuration to it:
-  name: Build and Publish
-  on: [ push, pull_request ]
-  jobs:
-    build:
-      name: Test and Build
-      runs-on: ubuntu-latest
-      steps:
-
-        # Setup Java 1.8 environment for the next steps
-        - name: Setup Java
-          uses: actions/setup-java@v1
-          with:
-            java-version: 1.8
-
-        # Check out current repository
-        - name: Fetch Sources
-          uses: actions/checkout@v2
-
-        # Build application
-        - name: Test and Build
-          run: ./gradlew build
-
-        # If main branch update, deploy to gh-pages
-        - name: Deploy
-          if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-          uses: JamesIves/github-pages-deploy-action@3.7.1
-          with:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            BRANCH: gh-pages # The branch the action should deploy to.
-            FOLDER: build/distributions # The folder the action should deploy.
-            CLEAN: true # Automatically remove deleted files from the deploy branch
-    Understanding our Action YAML
-  We could just use this configuration as is, and move on to the next step – but it's always good to try and understand what's going on in our project. And while the YAML configuration reads quite naturally, I still want to quickly look at this configuration file section by section (Additionally, feel free to consult the GitHub Actions documentation for more information):
-
-    We first give our workflow a name – in this case, Build and Publish.
-    Next, we define the triggers for this workflow – what events kick off this process. Because we want to make sure that pushed code always compiles, and that pull requests are also fine, we set the value to push and pull_request.
-    Next, we define a job, which groups the different steps we want to run in a given environment (in our case, ubuntu-latest).
-  Now, we define the different steps our build needs to go through:
-    The Kotlin compiler needs Java to be present, so we use a predefined GitHub Action to install Java 1.8.
-    We use another predefined Action to check out the code for our project.
-    We run the ./gradlew build command. build is a standard lifecycle task for Kotlin/JS projects which installs all dependencies from npm and Gradle, compiles the application, and runs any tests included in the project.
-    Lastly, we use another Action to deploy our project to GitHub Pages – but only if the workflow is running on the master or main branch (we don't want development branches to be deployed to the public!). We point this action to the build/distributions folder, which is where building a Kotlin/JS project creates the final .js and .html artifacts.
-  TL;DR: This workflow builds and tests all commits and pull requests – if the commit is on the master or main branch, the changes are prepared for publishing via Pages.
-    
-    Committing the workflow file
-    To enable our newly created workflow in the GitHub project, we commit and push our new build-and-publish-kjs.yml.
-
-  If you do this via IntelliJ IDEA's "Commit and Push" functionality, please note that, depending on how your GitHub account is authenticated, you may encounter the following error when pushing a commit containing workflow files to your GitHub repository:
-  error: failed to push some refs to 'https://github.com/SebastianAigner/kotlin-js-on-github-pages.git'
-    To https://github.com/SebastianAigner/kotlin-js-on-github-pages.git
-    !   refs/heads/master:refs/heads/master [remote rejected] (refusing to allow an OAuth App to create or update workflow `.github/workflows/build-and-publish-kjs.yml` without `workflow` scope)
-    Done
-  This is because of an OAuth issue with GitHub requiring a specific scope to push workflow-modifying commits. You can find more info on it and vote on it here. Instead, you can commit the code via the terminal integrated in IntelliJ IDEA, using git push origin master:
-
-    git-push-origin-master
-    
-    Once the push has finished, we can watch the progress of our Kotlin/JS application being built and prepared for publishing in the "Actions" tab of our GitHub repository.
-    
-    action_running
-    
-    Setting up GitHub Pages
-  After it finished, the workflow we created and triggered in the previous section put our final .js and .html artifacts on the gh-pages branch of our repository, just as we planned:
-
-    gh-pages-branch
-    
-    It's time to enable the GitHub Pages feature of our repository, and point it to this branch. We can do this using the "Settings" tab.
-
-  Somewhere close to the bottom, we can find a section labelled "GitHub Pages". We select the gh-pages branch and / (root) (default) and hit "Save":
-
-    github-pages-enable
-
-  After saving our changes, scrolling back to this section reveals the URL under which our application is available. (I have previously set up a custom domain for GitHub pages, so this one is used by default.) If you don't have a custom configuration, the URL of your application usually takes the shape of <username>.github.io/<reponame>. Visiting this URL shows our Kotlin/JS application in all its glory, and for the world to see:
-
-    ready to be published
-    
-    You can use this link to share your Kotlin/JS application with friends and colleagues, or post it on your favorite news aggregator and wait for the upvotes to roll in! 😉
-    
-    (If your project is located in a private repository, you might want to change the GitHub Pages visibility. You can find more info on this in the GitHub docs.)
-    
-    Take your project for a spin!
-    We're done! From now on, whenever you push code, your project will automatically be built on GitHub's CI servers. If a commit is faulty, you can see so on the web interface – and you will even be reminded via email!
-    
-    checks failed
-    
-    Pushing to the main branch of the repository means your page (which is reachable at <username>.github.io/<reponame>) will automatically be updated.
-
-  And when somebody makes a pull request, build and test status is also shown directly in context:
-
-    pr failed
-    
-    Thank you!
-    I hope you found this post useful. GitHub Actions is a powerful, but also complex tool, and I hope that these instructions make it a bit easier to get started together with Kotlin/JS. You can find the sample project I used to create the screenshots for this tutorial on GitHub as well, and use it as a source of inspiration or template for a future project.
-    
-    If you're interested in similar content, consider giving me a follow, here on dev.to or on Twitter @sebi_io to stay up to date.
-    
-    If you have ideas for future tutorials, please share them in the comments below, or anywhere else you can get a hold of me!
-    
-    Special thanks to Jakub Chrzanowski for sharing some of his CI wisdom with me for this blog post.!
-    
-    Discussion (1)
-    Subscribe
-    pic
-    Add to the discussion
-    
-    jefflin profile image
-    J-Lin
-    •
-    Apr 30
-    
-    very useful !
-    
-    
-    1
-    like
-    Reply
-    Code of Conduct • Report abuse
-    Read next
-    sharadcodes profile image
-  Naya Tab: A NEW TAB Browser extension like Brave Browser's new tab page
-    Sharad Raj (He/Him) - Jul 8
-    
-    chokcoco profile image
-    Fantastic CSS border animation
-    Coco - Jul 22
-    
-    mattiaorfano profile image
-    Quick fix to empty page and noscript serving a Vue App
-    Mattia Orfano - Jul 21
-    
-    prateek951 profile image
-    Demystifying JavaScript -How JavaScript Code is Executed in Browser
-    The Nerdy Dev - Jul 12
-    
-    
-    Kotlin
-    Follow
-    A modern programming language that makes developers happier. Content by the Kotlin developer advocates, Kotlin team members, and friends.
-    
-    🎥 Find more exciting Kotlin content on our YouTube channel ⬇️
-    
-    Subscribe on YouTube
-    More from Kotlin
-  Idiomatic Kotlin: Solving Advent of Code Puzzles, Binary Boarding
-  #kotlin #adventofcode #codenewbie #100daysofcode
-  Idiomatic Kotlin: Solving Advent of Code Puzzles, Passport Validation
-  #kotlin #adventofcode #codenewbie #100daysofcode
-  Idiomatic Kotlin: Solving Advent of Code Puzzles, Day 2
-  #kotlin #adventofcode #codenewbie #100daysofcode
-  name: Build and Publish
-  on: [ push, pull_request ]
-  jobs:
-    build:
-      name: Test and Build
-      runs-on: ubuntu-latest
-      steps:
-
-        # Setup Java 1.8 environment for the next steps
-        - name: Setup Java
-          uses: actions/setup-java@v1
-          with:
-            java-version: 1.8
-
-        # Check out current repository
-        - name: Fetch Sources
-          uses: actions/checkout@v2
-
-        # Build application
-        - name: Test and Build
-          run: ./gradlew build
-
-        # If main branch update, deploy to gh-pages
-        - name: Deploy
-          if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-          uses: JamesIves/github-pages-deploy-action@3.7.1
-          with:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            BRANCH: gh-pages # The branch the action should deploy to.
-            FOLDER: build/distributions # The folder the action should deploy.
-            CLEAN: true # Automatically remove deleted files from the deploy branch
-    DEV Community — A constructive and inclusive social network for software developers. With you every step of your journey.
-    
-    Built on Forem — the open source software that powers DEV and other inclusive communities.
-    
-    Made with love and Ruby on Rails. DEV Community © 2016 - 2022.
+      # If main branch update, deploy to gh-pages
+      - name: Deploy
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: build/distributions # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch

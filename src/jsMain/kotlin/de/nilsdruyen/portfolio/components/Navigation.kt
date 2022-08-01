@@ -6,64 +6,52 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import de.nilsdruyen.portfolio.models.NavItem
+import de.nilsdruyen.portfolio.data.pages
 import de.nilsdruyen.portfolio.styles.AppStyle
 import de.nilsdruyen.portfolio.styles.ButtonStyle
 import kotlinx.browser.window
-import kotlinx.dom.addClass
-import kotlinx.dom.removeClass
 import localUrl
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Li
 import org.jetbrains.compose.web.dom.Nav
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.Ul
-import org.w3c.dom.asList
-
-val pages = listOf(
-  NavItem("Home", ""),
-  NavItem("About", "about"),
-  NavItem("Projects", "projects"),
-)
 
 @Composable
 fun Navigation() {
-  val selectedHash = remember { mutableStateOf("") }
-  val selectedIndex = derivedStateOf {
-    pages.indexOfFirst { it.hash == selectedHash.value }
-  }
+  val pages = remember { mutableStateOf(pages) }
 
-  val scrollToHash: (String) -> Unit = {
-    selectedHash.value = it
-    if (it.isEmpty()) {
+  val selectPage: (String) -> Unit = { hash ->
+    pages.value = pages.value.map {
+      it.copy(isActive = it.hash == hash)
+    }
+    if (hash.isEmpty()) {
       window.history.pushState("", "", localUrl)
       window.scrollTo(0.0, 0.0)
     } else {
-      val element = window.document.getElementById(it)
-      element?.scrollIntoView()
-      window.location.hash = it
+      window.document.getElementById(hash)?.scrollIntoView()
+      window.location.hash = hash
     }
-  }
-
-  LaunchedEffect(selectedIndex.value) {
-    val navButtons = window.document.getElementsByClassName(ButtonStyle.navButton)
-      .asList()
-    navButtons.forEach { it.removeClass("active") }
-    navButtons[selectedIndex.value].addClass("active")
   }
 
   Nav({ classes(AppStyle.navBar) }) {
     Ul({ classes(AppStyle.linkGroup) }) {
-      pages.forEach { page ->
+      pages.value.forEach { page ->
+        val style = if (page.isActive) {
+          ButtonStyle.navButtonActive
+        } else {
+          ButtonStyle.navButton
+        }
+
         Li {
           Button({
-            classes(ButtonStyle.navButton)
-            onClick { scrollToHash(page.hash) }
-          }) { Text(page.name) }
+            classes(style)
+            onClick { selectPage(page.hash) }
+          }) {
+            Text(page.name)
+          }
         }
       }
     }

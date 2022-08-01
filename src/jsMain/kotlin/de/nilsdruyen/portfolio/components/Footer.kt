@@ -6,7 +6,11 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
+import de.nilsdruyen.portfolio.data.links
+import de.nilsdruyen.portfolio.data.models.ProfileLink
 import de.nilsdruyen.portfolio.styles.WebPageStyle
+import org.jetbrains.compose.web.attributes.ATarget
+import org.jetbrains.compose.web.attributes.target
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.marginLeft
@@ -18,17 +22,6 @@ import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Section
 import org.jetbrains.compose.web.dom.Text
-
-data class ProfileLink(
-  val image: String,
-  val link: String,
-)
-
-val links = listOf(
-  ProfileLink("github.png", "https://github.com/nilsjr"),
-  ProfileLink("twitter.png", "https://twitter.com/NilsJr"),
-  ProfileLink("xing.png", "https://www.xing.com/profile/Nils_Druyen/cv"),
-)
 
 @Composable
 fun Footer() {
@@ -60,7 +53,12 @@ fun Footer() {
 
 @Composable
 fun Link(profileLink: ProfileLink, addMargin: Boolean) {
-  A(href = profileLink.link) {
+  A(
+    href = profileLink.link,
+    attrs = {
+      target(ATarget.Blank)
+    },
+  ) {
     Img(
       "assets/links/${profileLink.image}",
       attrs = {
