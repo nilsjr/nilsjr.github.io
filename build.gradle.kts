@@ -69,7 +69,7 @@ dependencies {
 tasks.dependencyUpdates.configure {
   gradleReleaseChannel = "current"
   rejectVersionIf {
-    isNonStable(candidate.version)
+    isNonStable(candidate.version) && !isNonStable(currentVersion)
   }
 }
 
