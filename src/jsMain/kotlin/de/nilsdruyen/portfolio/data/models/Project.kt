@@ -9,8 +9,5 @@ data class Project(
   val name: String,
   val description: String,
   val imageUrl: String,
-//  val linkGithubText: String,
-  val linkGithub: String,
-//  val linkProjectText: String,
-  val linkProject: String,
+  val link: String,
 )

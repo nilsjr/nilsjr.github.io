@@ -12,6 +12,7 @@ import org.jetbrains.compose.web.attributes.href
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.A
+import org.jetbrains.compose.web.dom.Br
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Img
@@ -22,7 +23,13 @@ import org.jetbrains.compose.web.dom.Text
 @Composable
 fun Header() {
   Section({ classes(WebPageStyle.Header.section) }) {
-    Div({ classes(WebPageStyle.Header.background) }) { }
+    Div({ classes(WebPageStyle.Header.background) }) {
+      Div({ classes(WebPageStyle.Header.Wave.ocean) }) {
+        Div({ classes(WebPageStyle.Header.Wave.waveDiv) }) {}
+        Div({ classes(WebPageStyle.Header.Wave.waveDiv) }) {}
+        Div({ classes(WebPageStyle.Header.Wave.waveDiv) }) {}
+      }
+    }
     Img(
       src = "assets/nils.jpg",
       attrs = {
@@ -38,6 +45,9 @@ fun Header() {
       classes(WebPageStyle.Header.description)
     }) {
       Text(Description)
+      Br {}
+      Br {}
+      Text("contact me:")
     }
     P({
       style {

@@ -51,7 +51,7 @@ fun ProjectItem(project: Project, openLink: (url: String) -> Unit) {
       Button({
         classes(WebPageStyle.Projects.projectBtn)
         onClick {
-          openLink(project.linkProject)
+          openLink(project.link)
         }
       }) {
         Text("Show me")

@@ -9,6 +9,8 @@ package de.nilsdruyen.portfolio.styles
 
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.AnimationDirection
+import org.jetbrains.compose.web.css.AnimationTimingFunction
 import org.jetbrains.compose.web.css.CSSBuilder
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
@@ -17,6 +19,7 @@ import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.animation
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.backgroundImage
@@ -49,6 +52,7 @@ import org.jetbrains.compose.web.css.marginLeft
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.opacity
+import org.jetbrains.compose.web.css.overflowX
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.paddingBottom
 import org.jetbrains.compose.web.css.paddingLeft
@@ -58,6 +62,7 @@ import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.right
+import org.jetbrains.compose.web.css.s
 import org.jetbrains.compose.web.css.selectors.Nth
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
@@ -84,6 +89,13 @@ object WebPageStyle : StyleSheet() {
       fontFamily("Roboto", "sans-serif")
       property("margin", "auto")
     }
+
+    "a" style {
+      textDecoration("none")
+      color(Colors.Blue.toColor())
+      fontSize(2.cssRem)
+      fontWeight(500)
+    }
   }
 
   val heading by style {
@@ -96,6 +108,85 @@ object WebPageStyle : StyleSheet() {
   }
 
   object Header : StyleSheet(WebPageStyle) {
+
+    object Wave : StyleSheet(Header) {
+
+      val ocean by style {
+        height(80.px)
+        width(100.percent)
+        position(Position.Absolute)
+        bottom(0.px)
+        left(0.px)
+        right(0.px)
+        overflowX("hidden")
+        opacity(0.4)
+      }
+
+      private const val SVG =
+        "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
+                "viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 " +
+                "0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%23003F7C'/%3E%3C/svg%3E\")"
+
+      @OptIn(ExperimentalComposeWebApi::class)
+      val waveKeyframes by keyframes {
+        0.percent {
+          transform {
+            translateX(0.percent)
+          }
+        }
+        50.percent {
+          transform {
+            translateX((-25).percent)
+          }
+        }
+        100.percent {
+          transform {
+            translateX((-50).percent)
+          }
+        }
+      }
+
+      @OptIn(ExperimentalComposeWebApi::class)
+      val waveDiv by style {
+        backgroundImage(SVG)
+        position(Position.Absolute)
+        width(200.percent)
+        height(70.percent)
+        bottom(0.px)
+        animation(waveKeyframes) {
+          duration = listOf(10.s)
+          delay = listOf((-3).s)
+          timingFunction = listOf(AnimationTimingFunction.Linear)
+          iterationCount = listOf(null)
+        }
+        transform {
+          translate3d(0.px, 0.px, 0.px)
+        }
+        opacity(0.8)
+
+        self + nthOfType(Nth.Functional(null, 2)) style {
+          bottom(0.px)
+          animation(waveKeyframes) {
+            duration = listOf(18.s)
+            timingFunction = listOf(AnimationTimingFunction.Linear)
+            direction = listOf(AnimationDirection.Reverse)
+            iterationCount = listOf(null)
+          }
+          opacity(0.5)
+        }
+        self + nthOfType(Nth.Functional(null, 3)) style {
+          height(80.percent)
+          bottom(0.px)
+          animation(waveKeyframes) {
+            duration = listOf(20.s)
+            delay = listOf((-1).s)
+            timingFunction = listOf(AnimationTimingFunction.Linear)
+            iterationCount = listOf(null)
+          }
+          opacity(0.5)
+        }
+      }
+    }
 
     val section by style {
       width(100.percent)
@@ -345,7 +436,10 @@ object WebPageStyle : StyleSheet() {
       padding(30.px)
     }
 
-    val projectItemContent by style {}
+    val projectItemContent by style {
+      position(Position.Relative)
+      height(120.px)
+    }
 
     val projectTitle by style {
       fontSize(30.px)
@@ -356,10 +450,12 @@ object WebPageStyle : StyleSheet() {
     }
 
     val projectBtn by style {
-      width(100.percent)
-      marginTop(20.px)
+      position(Position.Absolute)
+      bottom(0.px)
+      left(0.px)
+      right(0.px)
       borderRadius(10.px)
-      height(40.px)
+      height(42.px)
       fontSize(18.px)
       color(Color.white)
       cursor("pointer")

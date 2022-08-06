@@ -13,9 +13,7 @@ import de.nilsdruyen.portfolio.data.skillList
 import de.nilsdruyen.portfolio.styles.CircleProgressStyle
 import de.nilsdruyen.portfolio.styles.WebPageStyle
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
-import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.deg
-import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.transform
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
@@ -64,87 +62,11 @@ fun calculateDegrees(percentage: Int): Int = percentage * 360 / 100
 @Composable
 fun Circle(level: Int) {
   val degrees = calculateDegrees(level)
-  println("degrees $level - $degrees")
 
   val halfRotation = degrees.coerceAtMost(180).deg
   val fullRotation = (degrees - 180).coerceAtLeast(0).deg
 
-//  val styleState = derivedStateOf {
-//    val degrees = calculateDegrees(level).deg
-//
-//    object : StyleSheet(WebPageStyle) {
-//
-//      val animationKeyframes by keyframes {
-//        0.percent {
-//          transform {
-//            rotate(0.deg)
-//          }
-//        }
-//        100.percent {
-//          transform {
-//            rotate(degrees)
-//          }
-//        }
-//      }
-//
-//      val anim by style {
-////      animation(animationKeyframes) {
-////        duration = listOf(3.s)
-////        timingFunction = listOf(AnimationTimingFunction.EaseInOut)
-////      }
-//        transform {
-//          rotate(degrees)
-//        }
-//      }
-//
-//      val animFull by style {
-////      animation(animationKeyframes) {
-////        duration = listOf(3.s)
-////        timingFunction = listOf(AnimationTimingFunction.EaseInOut)
-////      }
-//        transform {
-//          rotate(degrees)
-//        }
-//      }
-//    }
-//  }
-
-  val style = object : StyleSheet(WebPageStyle) {
-
-    val animationKeyframes by keyframes {
-      0.percent {
-        transform {
-          rotate(0.deg)
-        }
-      }
-      100.percent {
-        transform {
-          rotate(degrees.deg)
-        }
-      }
-    }
-  }
-//
-//    val anim by style {
-////      animation(animationKeyframes) {
-////        duration = listOf(3.s)
-////        timingFunction = listOf(AnimationTimingFunction.EaseInOut)
-////      }
-//      transform {
-//        rotate(degrees)
-//      }
-//    }
-//
-//    val animFull by style {
-////      animation(animationKeyframes) {
-////        duration = listOf(3.s)
-////        timingFunction = listOf(AnimationTimingFunction.EaseInOut)
-////      }
-//      transform {
-//        rotate(degrees)
-//      }
-//    }
-//  }
+  println("degrees $level - $degrees - $halfRotation - $fullRotation")
 
   Div({ classes(CircleProgressStyle.wrap) }) {
     Div({ classes(CircleProgressStyle.container) }) {
@@ -152,12 +74,8 @@ fun Circle(level: Int) {
         classes(CircleProgressStyle.maskFull)
         style {
           transform {
-            rotate(fullRotation)
+            rotate(180.deg)
           }
-//          animation(style.animationKeyframes) {
-//            duration = listOf(3.s)
-//            timingFunction = listOf(AnimationTimingFunction.EaseInOut)
-//          }
         }
       }) {
         Div({
@@ -176,10 +94,6 @@ fun Circle(level: Int) {
             transform {
               rotate(halfRotation)
             }
-//            animation(style.animationKeyframes) {
-//              duration = listOf(3.s)
-//              timingFunction = listOf(AnimationTimingFunction.EaseInOut)
-//            }
           }
         }) {}
       }
