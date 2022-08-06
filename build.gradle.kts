@@ -1,5 +1,8 @@
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.compose.compose
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -39,19 +42,22 @@ tasks.withType<KotlinCompile>().configureEach {
   }
 }
 
-//rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
-//  rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().apply {
-//    lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
-//    resolution("got", "12.1.0")
-//  }
-//  rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().apply {
-//    versions.webpackDevServer.version = "4.9.3"
-//    versions.webpack.version = "5.73.0"
-//    versions.webpackCli.version = "4.10.0"
-//    versions.karma.version = "6.4.0"
-//    versions.mocha.version = "10.0.0"
-//  }
-//}
+rootProject.plugins.withType<YarnPlugin> {
+  rootProject.the<YarnRootExtension>().apply {
+    lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
+    resolution("async", "2.6.4")
+    resolution("minimist", "1.2.6")
+    resolution("eventsource", "1.1.1")
+    resolution("url-parse", "1.5.8")
+  }
+  rootProject.the<NodeJsRootExtension>().apply {
+    versions.webpackDevServer.version = "4.9.3"
+    versions.webpack.version = "5.73.0"
+    versions.webpackCli.version = "4.10.0"
+    versions.karma.version = "6.4.0"
+    versions.mocha.version = "10.0.0"
+  }
+}
 
 // configure detekt
 extensions.configure<DetektExtension> {
