@@ -3,7 +3,7 @@
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.utils
+package de.nilsdruyen.portfolio
 
 object Constants {
 

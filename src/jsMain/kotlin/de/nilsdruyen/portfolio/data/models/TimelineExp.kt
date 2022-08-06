@@ -3,9 +3,11 @@
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.models
+package de.nilsdruyen.portfolio.data.models
 
 data class TimelineExp(
   val name: String,
-  val info: String,
+  val info: String = "",
+  val role: String = "",
+  val company: String = "",
 )

@@ -3,10 +3,10 @@
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.pages
+package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.style.AppStyle
+import de.nilsdruyen.portfolio.styles.AppStyle
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.P
@@ -20,7 +20,7 @@ fun Maintainance() {
       Text("Whoops...")
     }
     P({ classes(AppStyle.maintainanceText) }) {
-      Text("Kurze Wartung. Bis später")
+      Text("Currently in maintaince mode. Come back later")
     }
   }
 }

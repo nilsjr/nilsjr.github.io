@@ -6,57 +6,54 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import de.nilsdruyen.portfolio.style.ButtonStyle
+import de.nilsdruyen.portfolio.data.pages
+import de.nilsdruyen.portfolio.styles.AppStyle
+import de.nilsdruyen.portfolio.styles.ButtonStyle
 import kotlinx.browser.window
-import kotlinx.coroutines.delay
-import kotlinx.dom.addClass
-import kotlinx.dom.removeClass
-import org.w3c.dom.Element
-import org.w3c.dom.asList
-import org.w3c.dom.url.URL
+import localUrl
+import org.jetbrains.compose.web.dom.Button
+import org.jetbrains.compose.web.dom.Li
+import org.jetbrains.compose.web.dom.Nav
+import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.Ul
 
 @Composable
-fun Navigation(showError: (Boolean) -> Unit = {}) {
-  val currentPath = remember { mutableStateOf(window.location.pathname) }
+fun Navigation() {
+  val pages = remember { mutableStateOf(pages) }
 
-  val navigateAction: (URL) -> Unit = {
-    println("navigate: $it")
-    window.history.pushState("", "", it.toString())
-    currentPath.value = it.pathname
-  }
-
-  NavBar(navigateAction)
-
-  LaunchedEffect(currentPath.value) {
-    val sections = window.document.querySelectorAll("section")
-      .asList()
-      .filterIsInstance<Element>()
-    val navButtons = window.document.getElementsByClassName(ButtonStyle.navButton)
-      .asList()
-
-    println("Sections: ${sections.size} / Buttons: ${navButtons.size}")
-
-    val currentPage = currentPath.value.mapToIndex()
-
-    sections.forEach { it.removeClass("active") }
-    navButtons.forEach { it.removeClass("active") }
-
-    if (currentPage >= 0) {
-      delay(1000)
-      sections[currentPage].addClass("active")
-      navButtons[currentPage].addClass("active")
+  val selectPage: (String) -> Unit = { hash ->
+    pages.value = pages.value.map {
+      it.copy(isActive = it.hash == hash)
+    }
+    if (hash.isEmpty()) {
+      window.history.pushState("", "", localUrl)
+      window.scrollTo(0.0, 0.0)
     } else {
-      showError(true)
+      window.document.getElementById(hash)?.scrollIntoView()
+      window.location.hash = hash
     }
   }
-}
 
-fun String.mapToIndex() = when (this) {
-  "/" -> 0
-  "/projects" -> 1
-  "/about" -> 2
-  else -> -1
+  Nav({ classes(AppStyle.navBar) }) {
+    Ul({ classes(AppStyle.linkGroup) }) {
+      pages.value.forEach { page ->
+        val style = if (page.isActive) {
+          ButtonStyle.navButtonActive
+        } else {
+          ButtonStyle.navButton
+        }
+
+        Li {
+          Button({
+            classes(style)
+            onClick { selectPage(page.hash) }
+          }) {
+            Text(page.name)
+          }
+        }
+      }
+    }
+  }
 }
