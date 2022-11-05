@@ -1,5 +1,4 @@
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
-import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
@@ -14,7 +13,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "0.0.1"
+version = "0.0.2"
 
 kotlin {
   js(IR) {
@@ -29,6 +28,10 @@ kotlin {
       }
     }
   }
+}
+
+compose {
+  kotlinCompilerPlugin.set("1.3.2.1")
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -61,7 +64,7 @@ rootProject.plugins.withType<YarnPlugin> {
 
 // configure detekt
 extensions.configure<DetektExtension> {
-  toolVersion = "1.19.0"
+  toolVersion = "1.21.0"
   source = files("src/jsMain/kotlin")
   parallel = true
   config = files("$rootDir/detekt.yml")
@@ -74,14 +77,4 @@ dependencies {
 // configure dependency updates
 tasks.dependencyUpdates.configure {
   gradleReleaseChannel = "current"
-  rejectVersionIf {
-    isNonStable(candidate.version) && !isNonStable(currentVersion)
-  }
-}
-
-fun isNonStable(version: String): Boolean {
-  val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
-  val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-  val isStable = stableKeyword || regex.matches(version)
-  return isStable.not()
 }
