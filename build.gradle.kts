@@ -52,6 +52,7 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("minimist", "1.2.6")
     resolution("eventsource", "1.1.1")
     resolution("url-parse", "1.5.8")
+    resolution("loader-utils", "2.0.3")
   }
   rootProject.the<NodeJsRootExtension>().apply {
     versions.webpackDevServer.version = "4.9.3"
