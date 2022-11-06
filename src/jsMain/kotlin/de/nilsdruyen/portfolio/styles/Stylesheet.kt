@@ -11,6 +11,7 @@ import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.AnimationDirection
 import org.jetbrains.compose.web.css.AnimationTimingFunction
+import org.jetbrains.compose.web.css.CSSAngleValue
 import org.jetbrains.compose.web.css.CSSBuilder
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
@@ -32,6 +33,7 @@ import org.jetbrains.compose.web.css.boxSizing
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.cursor
+import org.jetbrains.compose.web.css.deg
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.filter
@@ -68,6 +70,8 @@ import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.top
 import org.jetbrains.compose.web.css.transform
+import org.jetbrains.compose.web.css.value
+import org.jetbrains.compose.web.css.variable
 import org.jetbrains.compose.web.css.width
 
 object WebPageStyle : StyleSheet() {
@@ -124,8 +128,8 @@ object WebPageStyle : StyleSheet() {
 
       private const val SVG =
         "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
-                "viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 " +
-                "0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%23003F7C'/%3E%3C/svg%3E\")"
+          "viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 " +
+          "0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%23003F7C'/%3E%3C/svg%3E\")"
 
       @OptIn(ExperimentalComposeWebApi::class)
       val waveKeyframes by keyframes {
@@ -428,6 +432,10 @@ object WebPageStyle : StyleSheet() {
       display(DisplayStyle.Grid)
       gridTemplateColumns("repeat(2, 1fr)")
       property("grid-gap", "10px")
+
+      property("transition", "transform 0.5s")
+      property("transform-style", "preserve-3d")
+      property("-webkit-transform-style", "preserve-3d")
     }
 
     val projectItemContainer by style {
