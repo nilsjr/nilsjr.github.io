@@ -1,6 +1,6 @@
 [versions]
 detekt = "1.21.0"
-gradleVersionsPlugin = "0.43.0"
+gradleVersionsPlugin = "0.44.0"
 jetbrainsCompose = "1.2.0"
 kotlin = "1.7.10"
 
