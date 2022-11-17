@@ -30,10 +30,6 @@ kotlin {
   }
 }
 
-compose {
-  kotlinCompilerPlugin.set("1.3.2.1")
-}
-
 tasks.withType<KotlinCompile>().configureEach {
   kotlinOptions {
     val arguments = listOf(
@@ -52,7 +48,8 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("minimist", "1.2.6")
     resolution("eventsource", "1.1.1")
     resolution("url-parse", "1.5.8")
-    resolution("loader-utils", "2.0.3")
+    resolution("loader-utils", "2.0.4")
+    resolution("node-forge", "1.3.0")
   }
   rootProject.the<NodeJsRootExtension>().apply {
     versions.webpackDevServer.version = "4.9.3"
