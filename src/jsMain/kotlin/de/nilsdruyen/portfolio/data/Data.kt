@@ -21,7 +21,7 @@ const val Description = """
 """
 
 val pages = listOf(
-  NavItem("Home"),
+  NavItem("Home", isActive = true),
   NavItem("About", "about"),
   NavItem("Projects", "projects"),
 )
