@@ -14,4 +14,4 @@ dependencyResolutionManagement {
     maven("https://androidx.dev/storage/compose-compiler/repository")
   }
 }
-rootProject.name = "NilsPortfolio"
+rootProject.name = "nils.github.io"
