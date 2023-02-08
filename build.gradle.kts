@@ -31,7 +31,7 @@ kotlin {
 }
 
 compose {
-  kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.0-dev-k1.8.0-RC-4c1865595ed")
+  kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.2")
 }
 
 tasks.withType<KotlinCompile>().configureEach {
