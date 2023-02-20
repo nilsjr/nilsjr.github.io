@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "0.0.2"
+version = "2023.1.1"
 
 kotlin {
   js(IR) {
@@ -30,15 +30,16 @@ kotlin {
   }
 }
 
+val compilerVersion = libs.versions.composeCompiler.get()
 compose {
-  kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.2")
+  kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$compilerVersion")
 }
 
 tasks.withType<KotlinCompile>().configureEach {
   kotlinOptions {
     val arguments = listOf(
       "-progressive",
-      "-Xopt-in=kotlin.RequiresOptIn"
+      "-opt-in=kotlin.RequiresOptIn"
     )
     freeCompilerArgs = freeCompilerArgs + arguments
     jvmTarget = "11"
@@ -69,7 +70,6 @@ rootProject.plugins.withType<YarnPlugin> {
 
 // configure detekt
 extensions.configure<DetektExtension> {
-  toolVersion = "1.21.0"
   source = files("src/jsMain/kotlin")
   parallel = true
   config = files("$rootDir/detekt.yml")
