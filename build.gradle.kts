@@ -60,9 +60,9 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("qs", "6.9.7")
   }
   rootProject.the<NodeJsRootExtension>().apply {
-    versions.webpackDevServer.version = "4.9.3"
-    versions.webpack.version = "5.73.0"
-    versions.webpackCli.version = "4.10.0"
+    versions.webpackDevServer.version = "4.12.0"
+    versions.webpack.version = "5.76.0"
+    versions.webpackCli.version = "5.0.1"
     versions.karma.version = "6.4.0"
     versions.mocha.version = "10.0.0"
   }
