@@ -1,9 +1,9 @@
 [versions]
-composeCompiler = "1.4.2"
+composeCompiler = "1.4.4-dev-k1.8.20-RC-88d9f3a8232"
 detekt = "1.22.0"
 gradleVersionsPlugin = "0.46.0"
-jetbrainsCompose = "1.4.0-alpha01-dev954"
-kotlin = "1.8.10"
+jetbrainsCompose = "1.4.0-alpha01-dev977"
+kotlin = "1.8.20-RC"
 
 [libraries]
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
