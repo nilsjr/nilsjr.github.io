@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "0.0.2"
+version = "2023.1.2"
 
 kotlin {
   js(IR) {
@@ -30,15 +30,16 @@ kotlin {
   }
 }
 
+val compilerVersion = libs.versions.composeCompiler.get()
 compose {
-  kotlinCompilerPlugin.set("1.3.2.1")
+  kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$compilerVersion")
 }
 
 tasks.withType<KotlinCompile>().configureEach {
   kotlinOptions {
     val arguments = listOf(
       "-progressive",
-      "-Xopt-in=kotlin.RequiresOptIn"
+      "-opt-in=kotlin.RequiresOptIn"
     )
     freeCompilerArgs = freeCompilerArgs + arguments
     jvmTarget = "11"
@@ -49,15 +50,19 @@ rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
     lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
     resolution("async", "2.6.4")
-    resolution("minimist", "1.2.6")
+    resolution("engine.io", "6.2.1")
     resolution("eventsource", "1.1.1")
+    resolution("express", "4.17.3")
+    resolution("loader-utils", "2.0.4")
+    resolution("minimist", "1.2.6")
+    resolution("node-forge", "1.3.0")
     resolution("url-parse", "1.5.8")
-    resolution("loader-utils", "2.0.3")
+    resolution("qs", "6.9.7")
   }
   rootProject.the<NodeJsRootExtension>().apply {
-    versions.webpackDevServer.version = "4.9.3"
-    versions.webpack.version = "5.73.0"
-    versions.webpackCli.version = "4.10.0"
+    versions.webpackDevServer.version = "4.12.0"
+    versions.webpack.version = "5.76.0"
+    versions.webpackCli.version = "5.0.1"
     versions.karma.version = "6.4.0"
     versions.mocha.version = "10.0.0"
   }
@@ -65,7 +70,6 @@ rootProject.plugins.withType<YarnPlugin> {
 
 // configure detekt
 extensions.configure<DetektExtension> {
-  toolVersion = "1.21.0"
   source = files("src/jsMain/kotlin")
   parallel = true
   config = files("$rootDir/detekt.yml")

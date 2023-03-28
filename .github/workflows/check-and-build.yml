@@ -34,4 +34,6 @@ jobs:
           java-version: '17'
 
       - name: Test and Build
-        run: ./gradlew build
+        # remove --no-configuration-cache when fixed
+        # https://youtrack.jetbrains.com/issue/KT-51940/HMPP-resolves-configurations-during-configuration
+        run: ./gradlew build --no-configuration-cache
