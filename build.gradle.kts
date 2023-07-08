@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.jetbrains.compose)
@@ -13,7 +12,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "2023.1.2"
+version = "2023.2.0"
 
 kotlin {
   js(IR) {
@@ -23,14 +22,14 @@ kotlin {
   sourceSets {
     val jsMain by getting {
       dependencies {
-        implementation(compose.web.core)
+        implementation(compose.html.core)
         implementation(compose.runtime)
       }
     }
   }
 }
 
-val compilerVersion = libs.versions.composeCompiler.get()
+val compilerVersion: String = libs.versions.composeCompiler.get()
 compose {
   kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$compilerVersion")
 }
