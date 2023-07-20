@@ -80,5 +80,5 @@ dependencies {
 
 // configure dependency updates
 tasks.dependencyUpdates.configure {
-  gradleReleaseChannel = "current"
+  gradleReleaseChannel = "release-candidate"
 }
