@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
@@ -69,9 +70,9 @@ rootProject.plugins.withType<YarnPlugin> {
 
 // configure detekt
 extensions.configure<DetektExtension> {
-  source = files("src/jsMain/kotlin")
   parallel = true
-  config = files("$rootDir/detekt.yml")
+  source.setFrom(files("src/jsMain/kotlin"))
+  config.setFrom(files("$rootDir/detekt.yml"))
   buildUponDefaultConfig = true
 }
 dependencies {
