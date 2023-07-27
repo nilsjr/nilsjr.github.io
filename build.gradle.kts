@@ -2,7 +2,7 @@ import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
@@ -34,14 +34,17 @@ compose {
   kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$compilerVersion")
 }
 
-tasks.withType<KotlinCompile>().configureEach {
+tasks.withType<Kotlin2JsCompile>().configureEach {
+  compilerOptions {
+    allWarningsAsErrors.set(true)
+    progressiveMode.set(true)
+  }
   kotlinOptions {
     val arguments = listOf(
       "-progressive",
       "-opt-in=kotlin.RequiresOptIn"
     )
     freeCompilerArgs = freeCompilerArgs + arguments
-    jvmTarget = "11"
   }
 }
 
