@@ -41,7 +41,6 @@ tasks.withType<Kotlin2JsCompile>().configureEach {
   }
   kotlinOptions {
     val arguments = listOf(
-      "-progressive",
       "-opt-in=kotlin.RequiresOptIn"
     )
     freeCompilerArgs = freeCompilerArgs + arguments
@@ -62,9 +61,9 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("qs", "6.9.7")
   }
   rootProject.the<NodeJsRootExtension>().apply {
-    versions.webpackDevServer.version = "4.12.0"
-    versions.webpack.version = "5.76.0"
-    versions.webpackCli.version = "5.0.1"
+    versions.webpackDevServer.version = libs.versions.webpackDevServer.get()
+    versions.webpack.version = libs.versions.webpack.get()
+    versions.webpackCli.version = libs.versions.webpackCli.get()
     versions.karma.version = "6.4.0"
     versions.mocha.version = "10.0.0"
   }
