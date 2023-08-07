@@ -29,9 +29,9 @@ kotlin {
   }
 }
 
-val compilerVersion: String = libs.versions.composeCompiler.get()
+val compilerVersion: String = libs.versions.jetbrainsComposeCompiler.get()
 compose {
-  kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$compilerVersion")
+  kotlinCompilerPlugin.set("1.5.0")
 }
 
 tasks.withType<Kotlin2JsCompile>().configureEach {
