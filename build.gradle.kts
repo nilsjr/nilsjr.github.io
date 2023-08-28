@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "2023.3.0"
+version = "2023.3.1"
 
 kotlin {
   js(IR) {
@@ -31,7 +31,7 @@ kotlin {
 
 val compilerVersion: String = libs.versions.jetbrainsComposeCompiler.get()
 compose {
-  kotlinCompilerPlugin.set("1.5.0")
+  kotlinCompilerPlugin.set(compilerVersion)
 }
 
 tasks.withType<Kotlin2JsCompile>().configureEach {
