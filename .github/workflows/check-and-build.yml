@@ -20,7 +20,7 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
       - name: Run detekt with ktlint
-        run: ./gradlew detekt
+        run: ./gradlew detekt ktlintCheck
 
   build:
     name: Build

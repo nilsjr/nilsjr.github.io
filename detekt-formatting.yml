@@ -1,0 +1,36 @@
+build:
+  maxIssues: 0
+  excludeCorrectable: true
+
+console-reports:
+  exclude:
+    - 'ProjectStatisticsReport'
+    - 'ComplexityReport'
+    - 'NotificationReport'
+    #  - 'FindingsReport'
+    - 'FileBasedFindingsReport'
+    - 'LiteFindingsReport'
+
+formatting:
+  ImportOrdering:
+    active: true
+  Indentation:
+    active: true
+    indentSize: 2
+  FinalNewline:
+    insertFinalNewLine: false
+  ParameterListWrapping:
+    indentSize: 2
+  ArgumentListWrapping:
+    active: false
+  Filename:
+    active: false
+  MaximumLineLength:
+    active: false
+  NoWildcardImports:
+    active: true
+    packagesToUseImportOnDemandProperty: ''
+
+Compose:
+  active: false
+

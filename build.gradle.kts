@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
@@ -78,6 +79,30 @@ extensions.configure<DetektExtension> {
 }
 dependencies {
   "detektPlugins"(libs.detekt.formatting)
+}
+
+tasks.register<Detekt>("ktlintCheck") {
+  description = "Run detekt ktlint wrapper"
+  parallel = true
+  setSource(layout.projectDirectory)
+  config.setFrom(rootProject.layout.projectDirectory.file("detekt-formatting.yml"))
+  buildUponDefaultConfig = true
+  disableDefaultRuleSets = true
+  autoCorrect = false
+  reports {
+    xml {
+      required.set(true)
+      outputLocation.set(layout.buildDirectory.file("reports/detekt/detektFormatting.xml"))
+    }
+    html.required.set(false)
+    txt.required.set(false)
+  }
+  include(listOf("**/*.kt", "**/*.kts"))
+  exclude("build/")
+  dependencies {
+    "detektPlugins"(libs.detekt.formatting)
+    "detektPlugins"(libs.detekt.twitterComposeRules)
+  }
 }
 
 // configure dependency updates
