@@ -52,8 +52,6 @@ tasks.withType<Kotlin2JsCompile>().configureEach {
 rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
     lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
-    yarnLockMismatchReport = YarnLockMismatchReport.WARNING
-    yarnLockAutoReplace = false
 
     resolution("async", "2.6.4")
     resolution("engine.io", "6.2.1")
