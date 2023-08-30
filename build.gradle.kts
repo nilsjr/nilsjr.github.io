@@ -1,6 +1,7 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
@@ -51,6 +52,9 @@ tasks.withType<Kotlin2JsCompile>().configureEach {
 rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
     lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
+    yarnLockMismatchReport = YarnLockMismatchReport.WARNING
+    yarnLockAutoReplace = false
+
     resolution("async", "2.6.4")
     resolution("engine.io", "6.2.1")
     resolution("eventsource", "1.1.1")
