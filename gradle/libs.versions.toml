@@ -1,6 +1,5 @@
 [versions]
 detekt = "1.23.1"
-detektTwitterComposeRules = "0.2.1"
 gradleVersionsPlugin = "0.47.0"
 jetbrainsCompose = "1.5.0"
 jetbrainsComposeCompiler = "1.5.2-beta01"
@@ -12,7 +11,6 @@ webpackDevServer = "4.15.0"
 [libraries]
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
-detekt-twitterComposeRules = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektTwitterComposeRules" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

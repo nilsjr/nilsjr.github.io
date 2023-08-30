@@ -84,8 +84,8 @@ dependencies {
 tasks.register<Detekt>("ktlintCheck") {
   description = "Run detekt ktlint wrapper"
   parallel = true
-  setSource(layout.projectDirectory)
-  config.setFrom(rootProject.layout.projectDirectory.file("detekt-formatting.yml"))
+  setSource(files("src/jsMain/kotlin"))
+  config.setFrom(files("$rootDir/detekt-formatting.yml"))
   buildUponDefaultConfig = true
   disableDefaultRuleSets = true
   autoCorrect = false
@@ -101,7 +101,6 @@ tasks.register<Detekt>("ktlintCheck") {
   exclude("build/")
   dependencies {
     "detektPlugins"(libs.detekt.formatting)
-    "detektPlugins"(libs.detekt.twitterComposeRules)
   }
 }
 

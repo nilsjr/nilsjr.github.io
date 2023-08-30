@@ -10,7 +10,7 @@ on:
 
 jobs:
   detekt:
-    name: Run detekt
+    name: Run detekt & ktlintCheck
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +34,4 @@ jobs:
           java-version: '17'
 
       - name: Test and Build
-        # remove --no-configuration-cache when fixed
-        # https://youtrack.jetbrains.com/issue/KT-51940/HMPP-resolves-configurations-during-configuration
-        run: ./gradlew build --no-configuration-cache
+        run: ./gradlew build jsBrowserDevelopmentWebpack

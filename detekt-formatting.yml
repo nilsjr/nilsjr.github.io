@@ -30,7 +30,3 @@ formatting:
   NoWildcardImports:
     active: true
     packagesToUseImportOnDemandProperty: ''
-
-Compose:
-  active: false
-
