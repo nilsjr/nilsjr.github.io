@@ -62,6 +62,11 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("node-forge", "1.3.0")
     resolution("url-parse", "1.5.8")
     resolution("qs", "6.9.7")
+    resolution("socket.io-parser", "4.2.3")
+    resolution("ua-parser-js", "0.7.33")
+    resolution("json5", "2.2.2")
+    resolution("minimatch", "3.0.5")
+    resolution("follow-redirects", "1.14.7")
   }
   rootProject.the<NodeJsRootExtension>().apply {
     versions.webpackDevServer.version = libs.versions.webpackDevServer.get()
