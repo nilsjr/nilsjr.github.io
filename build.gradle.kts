@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "2023.3.1"
+version = "2023.4.0"
 
 kotlin {
   js(IR) {
