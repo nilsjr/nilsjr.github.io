@@ -10,30 +10,28 @@ on:
 
 jobs:
   detekt:
-    name: Run detekt
+    name: Run detekt & ktlintCheck
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
       - name: Run detekt with ktlint
-        run: ./gradlew detekt
+        run: ./gradlew detekt ktlintCheck
 
   build:
     name: Build
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
 
       - name: Test and Build
-        # remove --no-configuration-cache when fixed
-        # https://youtrack.jetbrains.com/issue/KT-51940/HMPP-resolves-configurations-during-configuration
-        run: ./gradlew build --no-configuration-cache
+        run: ./gradlew build

@@ -8,7 +8,7 @@ package de.nilsdruyen.portfolio
 object Constants {
 
   val LOREM = """
-     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-     labore et dolore magna aliquyam erat, sed diam voluptua.
-     """.trimIndent()
+       Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+       labore et dolore magna aliquyam erat, sed diam voluptua.
+  """.trimIndent()
 }

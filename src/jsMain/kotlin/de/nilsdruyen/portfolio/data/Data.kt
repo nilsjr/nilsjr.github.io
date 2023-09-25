@@ -60,8 +60,8 @@ val projects = listOf(
   Project(
     name = "WoW Mythic+ Dashboard",
     description = """
-    This is a small webpage for summarizing specific wow character statistics from Raider.IO
-     """.trimIndent(),
+      This is a small webpage for summarizing specific wow character statistics from Raider.IO
+    """.trimIndent(),
     imageUrl = "assets/projects/helm.jpg",
     link = "",
   ),
