@@ -5,18 +5,13 @@
 
 package de.nilsdruyen.portfolio.data
 
-@Suppress("TopLevelPropertyNaming")
-const val Description = """
-  Passionate Android developer since 2012.
-  
-  I'm currently working from my small farm on the beautiful Lower Rhine 🇩🇪
-"""
-
-const val AboutMe = """
-  I'm a passionate Android developer since 2012 working . 
-  
-  I'm currently working from my small farm on the beautiful Lower Rhine 🇩🇪
-"""
+object AboutMe {
+  const val TITLE = "About me"
+  const val FIRST_LINE = "I'm a passionate Android developer since 2012 working on several B2B & B2C apps."
+  const val SECOND_LINE =
+    "I live on a small farm on the beautiful Lower Rhine \uD83C\uDDE9\uD83C\uDDEA and work from the home office."
+  const val THIRD_LINE = "I like to explore and dig deep in new stuff like kotlin & compose multiplatform."
+}
 
 //val skillList = listOf(
 //  Skill("Kotlin", "assets/skills/kotlin.png", 95, "Test test", WebPageStyle.Skills.kotlinLevel),

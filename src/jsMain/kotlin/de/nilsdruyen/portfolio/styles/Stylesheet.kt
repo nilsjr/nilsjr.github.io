@@ -12,7 +12,8 @@ import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.StyleSheet
-import org.jetbrains.compose.web.css.backgroundImage
+import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.backgroundPosition
 import org.jetbrains.compose.web.css.border
 import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.boxSizing
@@ -23,11 +24,13 @@ import org.jetbrains.compose.web.css.filter
 import org.jetbrains.compose.web.css.fontFamily
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.fontWeight
+import org.jetbrains.compose.web.css.gridColumn
 import org.jetbrains.compose.web.css.gridTemplateColumns
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.letterSpacing
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.marginLeft
+import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.paddingBottom
@@ -35,10 +38,11 @@ import org.jetbrains.compose.web.css.paddingLeft
 import org.jetbrains.compose.web.css.paddingRight
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.width
 
-object WebPageStyle : StyleSheet() {
+object Style : StyleSheet() {
 
   init {
     universal style {
@@ -94,7 +98,8 @@ object WebPageStyle : StyleSheet() {
     property("border-color", "rgb(215 221 228/var(--tw-border-opacity))")
   }
 
-  val grid by style {
+
+  val gridCol12 by style {
     gridTemplateColumns("repeat(12,minmax(0,1fr))")
     display(DisplayStyle.Grid)
     paddingLeft(2.5.cssRem)
@@ -123,22 +128,29 @@ object WebPageStyle : StyleSheet() {
     opacity(80.percent)
   }
 
+  val maxWidth by style {
+    maxWidth(90.cssRem)
+  }
+
+  val mxAuto by style {
+    property("margin-left", "auto")
+    property("margin-right", "auto")
+  }
+
   @OptIn(ExperimentalComposeWebApi::class)
   val profileImage by style {
     width(100.percent)
-    borderRadius(2.cssRem)
+    borderRadius(1.cssRem)
     border {
       width = 1.px
       style = LineStyle.Solid
-      color = Color("#eee")
+      color = Color("#d7dde4")
     }
-    backgroundImage("assets/nils.jpg")
     opacity(80.percent)
     filter {
       grayscale(1)
     }
     property("transition", "all .5s ease")
-
     self + hover style {
       filter {
         grayscale(0)
@@ -147,9 +159,25 @@ object WebPageStyle : StyleSheet() {
   }
 
   val title by style {
-    fontSize(5.cssRem)
-    letterSpacing(4.px)
-    fontWeight(500)
-    marginLeft(20.px)
+    fontSize(6.cssRem)
+    letterSpacing(6.px)
+    fontWeight(600)
+    marginLeft(32.px)
+  }
+
+  val dotted by style {
+    backgroundPosition("50%")
+    backgroundColor(rgba(242, 246, 250, .2))
+    property(
+      "background-image",
+      "url(\"data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 0.75C1.5 1.16421 1.16421 1.5 0.75 1.5C0.335786 1.5 0 1.16421 0 0.75C0 0.335786 0.335786 0 0.75 0C1.16421 0 1.5 0.335786 1.5 0.75Z' fill='%23D7DDE4'/%3E%3C/svg%3E%0A\")"
+    )
+  }
+
+  object Grid : StyleSheet(Style) {
+
+    val col12 by style {
+      gridColumn("span 12/span 12")
+    }
   }
 }
