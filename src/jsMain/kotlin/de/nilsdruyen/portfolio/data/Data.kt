@@ -5,6 +5,9 @@
 
 package de.nilsdruyen.portfolio.data
 
+import de.nilsdruyen.portfolio.model.Experiment
+import de.nilsdruyen.portfolio.model.Project
+
 object AboutMe {
   const val TITLE = "About me"
   const val FIRST_LINE = "I'm a passionate Android developer since 2012 working on several B2B & B2C apps."
@@ -25,55 +28,58 @@ object AboutMe {
 //  TimelineExp("2010 - 2016", "Angewandte Informatik", "", "Universität Duisburg-Essen"),
 //)
 
-//val projects = listOf(
-//  Project(
-//    name = "Snappy",
-//    description = "",
-//    imageUrl = "",
-//    link = "https://github.com/nilsjr/Snappy"
-//  ),
-//  Project(
-//    name = "Koncept",
-//    description = "",
-//    imageUrl = "",
-//    link = "https://github.com/nilsjr/Koncept"
-//  ),
-//  Project(
-//    name = "ComposeParty",
-//    description = "",
-//    imageUrl = "",
-//    link = "https://github.com/nilsjr/ComposeParty"
-//  ),
-//  Project(
-//    name = "WoW Mythic+ Dashboard",
-//    description = """
-//      This is a small webpage for summarizing specific wow character statistics from Raider.IO
-//    """.trimIndent(),
-//    imageUrl = "assets/projects/helm.jpg",
-//    link = "",
-//  ),
-//  Project(
-//    name = "My board games",
-//    description = Constants.LOREM,
-//    imageUrl = "assets/projects/helm.jpg",
-//    link = "https://github.com/nilsjr/MyBoardGames",
-//  ),
-//  Project(
-//    name = "Gradle FTP upload plugin",
-//    description = Constants.LOREM,
-//    imageUrl = "assets/projects/helm.jpg",
-//    link = "https://github.com/nilsjr/gradle-ftp-upload-plugin",
-//  ),
-//  Project(
-//    name = "flash-android-livetemplates",
-//    description = Constants.LOREM,
-//    imageUrl = "assets/projects/helm.jpg",
-//    link = "https://github.com/nilsjr/flash-android-livetemplates",
-//  ),
-//)
 //
 //val links = listOf(
 //  ProfileLink("github.png", "https://github.com/nilsjr"),
 //  ProfileLink("twitter.png", "https://twitter.com/NilsJr"),
 //  ProfileLink("xing.png", "https://www.xing.com/profile/Nils_Druyen/cv"),
 //)
+
+object Model {
+
+  val experiments = listOf(
+    Experiment(
+      "Koncept",
+      "Android playground app for architecture, new frameworks & other stuff",
+      "https://github.com/nilsjr/Koncept",
+    ),
+    Experiment(
+      "ComposeParty",
+      "Compose playground project on steriods",
+      "https://github.com/nilsjr/ComposeParty",
+    ),
+    Experiment(
+      "nilsjr.github.io",
+      "My portfolio webpage",
+      "https://github.com/nilsjr/nilsjr.github.io",
+    ),
+  )
+
+  val projects = listOf(
+    Project(
+      "Snappy",
+      "Android CameraX Library",
+      "https://github.com/nilsjr/Snappy",
+    ),
+    Project(
+      "Gradle FTP upload plugin",
+      "Gradle plugin for uploading files via ftp",
+      "https://github.com/nilsjr/gradle-ftp-upload-plugin"
+    ),
+    Project(
+      "Gradle FTP upload plugin",
+      "Gradle plugin for uploading files via ftp",
+      "https://github.com/nilsjr/gradle-ftp-upload-plugin"
+    ),
+    Project(
+      "Gradle FTP upload plugin",
+      "Gradle plugin for uploading files via ftp",
+      "https://github.com/nilsjr/gradle-ftp-upload-plugin"
+    ),
+    Project(
+      "Gradle FTP upload plugin",
+      "Gradle plugin for uploading files via ftp",
+      "https://github.com/nilsjr/gradle-ftp-upload-plugin"
+    ),
+  )
+}

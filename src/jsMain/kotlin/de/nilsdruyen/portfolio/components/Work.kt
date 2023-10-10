@@ -10,8 +10,10 @@ import de.nilsdruyen.portfolio.gridRow
 import de.nilsdruyen.portfolio.styles.Style
 import org.jetbrains.compose.web.css.gridColumn
 import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
@@ -29,12 +31,18 @@ fun work() {
     }) {
       Div({
         classes(Style.borderX, Style.borderGray)
-        style { gridColumn("span 4/span 4") }
+        style {
+          padding(16.px)
+          gridColumn("span 4/span 4")
+        }
       }) {
-        Text("work")
+        P {
+          Text("Work")
+        }
       }
       Div({
         style {
+          padding(16.px)
           gridColumn("span 8/span 8")
         }
         classes(
@@ -43,7 +51,9 @@ fun work() {
           Style.dotted,
         )
       }) {
-
+        P {
+          Text("Interests")
+        }
       }
     }
   }

@@ -12,6 +12,7 @@ import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.StyleSheet
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.backgroundPosition
 import org.jetbrains.compose.web.css.border
@@ -120,6 +121,7 @@ object Style : StyleSheet() {
     color("#050608")
   }
 
+
   val subtitle by style {
     paddingLeft(16.px)
     paddingRight(16.px)
@@ -148,7 +150,7 @@ object Style : StyleSheet() {
     }
     opacity(80.percent)
     filter {
-      grayscale(1)
+//      grayscale(1)
     }
     property("transition", "all .5s ease")
     self + hover style {
@@ -178,6 +180,71 @@ object Style : StyleSheet() {
 
     val col12 by style {
       gridColumn("span 12/span 12")
+    }
+    val col6 by style {
+      gridColumn("span 6/span 6")
+    }
+    val col4 by style {
+      gridColumn("span 4/span 4")
+    }
+    val col2 by style {
+      gridColumn("span 2/span 2")
+    }
+  }
+
+  object Section : StyleSheet(Style) {
+
+    val title by style {
+      fontSize(24.px)
+      color("#050608")
+    }
+    val title2 by style {
+      fontSize(20.px)
+      color("#050608")
+      padding(16.px)
+    }
+    val subtitle by style {
+      color("#050608")
+      fontSize(14.px)
+      paddingLeft(16.px)
+      paddingRight(16.px)
+      paddingBottom(16.px)
+      opacity(80.percent)
+    }
+  }
+
+  object Experiment : StyleSheet(Style) {
+
+    val container by style {
+      background("linear-gradient(30deg, rgba(241,241,241,1) 0%, rgba(255,255,255,1) 50%, rgba(241,241,241,1) 100%)")
+      borderRadius(8.px)
+    }
+    val containerOverlay by style {
+      height(100.percent)
+      borderRadius(8.px)
+      border {
+        width = 1.px
+        color = Color.lightgray
+        style = LineStyle.Dashed
+      }
+      variable("exp-bg-opacity", 1)
+      property("background-color", "rgb(255 255 255/var(--exp-bg-opacity))")
+      property("transition", "all .5s ease")
+      self + hover style {
+        variable("exp-bg-opacity", 0)
+      }
+    }
+  }
+
+  object Projects : StyleSheet(Style) {
+
+    val container by style {
+      variable("project-bg-opacity", 1)
+      property("background-color", "rgb(255 255 255/var(--project-bg-opacity))")
+      property("transition", "all .5s ease")
+      self + hover style {
+        variable("project-bg-opacity", 0)
+      }
     }
   }
 }
