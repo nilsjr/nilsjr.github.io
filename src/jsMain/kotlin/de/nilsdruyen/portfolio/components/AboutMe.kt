@@ -111,7 +111,7 @@ private fun experiment(experiment: Experiment) {
       classes(Style.Experiment.containerOverlay)
     }) {
       P({ classes(Style.Section.title2) }) { Text(experiment.title) }
-      P({ classes(Style.Section.subtitle) }) { Text(experiment.subtitle) }
+      P({ classes(Style.Section.subtitle, Style.Section.margin) }) { Text(experiment.subtitle) }
     }
   }
 }

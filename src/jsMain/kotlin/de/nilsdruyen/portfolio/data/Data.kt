@@ -66,20 +66,5 @@ object Model {
       "Gradle plugin for uploading files via ftp",
       "https://github.com/nilsjr/gradle-ftp-upload-plugin"
     ),
-    Project(
-      "Gradle FTP upload plugin",
-      "Gradle plugin for uploading files via ftp",
-      "https://github.com/nilsjr/gradle-ftp-upload-plugin"
-    ),
-    Project(
-      "Gradle FTP upload plugin",
-      "Gradle plugin for uploading files via ftp",
-      "https://github.com/nilsjr/gradle-ftp-upload-plugin"
-    ),
-    Project(
-      "Gradle FTP upload plugin",
-      "Gradle plugin for uploading files via ftp",
-      "https://github.com/nilsjr/gradle-ftp-upload-plugin"
-    ),
   )
 }

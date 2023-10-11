@@ -88,9 +88,7 @@ private fun title() {
           alignItems("center")
         }
       }) {
-        P({ classes(Style.title) }) {
-          Text("nilsjr.")
-        }
+        P({ classes(Style.title) }) { Text("nilsjr.") }
       }
       Div({
         style { gridColumn("span 1/span 1") }
@@ -98,7 +96,11 @@ private fun title() {
       }) {}
       Div({
         style { gridColumn("span 5/span 5") }
-        classes(Style.borderR, Style.borderGray)
+        classes(
+          Style.borderR,
+          Style.borderGray,
+          Style.Section.gradient,
+        )
       }) {}
     }
   }

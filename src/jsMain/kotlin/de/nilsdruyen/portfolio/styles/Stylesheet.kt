@@ -8,10 +8,16 @@
 package de.nilsdruyen.portfolio.styles
 
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
+import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
+import org.jetbrains.compose.web.css.FlexDirection
+import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.LineStyle
+import org.jetbrains.compose.web.css.Position
+import org.jetbrains.compose.web.css.StylePropertyNumber
 import org.jetbrains.compose.web.css.StyleSheet
+import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.backgroundPosition
@@ -22,15 +28,22 @@ import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.filter
+import org.jetbrains.compose.web.css.flex
+import org.jetbrains.compose.web.css.flexDirection
 import org.jetbrains.compose.web.css.fontFamily
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.fontWeight
+import org.jetbrains.compose.web.css.gap
 import org.jetbrains.compose.web.css.gridColumn
 import org.jetbrains.compose.web.css.gridTemplateColumns
 import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.letterSpacing
+import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.marginBottom
 import org.jetbrains.compose.web.css.marginLeft
+import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
@@ -38,9 +51,12 @@ import org.jetbrains.compose.web.css.paddingBottom
 import org.jetbrains.compose.web.css.paddingLeft
 import org.jetbrains.compose.web.css.paddingRight
 import org.jetbrains.compose.web.css.percent
+import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.textDecoration
+import org.jetbrains.compose.web.css.value
+import org.jetbrains.compose.web.css.variable
 import org.jetbrains.compose.web.css.width
 
 object Style : StyleSheet() {
@@ -71,7 +87,7 @@ object Style : StyleSheet() {
 
     "a" style {
       textDecoration("none")
-      color(Colors.Blue.toColor())
+      color(Colors.Blue)
       fontSize(2.cssRem)
       fontWeight(500)
     }
@@ -176,6 +192,10 @@ object Style : StyleSheet() {
     )
   }
 
+  val pad1 by style {
+    padding(1.cssRem)
+  }
+
   object Grid : StyleSheet(Style) {
 
     val col12 by style {
@@ -196,20 +216,30 @@ object Style : StyleSheet() {
 
     val title by style {
       fontSize(24.px)
-      color("#050608")
+      fontWeight(600)
+      color(Colors.DarkGrey)
     }
     val title2 by style {
       fontSize(20.px)
-      color("#050608")
-      padding(16.px)
+      color(Colors.DarkGrey)
     }
     val subtitle by style {
-      color("#050608")
+      color(Colors.DarkGrey)
       fontSize(14.px)
-      paddingLeft(16.px)
-      paddingRight(16.px)
-      paddingBottom(16.px)
       opacity(80.percent)
+    }
+
+    val gradient by style {
+      background("linear-gradient(147deg, rgba(241,241,241,1) 0%, rgba(255,255,255,1) 70%, rgba(255,255,255,1) 100%)")
+    }
+
+    val margin by style {
+      marginTop(1.cssRem)
+      marginBottom(1.cssRem)
+    }
+
+    val flexItem by style {
+      flex(1, 1, 0.percent)
     }
   }
 
@@ -221,6 +251,7 @@ object Style : StyleSheet() {
     }
     val containerOverlay by style {
       height(100.percent)
+      padding(1.cssRem)
       borderRadius(8.px)
       border {
         width = 1.px
@@ -238,12 +269,88 @@ object Style : StyleSheet() {
 
   object Projects : StyleSheet(Style) {
 
+    val bgOpacity by variable<StylePropertyNumber>()
+
+    val grid by style {
+      display(DisplayStyle.Grid)
+      gridTemplateColumns("repeat(6,minmax(0,1fr))")
+      gap(1.cssRem)
+      position(Position.Relative)
+      marginTop(1.cssRem)
+    }
+
     val container by style {
-      variable("project-bg-opacity", 1)
-      property("background-color", "rgb(255 255 255/var(--project-bg-opacity))")
+      background("linear-gradient(30deg, rgba(241,241,241,1) 0%, rgba(255,255,255,1) 50%, rgba(241,241,241,1) 100%)")
+      borderRadius(1.cssRem)
+    }
+
+    val containerInner by style {
+      height(100.percent)
+      display(DisplayStyle.Flex)
+      alignItems(AlignItems.FlexStart)
+      flexDirection(FlexDirection.Column)
+    }
+
+    val containerOverlay by style {
+      height(100.percent)
+      borderRadius(1.cssRem)
+      border {
+        width = 1.px
+        color = Color.lightgray
+        style = LineStyle.Solid
+      }
+      display(DisplayStyle.Flex)
+      flexDirection(FlexDirection.Column)
+      padding(1.cssRem)
+      bgOpacity(1)
+      backgroundColor(rgba(255, 255, 255, bgOpacity.value().unsafeCast<Number>()))
       property("transition", "all .5s ease")
       self + hover style {
-        variable("project-bg-opacity", 0)
+        bgOpacity(0)
+      }
+    }
+
+    object Button : StyleSheet(Style) {
+
+      val container by style {
+        padding(.5.cssRem)
+        borderRadius(.5.cssRem)
+        border {
+          width = 1.px
+          style = LineStyle.Solid
+          color = Color.lightgray
+        }
+        display(DisplayStyle.LegacyInlineFlex)
+        alignItems("center")
+
+        property("transition", "border .5s ease")
+        desc(className(containerOverlay) + hover, self) style {
+          border {
+            width = 1.px
+            style = LineStyle.Solid
+            color = Colors.Blue
+          }
+        }
+      }
+
+      val text by style {
+        color(Colors.DarkGrey)
+        fontSize(.875.cssRem)
+        fontWeight(700)
+        lineHeight("1")
+        property("transition", "color .3s linear")
+        desc(className(containerOverlay) + hover, self) style {
+          color(Colors.Blue)
+        }
+      }
+
+      val icon by style {
+        width(1.cssRem)
+        height(1.cssRem)
+        display(DisplayStyle.Flex)
+        justifyContent(JustifyContent.Center)
+        alignItems(AlignItems.Center)
+        marginLeft(.5.cssRem)
       }
     }
   }
