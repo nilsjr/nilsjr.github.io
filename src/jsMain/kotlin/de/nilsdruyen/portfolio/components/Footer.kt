@@ -6,13 +6,10 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.gridRow
 import de.nilsdruyen.portfolio.styles.Style
-import org.jetbrains.compose.web.css.DisplayStyle
-import org.jetbrains.compose.web.css.JustifyContent
-import org.jetbrains.compose.web.css.display
+import org.jetbrains.compose.web.css.fontWeight
 import org.jetbrains.compose.web.css.height
-import org.jetbrains.compose.web.css.justifyContent
+import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.dom.Div
@@ -22,62 +19,21 @@ import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun footer() {
-  Footer({
-    classes(
-      Style.borderB,
-      Style.borderGray,
-    )
-  }) {
+  Footer({ classes(Style.borderB, Style.borderGray) }) {
     Div({
-      style {
-        height(140.px)
-      }
-      classes(
-        Style.gridCol12,
-        Style.maxWidth,
-        Style.mxAuto,
-      )
+      classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto)
+      style { height(120.px) }
     }) {
-      Div({
-        classes(
-          Style.borderX,
-          Style.borderGray,
-          Style.Grid.col12,
-        )
-        style {
-          display(DisplayStyle.Flex)
-          justifyContent(JustifyContent.Center)
-        }
-      }) {
+      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span12, Style.Flex.container) }) {
         P({
           style {
             textAlign("center")
             property("margin", "auto")
+            opacity(.5)
+            fontWeight(700)
           }
-        }) {
-          Text("© 2022 Nils Druyen")
-        }
+        }) { Text("© 2022 Nils Druyen") }
       }
-    }
-  }
-  gridRow {
-    Div({
-      classes(
-        Style.gridCol12,
-        Style.maxWidth,
-        Style.mxAuto,
-      )
-      style {
-        height(40.px)
-      }
-    }) {
-      Div({
-        classes(
-          Style.borderX,
-          Style.borderGray,
-          Style.Grid.col12,
-        )
-      }) {}
     }
   }
 }

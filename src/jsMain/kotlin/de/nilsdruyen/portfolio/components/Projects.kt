@@ -8,6 +8,7 @@ package de.nilsdruyen.portfolio.components
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.data.Model
 import de.nilsdruyen.portfolio.gridRow
+import de.nilsdruyen.portfolio.model.Project
 import de.nilsdruyen.portfolio.styles.Colors
 import de.nilsdruyen.portfolio.styles.Style
 import org.jetbrains.compose.web.ExperimentalComposeWebSvgApi
@@ -27,40 +28,37 @@ import org.jetbrains.compose.web.svg.width
 @Composable
 fun projects() {
   gridRow {
-    Div({
-      classes(Style.gridCol12, Style.maxWidth, Style.mxAuto)
-    }) {
-      Div({
-        classes(Style.borderX, Style.borderGray, Style.dotted, Style.Grid.col12, Style.pad1)
-      }) {
+    Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
+      Div({ classes(Style.borderX, Style.borderGray, Style.dotted, Style.Grid.span12, Style.pad1) }) {
         P({ classes(Style.Section.title) }) { Text("Projects") }
         Div({ classes(Style.Projects.grid) }) {
-          Model.projects.forEach {
-            Div({
-              classes(Style.Grid.col2, Style.Projects.container)
-            }) {
-              A(
-                href = it.link,
-                attrs = {
-                  target(ATarget.Blank)
-                  classes(Style.Projects.containerOverlay)
-                }
-              ) {
-                Div({ classes(Style.Projects.containerInner) }) {
-                  P({ classes(Style.Section.title2) }) { Text(it.title) }
-                  P({
-                    classes(
-                      Style.Section.subtitle,
-                      Style.Section.margin,
-                      Style.Section.flexItem
-                    )
-                  }) { Text(it.subtitle) }
-                  viewMore()
-                }
-              }
-            }
-          }
+          Model.projects.forEach { project(it) }
         }
+      }
+    }
+  }
+}
+
+@Composable
+private fun project(project: Project) {
+  Div({ classes(Style.Grid.span2, Style.Projects.container) }) {
+    A(
+      href = project.link,
+      attrs = {
+        target(ATarget.Blank)
+        classes(Style.Projects.containerOverlay)
+      }
+    ) {
+      Div({ classes(Style.Projects.containerInner) }) {
+        P({ classes(Style.Section.title2) }) { Text(project.title) }
+        P({
+          classes(
+            Style.Section.subtitle,
+            Style.Section.flexItem,
+            Style.smallMargin,
+          )
+        }) { Text(project.subtitle) }
+        viewMore()
       }
     }
   }
@@ -68,8 +66,8 @@ fun projects() {
 
 @OptIn(ExperimentalComposeWebSvgApi::class)
 @Composable
-fun viewMore() {
-  Div({ classes(Style.Projects.Button.container) }) {
+private fun viewMore() {
+  Div({ classes(Style.Projects.Button.container, Style.smallMargin) }) {
     Div({ classes(Style.Projects.Button.text) }) { Text("View more") }
     Div({ classes(Style.Projects.Button.icon) }) {
       Svg(

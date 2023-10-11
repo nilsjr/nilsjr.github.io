@@ -16,24 +16,22 @@ object AboutMe {
   const val THIRD_LINE = "I like to explore and dig deep in new stuff like kotlin & compose multiplatform."
 }
 
-//val skillList = listOf(
-//  Skill("Kotlin", "assets/skills/kotlin.png", 95, "Test test", WebPageStyle.Skills.kotlinLevel),
-//  Skill("Android SDK", "assets/skills/android.png", 75, "", WebPageStyle.Skills.androidLevel),
-//  Skill("Kotlin Mobile Mulitplatform", "assets/skills/kmm.png", 50, "", WebPageStyle.Skills.kmmLevel),
-//)
+// val skillList = listOf(
+//   Skill("Kotlin", "assets/skills/kotlin.png", 95, "Test test", WebPageStyle.Skills.kotlinLevel),
+//   Skill("Android SDK", "assets/skills/android.png", 75, "", WebPageStyle.Skills.androidLevel),
+//   Skill("Kotlin Mobile Mulitplatform", "assets/skills/kmm.png", 50, "", WebPageStyle.Skills.kmmLevel),
+// )
 //
-//val timeline = listOf(
-//  TimelineExp("since 2022", "", "Software Engineer", "Fressnapf | Maxizoo"),
-//  TimelineExp("05.2016 - 12.2021", "", "Software Entwickler", "NanoGiants GmbH"),
-//  TimelineExp("2010 - 2016", "Angewandte Informatik", "", "Universität Duisburg-Essen"),
-//)
-
-//
-//val links = listOf(
-//  ProfileLink("github.png", "https://github.com/nilsjr"),
-//  ProfileLink("twitter.png", "https://twitter.com/NilsJr"),
-//  ProfileLink("xing.png", "https://www.xing.com/profile/Nils_Druyen/cv"),
-//)
+// val timeline = listOf(
+//   TimelineExp("since 2022", "", "Software Engineer", "Fressnapf | Maxizoo"),
+//   TimelineExp("05.2016 - 12.2021", "", "Software Entwickler", "NanoGiants GmbH"),
+//   TimelineExp("2010 - 2016", "Angewandte Informatik", "", "Universität Duisburg-Essen"),
+// )
+// val links = listOf(
+//   ProfileLink("github.png", "https://github.com/nilsjr"),
+//   ProfileLink("twitter.png", "https://twitter.com/NilsJr"),
+//   ProfileLink("xing.png", "https://www.xing.com/profile/Nils_Druyen/cv"),
+// )
 
 object Model {
 

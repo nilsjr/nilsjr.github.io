@@ -11,12 +11,7 @@ import org.jetbrains.compose.web.dom.Div
 
 @Composable
 fun gridRow(content: @Composable () -> Unit) {
-  Div({
-    classes(
-      Style.borderB,
-      Style.borderGray,
-    )
-  }) {
+  Div({ classes(Style.borderB, Style.borderGray) }) {
     content()
   }
 }

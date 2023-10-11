@@ -3,11 +3,8 @@
  * Copyright © 2021 Nils Druyen. All rights reserved.
  */
 
-@file:Suppress("FunctionName")
-
 package de.nilsdruyen.portfolio.styles
 
-import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
@@ -27,7 +24,6 @@ import org.jetbrains.compose.web.css.boxSizing
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.display
-import org.jetbrains.compose.web.css.filter
 import org.jetbrains.compose.web.css.flex
 import org.jetbrains.compose.web.css.flexDirection
 import org.jetbrains.compose.web.css.fontFamily
@@ -41,13 +37,11 @@ import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.letterSpacing
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
-import org.jetbrains.compose.web.css.marginBottom
 import org.jetbrains.compose.web.css.marginLeft
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
-import org.jetbrains.compose.web.css.paddingBottom
 import org.jetbrains.compose.web.css.paddingLeft
 import org.jetbrains.compose.web.css.paddingRight
 import org.jetbrains.compose.web.css.percent
@@ -87,7 +81,7 @@ object Style : StyleSheet() {
 
     "a" style {
       textDecoration("none")
-      color(Colors.Blue)
+//      color(Colors.Blue)
       fontSize(2.cssRem)
       fontWeight(500)
     }
@@ -95,10 +89,6 @@ object Style : StyleSheet() {
 
   val borderB by style {
     property("border-bottom-width", "1px")
-  }
-
-  val borderL by style {
-    property("border-left-width", "1px")
   }
 
   val borderR by style {
@@ -115,37 +105,6 @@ object Style : StyleSheet() {
     property("border-color", "rgb(215 221 228/var(--tw-border-opacity))")
   }
 
-
-  val gridCol12 by style {
-    gridTemplateColumns("repeat(12,minmax(0,1fr))")
-    display(DisplayStyle.Grid)
-    paddingLeft(2.5.cssRem)
-    paddingRight(2.5.cssRem)
-  }
-
-  val gridTop by style {
-    gridTemplateColumns("repeat(12,minmax(0,1fr))")
-    display(DisplayStyle.Grid)
-    height(3.cssRem)
-    paddingLeft(2.5.cssRem)
-    paddingRight(2.5.cssRem)
-  }
-
-  val title2 by style {
-    fontSize(2.cssRem)
-    padding(16.px)
-    color("#050608")
-  }
-
-
-  val subtitle by style {
-    paddingLeft(16.px)
-    paddingRight(16.px)
-    paddingBottom(16.px)
-    color("#050608")
-    opacity(80.percent)
-  }
-
   val maxWidth by style {
     maxWidth(90.cssRem)
   }
@@ -155,7 +114,6 @@ object Style : StyleSheet() {
     property("margin-right", "auto")
   }
 
-  @OptIn(ExperimentalComposeWebApi::class)
   val profileImage by style {
     width(100.percent)
     borderRadius(1.cssRem)
@@ -164,16 +122,16 @@ object Style : StyleSheet() {
       style = LineStyle.Solid
       color = Color("#d7dde4")
     }
-    opacity(80.percent)
-    filter {
+//    opacity(80.percent)
+//    filter {
 //      grayscale(1)
-    }
-    property("transition", "all .5s ease")
-    self + hover style {
-      filter {
-        grayscale(0)
-      }
-    }
+//    }
+//    property("transition", "all .5s ease")
+//    self + hover style {
+//      filter {
+//        grayscale(0)
+//      }
+//    }
   }
 
   val title by style {
@@ -185,31 +143,60 @@ object Style : StyleSheet() {
 
   val dotted by style {
     backgroundPosition("50%")
-    backgroundColor(rgba(242, 246, 250, .2))
+    backgroundColor(rgba(242, 246, 250, .3))
     property(
       "background-image",
-      "url(\"data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 0.75C1.5 1.16421 1.16421 1.5 0.75 1.5C0.335786 1.5 0 1.16421 0 0.75C0 0.335786 0.335786 0 0.75 0C1.16421 0 1.5 0.335786 1.5 0.75Z' fill='%23D7DDE4'/%3E%3C/svg%3E%0A\")"
+      """
+        url(\"data:image/svg+xml,%3Csvg 
+        width='16' 
+        height='16'
+        viewBox='0 0 16 16' 
+        fill='none' 
+        xmlns='http://www.w3.org/2000/svg'%3E%3Cpath 
+        d='M1.5 0.75C1.5 1.16421 1.16421 1.5 0.75 1.5C0.335786 1.5 0 1.16421 0 0.75C0 0.335786 0.335786 0 0.75 0C1.16421 0 1.5 0.335786 1.5 0.75Z' 
+        fill='%23D7DDE4'/%3E%3C/svg%3E%0A\")
+      """.trimIndent()
     )
   }
 
-  val pad1 by style {
-    padding(1.cssRem)
+  val pad1 by style { padding(1.cssRem) }
+  val pad2 by style { padding(2.cssRem) }
+
+  val smallMargin by style { marginTop(1.cssRem) }
+  val mediumMargin by style { marginTop(2.cssRem) }
+  val largeMargin by style { marginTop(4.cssRem) }
+
+  object Flex : StyleSheet(Style) {
+
+    val container by style {
+      display(DisplayStyle.Flex)
+      justifyContent(JustifyContent.Center)
+      alignItems(AlignItems.Center)
+    }
   }
 
   object Grid : StyleSheet(Style) {
 
     val col12 by style {
-      gridColumn("span 12/span 12")
+      gridTemplateColumns("repeat(12,minmax(0,1fr))")
+      display(DisplayStyle.Grid)
+      paddingLeft(2.5.cssRem)
+      paddingRight(2.5.cssRem)
     }
+
     val col6 by style {
-      gridColumn("span 6/span 6")
+      display(DisplayStyle.Grid)
+      gridTemplateColumns("repeat(6,minmax(0,1fr))")
+      gap(1.cssRem)
     }
-    val col4 by style {
-      gridColumn("span 4/span 4")
-    }
-    val col2 by style {
-      gridColumn("span 2/span 2")
-    }
+
+    val span12 by style { gridColumn("span 12/span 12") }
+    val span8 by style { gridColumn("span 8/span 8") }
+    val span6 by style { gridColumn("span 6/span 6") }
+    val span5 by style { gridColumn("span 5/span 5") }
+    val span4 by style { gridColumn("span 4/span 4") }
+    val span2 by style { gridColumn("span 2/span 2") }
+    val span1 by style { gridColumn("span 1/span 1") }
   }
 
   object Section : StyleSheet(Style) {
@@ -231,11 +218,6 @@ object Style : StyleSheet() {
 
     val gradient by style {
       background("linear-gradient(147deg, rgba(241,241,241,1) 0%, rgba(255,255,255,1) 70%, rgba(255,255,255,1) 100%)")
-    }
-
-    val margin by style {
-      marginTop(1.cssRem)
-      marginBottom(1.cssRem)
     }
 
     val flexItem by style {
