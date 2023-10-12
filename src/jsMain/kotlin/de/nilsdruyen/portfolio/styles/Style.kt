@@ -5,6 +5,7 @@
 
 package de.nilsdruyen.portfolio.styles
 
+import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
@@ -49,6 +50,7 @@ import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.textDecoration
+import org.jetbrains.compose.web.css.transform
 import org.jetbrains.compose.web.css.value
 import org.jetbrains.compose.web.css.variable
 import org.jetbrains.compose.web.css.width
@@ -115,6 +117,7 @@ object Style : StyleSheet() {
   }
 
   val profileImage by style {
+    maxWidth(300.px)
     width(100.percent)
     borderRadius(1.cssRem)
     border {
@@ -173,6 +176,11 @@ object Style : StyleSheet() {
       justifyContent(JustifyContent.Center)
       alignItems(AlignItems.Center)
     }
+
+    val column by style {
+      display(DisplayStyle.Flex)
+      flexDirection(FlexDirection.Column)
+    }
   }
 
   object Grid : StyleSheet(Style) {
@@ -222,6 +230,35 @@ object Style : StyleSheet() {
 
     val flexItem by style {
       flex(1, 1, 0.percent)
+    }
+  }
+
+  object AboutMe : StyleSheet(Style) {
+
+    val description by style {
+      color(Colors.DarkGrey)
+      fontSize(18.px)
+      opacity(80.percent)
+      marginTop(16.px)
+    }
+
+    val social by style {
+      height(100.percent)
+      width(100.percent)
+      display(DisplayStyle.Flex)
+      alignItems(AlignItems.FlexEnd)
+      justifyContent(JustifyContent.FlexEnd)
+    }
+
+    @OptIn(ExperimentalComposeWebApi::class)
+    val profileLink by style {
+      marginLeft(16.px)
+      property("transition", "transform .2s")
+      self + hover style {
+        transform {
+          scale(1.2)
+        }
+      }
     }
   }
 

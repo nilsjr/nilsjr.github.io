@@ -25,6 +25,7 @@ fun footer() {
       style { height(120.px) }
     }) {
       Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span12, Style.Flex.container) }) {
+        // FIXME: cleanup code & move to stylesheet
         P({
           style {
             textAlign("center")
@@ -32,7 +33,19 @@ fun footer() {
             opacity(.5)
             fontWeight(700)
           }
-        }) { Text("© 2022 Nils Druyen") }
+        }) {
+          Text("built with kotlin multiplatform")
+        }
+        P({
+          style {
+            textAlign("center")
+            property("margin", "auto")
+            opacity(.5)
+            fontWeight(700)
+          }
+        }) {
+          Text("© 2023 Nils Druyen")
+        }
       }
     }
   }

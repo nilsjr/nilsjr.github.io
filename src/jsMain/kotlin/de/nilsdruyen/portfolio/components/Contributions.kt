@@ -6,6 +6,7 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
+import de.nilsdruyen.portfolio.data.Model
 import de.nilsdruyen.portfolio.gridRow
 import de.nilsdruyen.portfolio.styles.Style
 import org.jetbrains.compose.web.dom.Div
@@ -18,7 +19,9 @@ fun contributions() {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
       Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span6, Style.pad1) }) {
         P({ classes(Style.Section.title) }) { Text("Contributions") }
-        P({ classes(Style.Section.subtitle, Style.smallMargin) }) { Text("tbd.") }
+        Model.contributions.forEach {
+          P({ classes(Style.AboutMe.description) }) { Text(it.title) }
+        }
       }
       Div({ classes(Style.borderR, Style.borderGray, Style.Grid.span6, Style.pad1) }) {
         P({ classes(Style.Section.title) }) { Text("Links") }

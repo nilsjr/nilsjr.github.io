@@ -51,13 +51,7 @@ private fun project(project: Project) {
     ) {
       Div({ classes(Style.Projects.containerInner) }) {
         P({ classes(Style.Section.title2) }) { Text(project.title) }
-        P({
-          classes(
-            Style.Section.subtitle,
-            Style.Section.flexItem,
-            Style.smallMargin,
-          )
-        }) { Text(project.subtitle) }
+        P({ classes(Style.Section.subtitle, Style.Section.flexItem, Style.smallMargin) }) { Text(project.subtitle) }
         viewMore()
       }
     }

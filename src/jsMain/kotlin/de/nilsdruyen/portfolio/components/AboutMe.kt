@@ -11,6 +11,8 @@ import de.nilsdruyen.portfolio.data.Model
 import de.nilsdruyen.portfolio.gridRow
 import de.nilsdruyen.portfolio.model.Experiment
 import de.nilsdruyen.portfolio.styles.Style
+import org.jetbrains.compose.web.attributes.ATarget
+import org.jetbrains.compose.web.attributes.target
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
@@ -30,11 +32,27 @@ fun aboutMe() {
 
 @Composable
 private fun description() {
-  Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span4, Style.pad2) }) {
+  Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span4, Style.pad2, Style.Flex.column) }) {
     P({ classes(Style.Section.title) }) { Text(AboutMe.TITLE) }
-    P({ classes(Style.Section.subtitle) }) { Text(AboutMe.FIRST_LINE) }
-    P({ classes(Style.Section.subtitle) }) { Text(AboutMe.SECOND_LINE) }
-    P({ classes(Style.Section.subtitle) }) { Text(AboutMe.THIRD_LINE) }
+    P({ classes(Style.AboutMe.description) }) { Text(AboutMe.FIRST_LINE) }
+    P({ classes(Style.AboutMe.description) }) { Text(AboutMe.SECOND_LINE) }
+    P({ classes(Style.AboutMe.description) }) { Text(AboutMe.THIRD_LINE) }
+    social()
+  }
+}
+
+@Composable
+private fun social() {
+  Div({ classes(Style.AboutMe.social) }) {
+    Model.links.forEach {
+      A(
+        href = it.link,
+        attrs = {
+          target(ATarget.Blank)
+          classes(Style.AboutMe.profileLink)
+        }
+      ) { it.icon() }
+    }
   }
 }
 
