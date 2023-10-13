@@ -6,7 +6,6 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.gridRow
 import de.nilsdruyen.portfolio.ui.Style
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.height
@@ -19,10 +18,10 @@ fun placeholder() {
       classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto)
       style { height(3.cssRem) }
     }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span4) }) {}
-      Div({ classes(Style.borderR, Style.borderGray, Style.Grid.span2) }) {}
-      Div({ classes(Style.borderR, Style.borderGray, Style.Grid.span1) }) {}
-      Div({ classes(Style.borderR, Style.borderGray, Style.Grid.span5) }) {}
+      Div({ classes(Style.Grid.borderX, Style.borderGray, Style.Grid.span4) }) {}
+      Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Grid.span2) }) {}
+      Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Grid.span1) }) {}
+      Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Grid.span5) }) {}
     }
   }
 }

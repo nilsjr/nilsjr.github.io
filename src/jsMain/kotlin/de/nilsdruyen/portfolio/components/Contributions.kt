@@ -6,7 +6,6 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.gridRow
 import de.nilsdruyen.portfolio.model.Model
 import de.nilsdruyen.portfolio.model.Project
 import de.nilsdruyen.portfolio.ui.Style
@@ -21,13 +20,13 @@ import org.jetbrains.compose.web.dom.Text
 fun contributions() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span2) }) {}
+      Div({ classes(Style.Grid.borderX, Style.borderGray, Style.Grid.span2) }) {}
       Div({
         classes(
-          Style.borderR,
+          Style.Grid.borderR,
           Style.borderGray,
           Style.Grid.span10,
-          Style.pad2,
+          Style.paddingMedium,
           Style.Section.dotted,
           Style.Section.lime
         )

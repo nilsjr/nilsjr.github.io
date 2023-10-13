@@ -43,6 +43,7 @@ import org.jetbrains.compose.web.css.marginBottom
 import org.jetbrains.compose.web.css.marginLeft
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.maxWidth
+import org.jetbrains.compose.web.css.media
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.paddingLeft
@@ -66,7 +67,6 @@ object Style : StyleSheet() {
       margin(0.px)
       padding(0.px)
       boxSizing("border-box")
-
       border {
         width = 0.px
         style = LineStyle.Solid
@@ -92,19 +92,6 @@ object Style : StyleSheet() {
     }
   }
 
-  val borderB by style {
-    property("border-bottom-width", "1px")
-  }
-
-  val borderR by style {
-    property("border-right-width", "1px")
-  }
-
-  val borderX by style {
-    property("border-left-width", "1px")
-    property("border-right-width", "1px")
-  }
-
   val borderGray by style {
     property("--tw-border-opacity", "1")
     property("border-color", "rgb(215 221 228/var(--tw-border-opacity))")
@@ -123,26 +110,20 @@ object Style : StyleSheet() {
     maxWidth(300.px)
     width(100.percent)
     position(Position.Absolute)
+    property("margin", "0 auto")
     left(0.percent)
     right(0.percent)
-    property("margin", "0 auto")
     borderRadius(1.cssRem)
     border {
       width = 1.px
       style = LineStyle.Solid
       color = Color("#d7dde4")
     }
-
     property("transition", "opacity 1.5s ease-in")
   }
 
-  val hidden by style {
-    opacity(0)
-  }
-
-  val visible by style {
-    opacity(1)
-  }
+  val hidden by style { opacity(0) }
+  val visible by style { opacity(1) }
 
   val title by style {
     fontSize(6.cssRem)
@@ -151,13 +132,11 @@ object Style : StyleSheet() {
     marginLeft(32.px)
   }
 
-  val pad1 by style { padding(1.cssRem) }
-  val pad2 by style { padding(2.cssRem) }
-
+  val paddingMedium by style { padding(2.cssRem) }
   val smallMargin by style { marginTop(1.cssRem) }
   val smallMarginBottom by style { marginBottom(1.cssRem) }
-  val mediumMargin by style { marginTop(2.cssRem) }
-  val largeMargin by style { marginTop(4.cssRem) }
+//  val mediumMargin by style { marginTop(2.cssRem) }
+//  val largeMargin by style { marginTop(4.cssRem) }
 
   object Flex : StyleSheet(Style) {
 
@@ -165,6 +144,7 @@ object Style : StyleSheet() {
       display(DisplayStyle.Flex)
       justifyContent(JustifyContent.Center)
       alignItems(AlignItems.Center)
+      position(Position.Relative)
     }
 
     val alignLeft by style {
@@ -185,13 +165,10 @@ object Style : StyleSheet() {
       flexDirection(FlexDirection.Row)
     }
 
-    val center by style {
-      alignItems(AlignItems.Center)
-    }
+    val center by style { alignItems(AlignItems.Center) }
 
-    val gap1 by style {
-      gap(2.cssRem)
-    }
+    val gapSmall by style { gap(1.cssRem) }
+    val gapMedium by style { gap(2.cssRem) }
 
     val stretch by style {
       flex(1)
@@ -209,12 +186,6 @@ object Style : StyleSheet() {
       paddingRight(2.5.cssRem)
     }
 
-    val col6 by style {
-      display(DisplayStyle.Grid)
-      gridTemplateColumns("repeat(6,minmax(0,1fr))")
-      gap(1.cssRem)
-    }
-
     val span12 by style { gridColumn("span 12/span 12") }
     val span11 by style { gridColumn("span 11/span 11") }
     val span10 by style { gridColumn("span 10/span 10") }
@@ -226,6 +197,78 @@ object Style : StyleSheet() {
     val span4 by style { gridColumn("span 4/span 4") }
     val span2 by style { gridColumn("span 2/span 2") }
     val span1 by style { gridColumn("span 1/span 1") }
+
+    val borderB by style {
+      property("border-bottom-width", "1px")
+    }
+
+    val borderR by style {
+      property("border-right-width", "1px")
+    }
+
+    val borderL by style {
+      property("border-left-width", "1px")
+      media(mediaOnlyScreenMinWidth(1280.px)) {
+        self style { property("border-left-width", "0") }
+      }
+    }
+
+    val borderT by style {
+      property("border-top-width", "1px")
+      media(mediaOnlyScreenMinWidth(1280.px)) {
+        self style { property("border-top-width", "0") }
+      }
+    }
+
+    val borderX by style {
+      property("border-left-width", "1px")
+      property("border-right-width", "1px")
+    }
+
+    val description by style {
+      gridColumn("span 12/span 12")
+      media(mediaOnlyScreenMinWidth(768.px)) {
+        self style { gridColumn("span 6/span 6") }
+      }
+      media(mediaOnlyScreenMinWidth(896.px)) {
+        self style { gridColumn("span 8/span 8") }
+      }
+      media(mediaOnlyScreenMinWidth(1280.px)) {
+        self style { gridColumn("span 4/span 4") }
+      }
+    }
+
+    val image by style {
+      gridColumn("span 12/span 12")
+      media(mediaOnlyScreenMinWidth(768.px)) {
+        self style { gridColumn("span 6/span 6") }
+      }
+      media(mediaOnlyScreenMinWidth(896.px)) {
+        self style { gridColumn("span 4/span 4") }
+      }
+      media(mediaOnlyScreenMinWidth(1280.px)) {
+        self style { gridColumn("span 4/span 4") }
+      }
+    }
+
+    val experiments by style {
+      gridColumn("span 12/span 12")
+      display(DisplayStyle.Flex)
+      flexDirection(FlexDirection.Column)
+      gap(1.cssRem)
+      media(mediaOnlyScreenMinWidth(1280.px)) {
+        self style { gridColumn("span 4/span 4") }
+      }
+    }
+
+    val experimentsContainer by style {
+      display(DisplayStyle.Flex)
+      flexDirection(FlexDirection.Row)
+      gap(1.cssRem)
+      media(mediaOnlyScreenMinWidth(1280.px)) {
+        self style { flexDirection(FlexDirection.Column) }
+      }
+    }
   }
 
   object Section : StyleSheet(Style) {
@@ -329,7 +372,6 @@ object Style : StyleSheet() {
       height(80.px)
       display(DisplayStyle.Flex)
       alignItems(AlignItems.Center)
-
       property("transition", "transform .2s ease")
       self + hover style {
         transform {
@@ -394,7 +436,6 @@ object Style : StyleSheet() {
         }
         display(DisplayStyle.LegacyInlineFlex)
         alignItems("center")
-
         property("transition", "border .5s ease")
         desc(className(containerOverlay) + hover, self) style {
           border {

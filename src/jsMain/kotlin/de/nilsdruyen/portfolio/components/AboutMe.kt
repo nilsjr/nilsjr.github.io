@@ -11,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import de.nilsdruyen.portfolio.gridRow
 import de.nilsdruyen.portfolio.model.AboutMe
 import de.nilsdruyen.portfolio.model.Experiment
 import de.nilsdruyen.portfolio.model.Model
@@ -38,7 +37,15 @@ fun aboutMe() {
 
 @Composable
 private fun description() {
-  Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span4, Style.pad2, Style.Flex.column) }) {
+  Div({
+    classes(
+      Style.Grid.borderX,
+      Style.borderGray,
+      Style.Grid.description,
+      Style.paddingMedium,
+      Style.Flex.column
+    )
+  }) {
     P({ classes(Style.Section.title) }) { Text(AboutMe.TITLE) }
     P({ classes(Style.AboutMe.description) }) { Text(AboutMe.FIRST_LINE) }
     P({ classes(Style.AboutMe.description) }) { Text(AboutMe.SECOND_LINE) }
@@ -67,6 +74,7 @@ val images = listOf(
   "nils02",
   "nils03",
   "nils04",
+  "nils05",
 )
 
 @Composable
@@ -81,23 +89,13 @@ private fun image() {
     }
   }
 
-  Div({ classes(Style.borderR, Style.borderGray, Style.Grid.span4, Style.pad2, Style.Flex.container) }) {
-    Img(
-      src = "assets/nils.jpg",
-      attrs = { classes(Style.profileImage, addStyle(image == "nils")) }
-    )
-    Img(
-      src = "assets/nils02.jpg",
-      attrs = { classes(Style.profileImage, addStyle(image == "nils02")) }
-    )
-    Img(
-      src = "assets/nils03.jpg",
-      attrs = { classes(Style.profileImage, addStyle(image == "nils03")) }
-    )
-    Img(
-      src = "assets/nils04.jpg",
-      attrs = { classes(Style.profileImage, addStyle(image == "nils04")) }
-    )
+  Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Grid.image, Style.paddingMedium, Style.Flex.container) }) {
+    images.forEach {
+      Img(
+        src = "assets/$it.jpg",
+        attrs = { classes(Style.profileImage, addStyle(image == it)) }
+      )
+    }
   }
 }
 
@@ -107,17 +105,20 @@ fun addStyle(show: Boolean) = if (show) Style.visible else Style.hidden
 private fun experiments() {
   Div({
     classes(
-      Style.borderR,
       Style.borderGray,
+      Style.paddingMedium,
       Style.Section.blue,
       Style.Section.dotted,
-      Style.Grid.span4,
-      Style.Grid.col6,
-      Style.pad2,
+      Style.Grid.borderR,
+      Style.Grid.borderL,
+      Style.Grid.borderT,
+      Style.Grid.experiments,
     )
   }) {
     P({ classes(Style.Grid.span6, Style.Section.title) }) { Text("Experiments") }
-    Model.experiments.forEach { experiment(it) }
+    Div({ classes(Style.Grid.experimentsContainer) }) {
+      Model.experiments.forEach { experiment(it) }
+    }
   }
 }
 

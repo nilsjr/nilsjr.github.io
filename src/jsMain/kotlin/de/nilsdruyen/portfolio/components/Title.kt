@@ -16,16 +16,24 @@ import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun title() {
-  Header({ classes(Style.borderB, Style.borderGray) }) {
+  Header({ classes(Style.Grid.borderB, Style.borderGray) }) {
     Div({
       classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto)
       style { height(160.px) }
     }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span6, Style.Flex.container, Style.Flex.alignLeft) }) {
+      Div({
+        classes(
+          Style.Grid.borderX,
+          Style.borderGray,
+          Style.Grid.span6,
+          Style.Flex.container,
+          Style.Flex.alignLeft,
+        )
+      }) {
         P({ classes(Style.title) }) { Text("nilsjr.") }
       }
-      Div({ classes(Style.borderR, Style.borderGray, Style.Grid.span1) }) {}
-      Div({ classes(Style.borderR, Style.borderGray, Style.Section.gradient, Style.Grid.span5) }) {}
+      Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Grid.span1) }) {}
+      Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Section.gradient, Style.Grid.span5) }) {}
     }
   }
 }

@@ -6,7 +6,6 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.gridRow
 import de.nilsdruyen.portfolio.model.Model
 import de.nilsdruyen.portfolio.model.Project
 import de.nilsdruyen.portfolio.ui.Colors
@@ -29,8 +28,16 @@ import org.jetbrains.compose.web.svg.width
 fun projects() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span12, Style.Section.dotted, Style.Section.orange) }) {
-        Div({ classes(Style.pad2) }) {
+      Div({
+        classes(
+          Style.Grid.borderX,
+          Style.borderGray,
+          Style.Grid.span12,
+          Style.Section.dotted,
+          Style.Section.orange,
+        )
+      }) {
+        Div({ classes(Style.paddingMedium) }) {
           P({ classes(Style.Section.title) }) { Text("Projects") }
           Div({ classes(Style.Projects.grid) }) {
             Model.projects.forEach { project(it) }

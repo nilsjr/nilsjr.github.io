@@ -6,7 +6,6 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.gridRow
 import de.nilsdruyen.portfolio.model.Model
 import de.nilsdruyen.portfolio.ui.Style
 import org.jetbrains.compose.web.attributes.ATarget
@@ -27,7 +26,7 @@ import org.jetbrains.compose.web.dom.Text
 fun work() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span5, Style.pad2) }) {
+      Div({ classes(Style.Grid.borderX, Style.borderGray, Style.Grid.span5, Style.paddingMedium) }) {
         P({ classes(Style.Section.title) }) { Text("Work") }
         P({ classes(Style.Section.subtitle, Style.smallMargin) }) {
           Model.timeline.forEach {
@@ -44,14 +43,14 @@ fun work() {
 private fun interests() {
   Div({
     classes(
-      Style.borderR,
       Style.borderGray,
+      Style.paddingMedium,
       Style.Section.gradient,
+      Style.Grid.borderR,
       Style.Grid.span7,
-      Style.pad2,
       Style.Flex.column,
       Style.Flex.center,
-      Style.Flex.gap1,
+      Style.Flex.gapMedium,
     )
     style { paddingBottom(1.cssRem) }
   }) {

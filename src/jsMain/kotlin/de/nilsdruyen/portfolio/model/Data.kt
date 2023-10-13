@@ -7,12 +7,13 @@ package de.nilsdruyen.portfolio.model
 
 import de.nilsdruyen.portfolio.ui.Icons
 
+@Suppress("MaxLineLength")
 object AboutMe {
   const val TITLE = "About me"
   const val FIRST_LINE =
-    "I'm a passionate Android developer since 2012 working on several B2B & B2C apps with over 5 Mio. users worldwide."
+    "I'm a passionate Android developer since 2012 working on several B2B & B2C apps with over 10m users worldwide."
   const val SECOND_LINE =
-    "I live on a small farm on the beautiful Lower Rhine \uD83C\uDDE9\uD83C\uDDEA and work from the home office."
+    "I live on a small farm on the beautiful Lower Rhine \uD83C\uDDE9\uD83C\uDDEA and love to work from the home office."
   const val THIRD_LINE =
     "I like to explore and dig deep in new stuff like kotlin multiplatform, compose multiplatform and beyond."
 }

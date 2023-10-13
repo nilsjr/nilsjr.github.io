@@ -17,12 +17,20 @@ import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun footer() {
-  Footer({ classes(Style.borderB, Style.borderGray) }) {
+  Footer({ classes(Style.Grid.borderB, Style.borderGray) }) {
     Div({
       classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto)
       style { height(120.px) }
     }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span12, Style.Flex.column, Style.Flex.alignCenter) }) {
+      Div({
+        classes(
+          Style.Grid.borderX,
+          Style.borderGray,
+          Style.Grid.span12,
+          Style.Flex.column,
+          Style.Flex.alignCenter,
+        )
+      }) {
         P({ classes(Style.Footer.text) }) { Text("built with love & kotlin multiplatform <3") }
         Br { }
         P({ classes(Style.Footer.text) }) { Text("© 2023 Nils Druyen") }
