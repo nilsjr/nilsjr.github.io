@@ -30,7 +30,7 @@ fun projects() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
       Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span12, Style.Section.dotted, Style.Section.orange) }) {
-        Div({ classes(Style.pad1) }) {
+        Div({ classes(Style.pad2) }) {
           P({ classes(Style.Section.title) }) { Text("Projects") }
           Div({ classes(Style.Projects.grid) }) {
             Model.projects.forEach { project(it) }

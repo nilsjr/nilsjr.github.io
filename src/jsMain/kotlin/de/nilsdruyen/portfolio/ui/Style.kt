@@ -146,7 +146,7 @@ object Style : StyleSheet() {
 
   val title by style {
     fontSize(6.cssRem)
-    letterSpacing(6.px)
+    letterSpacing(8.px)
     fontWeight(600)
     marginLeft(32.px)
   }
@@ -231,8 +231,8 @@ object Style : StyleSheet() {
   object Section : StyleSheet(Style) {
 
     val title by style {
-      fontSize(24.px)
-      fontWeight(600)
+      fontSize(30.px)
+      fontWeight(500)
       color(Colors.DarkGrey)
     }
     val title2 by style {
@@ -287,13 +287,11 @@ object Style : StyleSheet() {
 
     @OptIn(ExperimentalComposeWebApi::class)
     val profileLink by style {
-      marginLeft(16.px)
+      marginLeft(20.px)
       opacity(.6)
       property("transition", "all .2s ease")
       self + hover style {
-        transform {
-          scale(1.2)
-        }
+        transform { scale(1.2) }
         opacity(1)
       }
     }
@@ -348,7 +346,7 @@ object Style : StyleSheet() {
     val grid by style {
       display(DisplayStyle.Grid)
       gridTemplateColumns("repeat(6,minmax(0,1fr))")
-      gap(1.cssRem)
+      gap(2.cssRem)
       position(Position.Relative)
       marginTop(1.cssRem)
     }

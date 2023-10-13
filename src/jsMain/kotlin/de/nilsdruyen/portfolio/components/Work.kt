@@ -27,7 +27,7 @@ import org.jetbrains.compose.web.dom.Text
 fun work() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span5, Style.pad1) }) {
+      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span5, Style.pad2) }) {
         P({ classes(Style.Section.title) }) { Text("Work") }
         P({ classes(Style.Section.subtitle, Style.smallMargin) }) {
           Model.timeline.forEach {
@@ -48,7 +48,7 @@ private fun interests() {
       Style.borderGray,
       Style.Section.gradient,
       Style.Grid.span7,
-      Style.pad1,
+      Style.pad2,
       Style.Flex.column,
       Style.Flex.center,
       Style.Flex.gap1,

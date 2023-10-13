@@ -27,7 +27,7 @@ fun contributions() {
           Style.borderR,
           Style.borderGray,
           Style.Grid.span10,
-          Style.pad1,
+          Style.pad2,
           Style.Section.dotted,
           Style.Section.lime
         )
