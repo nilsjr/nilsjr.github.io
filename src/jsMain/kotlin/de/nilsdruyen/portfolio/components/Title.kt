@@ -21,7 +21,7 @@ fun title() {
       classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto)
       style { height(200.px) }
     }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span6, Style.Flex.container) }) {
+      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span6, Style.Flex.container, Style.Flex.alignLeft) }) {
         P({ classes(Style.title) }) { Text("nilsjr.") }
       }
       Div({ classes(Style.borderR, Style.borderGray, Style.Grid.span1) }) {}

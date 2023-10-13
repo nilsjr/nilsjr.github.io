@@ -17,7 +17,8 @@ object AboutMe {
   const val FIRST_LINE = "I'm a passionate Android developer since 2012 working on several B2B & B2C apps."
   const val SECOND_LINE =
     "I live on a small farm on the beautiful Lower Rhine \uD83C\uDDE9\uD83C\uDDEA and work from the home office."
-  const val THIRD_LINE = "I like to explore and dig deep in new stuff like kotlin & compose multiplatform."
+  const val THIRD_LINE =
+    "I like to explore and dig deep in new stuff like kotlin multiplatform, compose multiplatform and beyond."
 }
 
 object Model {

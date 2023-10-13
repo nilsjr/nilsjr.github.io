@@ -49,6 +49,7 @@ import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
+import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.transform
 import org.jetbrains.compose.web.css.value
@@ -146,7 +147,7 @@ object Style : StyleSheet() {
 
   val dotted by style {
     backgroundPosition("50%")
-    backgroundColor(rgba(242, 246, 250, .3))
+    backgroundColor(rgba(242, 246, 250, .4))
     property(
       "background-image",
       """
@@ -175,6 +176,14 @@ object Style : StyleSheet() {
       display(DisplayStyle.Flex)
       justifyContent(JustifyContent.Center)
       alignItems(AlignItems.Center)
+    }
+
+    val alignLeft by style {
+      justifyContent(JustifyContent.Left)
+    }
+
+    val alignCenter by style {
+      justifyContent(JustifyContent.Center)
     }
 
     val column by style {
@@ -253,11 +262,13 @@ object Style : StyleSheet() {
     @OptIn(ExperimentalComposeWebApi::class)
     val profileLink by style {
       marginLeft(16.px)
-      property("transition", "transform .2s")
+      property("transition", "all .2s ease")
+      opacity(.6)
       self + hover style {
         transform {
           scale(1.2)
         }
+        opacity(1)
       }
     }
   }
@@ -371,6 +382,16 @@ object Style : StyleSheet() {
         alignItems(AlignItems.Center)
         marginLeft(.5.cssRem)
       }
+    }
+  }
+
+  object Footer : StyleSheet(Style) {
+
+    val text by style {
+      fontSize(14.px)
+      fontWeight(500)
+      textAlign("center")
+      opacity(.5)
     }
   }
 }

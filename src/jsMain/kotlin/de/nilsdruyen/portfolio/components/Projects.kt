@@ -29,10 +29,12 @@ import org.jetbrains.compose.web.svg.width
 fun projects() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.dotted, Style.Grid.span12, Style.pad1) }) {
-        P({ classes(Style.Section.title) }) { Text("Projects") }
-        Div({ classes(Style.Projects.grid) }) {
-          Model.projects.forEach { project(it) }
+      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span12, Style.dotted) }) {
+        Div({ classes(Style.pad1) }) {
+          P({ classes(Style.Section.title) }) { Text("Projects") }
+          Div({ classes(Style.Projects.grid) }) {
+            Model.projects.forEach { project(it) }
+          }
         }
       }
     }
