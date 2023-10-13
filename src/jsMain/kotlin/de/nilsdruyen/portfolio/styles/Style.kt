@@ -84,7 +84,6 @@ object Style : StyleSheet() {
 
     "a" style {
       textDecoration("none")
-//      color(Colors.Blue)
       fontSize(2.cssRem)
       fontWeight(500)
     }
@@ -126,16 +125,6 @@ object Style : StyleSheet() {
       style = LineStyle.Solid
       color = Color("#d7dde4")
     }
-//    opacity(80.percent)
-//    filter {
-//      grayscale(1)
-//    }
-//    property("transition", "all .5s ease")
-//    self + hover style {
-//      filter {
-//        grayscale(0)
-//      }
-//    }
   }
 
   val title by style {
@@ -150,16 +139,7 @@ object Style : StyleSheet() {
     backgroundColor(rgba(242, 246, 250, .4))
     property(
       "background-image",
-      """
-        url(\"data:image/svg+xml,%3Csvg 
-        width='16' 
-        height='16'
-        viewBox='0 0 16 16' 
-        fill='none' 
-        xmlns='http://www.w3.org/2000/svg'%3E%3Cpath 
-        d='M1.5 0.75C1.5 1.16421 1.16421 1.5 0.75 1.5C0.335786 1.5 0 1.16421 0 0.75C0 0.335786 0.335786 0 0.75 0C1.16421 0 1.5 0.335786 1.5 0.75Z' 
-        fill='%23D7DDE4'/%3E%3C/svg%3E%0A\")
-      """.trimIndent()
+      "url(\"data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 0.75C1.5 1.16421 1.16421 1.5 0.75 1.5C0.335786 1.5 0 1.16421 0 0.75C0 0.335786 0.335786 0 0.75 0C1.16421 0 1.5 0.335786 1.5 0.75Z' fill='%23D7DDE4'/%3E%3C/svg%3E%0A\")"
     )
   }
 
