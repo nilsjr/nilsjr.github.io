@@ -35,6 +35,7 @@ import org.jetbrains.compose.web.css.gridColumn
 import org.jetbrains.compose.web.css.gridTemplateColumns
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
+import org.jetbrains.compose.web.css.left
 import org.jetbrains.compose.web.css.letterSpacing
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
@@ -50,6 +51,7 @@ import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
+import org.jetbrains.compose.web.css.right
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.transform
@@ -120,12 +122,26 @@ object Style : StyleSheet() {
   val profileImage by style {
     maxWidth(300.px)
     width(100.percent)
+    position(Position.Absolute)
+    left(0.percent)
+    right(0.percent)
+    property("margin", "0 auto")
     borderRadius(1.cssRem)
     border {
       width = 1.px
       style = LineStyle.Solid
       color = Color("#d7dde4")
     }
+
+    property("transition", "opacity 1.5s ease-in")
+  }
+
+  val hidden by style {
+    opacity(0)
+  }
+
+  val visible by style {
+    opacity(1)
   }
 
   val title by style {

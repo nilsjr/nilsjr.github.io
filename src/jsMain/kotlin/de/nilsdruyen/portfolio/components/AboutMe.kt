@@ -6,11 +6,17 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import de.nilsdruyen.portfolio.gridRow
 import de.nilsdruyen.portfolio.model.AboutMe
 import de.nilsdruyen.portfolio.model.Experiment
 import de.nilsdruyen.portfolio.model.Model
 import de.nilsdruyen.portfolio.ui.Style
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.web.attributes.ATarget
 import org.jetbrains.compose.web.attributes.target
 import org.jetbrains.compose.web.dom.A
@@ -56,15 +62,46 @@ private fun social() {
   }
 }
 
+val images = listOf(
+  "nils",
+  "nils02",
+  "nils03",
+  "nils04",
+)
+
 @Composable
 private fun image() {
+  var image by remember { mutableStateOf("nils") }
+
+  LaunchedEffect(Unit) {
+    while (true) {
+      delay(5_000)
+      val randomList = images.filter { it != image }
+      image = randomList.random()
+    }
+  }
+
   Div({ classes(Style.borderR, Style.borderGray, Style.Grid.span4, Style.pad2, Style.Flex.container) }) {
     Img(
       src = "assets/nils.jpg",
-      attrs = { classes(Style.profileImage) }
+      attrs = { classes(Style.profileImage, addStyle(image == "nils")) }
+    )
+    Img(
+      src = "assets/nils02.jpg",
+      attrs = { classes(Style.profileImage, addStyle(image == "nils02")) }
+    )
+    Img(
+      src = "assets/nils03.jpg",
+      attrs = { classes(Style.profileImage, addStyle(image == "nils03")) }
+    )
+    Img(
+      src = "assets/nils04.jpg",
+      attrs = { classes(Style.profileImage, addStyle(image == "nils04")) }
     )
   }
 }
+
+fun addStyle(show: Boolean) = if (show) Style.visible else Style.hidden
 
 @Composable
 private fun experiments() {
