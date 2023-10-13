@@ -7,4 +7,7 @@ package de.nilsdruyen.portfolio.model
 
 data class Interest(
   val name: String,
+  val link: String,
+  val iconName: String,
+  val iconHeight: Int = 50,
 )

@@ -19,7 +19,6 @@ object Icons {
 
   private const val ICON_SIZE = 36
 
-
   @OptIn(ExperimentalComposeWebSvgApi::class)
   @Composable
   fun github() {

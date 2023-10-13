@@ -1,9 +1,9 @@
 /*
- * Created by Nils Druyen on 12-27-2021
- * Copyright © 2021 Nils Druyen. All rights reserved.
+ * Created by Nils Druyen on 10-13-2023
+ * Copyright © 2023 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.styles
+package de.nilsdruyen.portfolio.ui
 
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.AlignItems
@@ -38,6 +38,7 @@ import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.letterSpacing
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.marginBottom
 import org.jetbrains.compose.web.css.marginLeft
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.maxWidth
@@ -134,19 +135,11 @@ object Style : StyleSheet() {
     marginLeft(32.px)
   }
 
-  val dotted by style {
-    backgroundPosition("50%")
-    backgroundColor(rgba(242, 246, 250, .4))
-    property(
-      "background-image",
-      "url(\"data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 0.75C1.5 1.16421 1.16421 1.5 0.75 1.5C0.335786 1.5 0 1.16421 0 0.75C0 0.335786 0.335786 0 0.75 0C1.16421 0 1.5 0.335786 1.5 0.75Z' fill='%23D7DDE4'/%3E%3C/svg%3E%0A\")"
-    )
-  }
-
   val pad1 by style { padding(1.cssRem) }
   val pad2 by style { padding(2.cssRem) }
 
   val smallMargin by style { marginTop(1.cssRem) }
+  val smallMarginBottom by style { marginBottom(1.cssRem) }
   val mediumMargin by style { marginTop(2.cssRem) }
   val largeMargin by style { marginTop(4.cssRem) }
 
@@ -170,6 +163,25 @@ object Style : StyleSheet() {
       display(DisplayStyle.Flex)
       flexDirection(FlexDirection.Column)
     }
+
+    val row by style {
+      display(DisplayStyle.Flex)
+      flexDirection(FlexDirection.Row)
+    }
+
+    val center by style {
+      alignItems(AlignItems.Center)
+    }
+
+    val gap1 by style {
+      gap(2.cssRem)
+    }
+
+    val stretch by style {
+      flex(1)
+      display(DisplayStyle.Flex)
+      justifyContent(JustifyContent.Center)
+    }
   }
 
   object Grid : StyleSheet(Style) {
@@ -188,7 +200,11 @@ object Style : StyleSheet() {
     }
 
     val span12 by style { gridColumn("span 12/span 12") }
+    val span11 by style { gridColumn("span 11/span 11") }
+    val span10 by style { gridColumn("span 10/span 10") }
+    val span9 by style { gridColumn("span 9/span 9") }
     val span8 by style { gridColumn("span 8/span 8") }
+    val span7 by style { gridColumn("span 7/span 7") }
     val span6 by style { gridColumn("span 6/span 6") }
     val span5 by style { gridColumn("span 5/span 5") }
     val span4 by style { gridColumn("span 4/span 4") }
@@ -220,6 +236,20 @@ object Style : StyleSheet() {
     val flexItem by style {
       flex(1, 1, 0.percent)
     }
+
+    val blue by style { backgroundColor(rgba(242, 246, 250, .4)) }
+    val lime by style { backgroundColor(rgba(132, 250, 207, .1)) }
+    val orange by style { backgroundColor(rgba(252, 229, 184, .1)) }
+    val red by style { backgroundColor(rgba(242, 246, 250, .5)) }
+
+    @Suppress("MaxLineLength")
+    val dotted by style {
+      backgroundPosition("50%")
+      property(
+        "background-image",
+        "url(\"data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 0.75C1.5 1.16421 1.16421 1.5 0.75 1.5C0.335786 1.5 0 1.16421 0 0.75C0 0.335786 0.335786 0 0.75 0C1.16421 0 1.5 0.335786 1.5 0.75Z' fill='%23D7DDE4'/%3E%3C/svg%3E%0A\")"
+      )
+    }
   }
 
   object AboutMe : StyleSheet(Style) {
@@ -242,8 +272,8 @@ object Style : StyleSheet() {
     @OptIn(ExperimentalComposeWebApi::class)
     val profileLink by style {
       marginLeft(16.px)
-      property("transition", "all .2s ease")
       opacity(.6)
+      property("transition", "all .2s ease")
       self + hover style {
         transform {
           scale(1.2)
@@ -273,6 +303,24 @@ object Style : StyleSheet() {
       property("transition", "all .5s ease")
       self + hover style {
         variable("exp-bg-opacity", 0)
+      }
+    }
+  }
+
+  object Work : StyleSheet(Style) {
+
+    @OptIn(ExperimentalComposeWebApi::class)
+    val interestLink by style {
+      property("width", "min-content")
+      height(80.px)
+      display(DisplayStyle.Flex)
+      alignItems(AlignItems.Center)
+
+      property("transition", "transform .2s ease")
+      self + hover style {
+        transform {
+          scale(1.1)
+        }
       }
     }
   }

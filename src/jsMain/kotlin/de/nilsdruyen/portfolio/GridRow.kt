@@ -6,7 +6,7 @@
 package de.nilsdruyen.portfolio
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.styles.Style
+import de.nilsdruyen.portfolio.ui.Style
 import org.jetbrains.compose.web.dom.Div
 
 @Composable

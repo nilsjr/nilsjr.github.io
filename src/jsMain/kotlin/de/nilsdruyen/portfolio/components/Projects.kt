@@ -6,11 +6,11 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.data.Model
 import de.nilsdruyen.portfolio.gridRow
+import de.nilsdruyen.portfolio.model.Model
 import de.nilsdruyen.portfolio.model.Project
-import de.nilsdruyen.portfolio.styles.Colors
-import de.nilsdruyen.portfolio.styles.Style
+import de.nilsdruyen.portfolio.ui.Colors
+import de.nilsdruyen.portfolio.ui.Style
 import org.jetbrains.compose.web.ExperimentalComposeWebSvgApi
 import org.jetbrains.compose.web.attributes.ATarget
 import org.jetbrains.compose.web.attributes.target
@@ -29,7 +29,7 @@ import org.jetbrains.compose.web.svg.width
 fun projects() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span12, Style.dotted) }) {
+      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span12, Style.Section.dotted, Style.Section.orange) }) {
         Div({ classes(Style.pad1) }) {
           P({ classes(Style.Section.title) }) { Text("Projects") }
           Div({ classes(Style.Projects.grid) }) {

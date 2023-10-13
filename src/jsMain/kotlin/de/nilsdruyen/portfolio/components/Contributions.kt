@@ -6,9 +6,13 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.data.Model
 import de.nilsdruyen.portfolio.gridRow
-import de.nilsdruyen.portfolio.styles.Style
+import de.nilsdruyen.portfolio.model.Model
+import de.nilsdruyen.portfolio.model.Project
+import de.nilsdruyen.portfolio.ui.Style
+import org.jetbrains.compose.web.attributes.ATarget
+import org.jetbrains.compose.web.attributes.target
+import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
@@ -17,15 +21,41 @@ import org.jetbrains.compose.web.dom.Text
 fun contributions() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
-      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span6, Style.pad1) }) {
+      Div({ classes(Style.borderX, Style.borderGray, Style.Grid.span2) }) {}
+      Div({
+        classes(
+          Style.borderR,
+          Style.borderGray,
+          Style.Grid.span10,
+          Style.pad1,
+          Style.Section.dotted,
+          Style.Section.lime
+        )
+      }) {
         P({ classes(Style.Section.title) }) { Text("Contributions") }
-        Model.contributions.forEach {
-          P({ classes(Style.AboutMe.description) }) { Text(it.title) }
+        Div({ classes(Style.Projects.grid) }) {
+          Model.contributions.forEach {
+            project(it)
+          }
         }
       }
-      Div({ classes(Style.borderR, Style.borderGray, Style.Grid.span6, Style.pad1) }) {
-        P({ classes(Style.Section.title) }) { Text("Links") }
-        P({ classes(Style.Section.subtitle, Style.smallMargin) }) { Text("tbd.") }
+    }
+  }
+}
+
+@Composable
+private fun project(project: Project) {
+  Div({ classes(Style.Grid.span2, Style.Projects.container) }) {
+    A(
+      href = project.link,
+      attrs = {
+        target(ATarget.Blank)
+        classes(Style.Projects.containerOverlay)
+      }
+    ) {
+      Div({ classes(Style.Projects.containerInner) }) {
+        P({ classes(Style.Section.title2) }) { Text(project.title) }
+        P({ classes(Style.Section.subtitle, Style.Section.flexItem, Style.smallMargin) }) { Text(project.subtitle) }
       }
     }
   }

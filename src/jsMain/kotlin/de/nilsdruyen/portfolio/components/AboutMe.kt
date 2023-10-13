@@ -6,11 +6,11 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.data.AboutMe
-import de.nilsdruyen.portfolio.data.Model
 import de.nilsdruyen.portfolio.gridRow
+import de.nilsdruyen.portfolio.model.AboutMe
 import de.nilsdruyen.portfolio.model.Experiment
-import de.nilsdruyen.portfolio.styles.Style
+import de.nilsdruyen.portfolio.model.Model
+import de.nilsdruyen.portfolio.ui.Style
 import org.jetbrains.compose.web.attributes.ATarget
 import org.jetbrains.compose.web.attributes.target
 import org.jetbrains.compose.web.dom.A
@@ -68,7 +68,17 @@ private fun image() {
 
 @Composable
 private fun experiments() {
-  Div({ classes(Style.borderR, Style.borderGray, Style.dotted, Style.Grid.span4, Style.Grid.col6, Style.pad2) }) {
+  Div({
+    classes(
+      Style.borderR,
+      Style.borderGray,
+      Style.Section.blue,
+      Style.Section.dotted,
+      Style.Grid.span4,
+      Style.Grid.col6,
+      Style.pad2,
+    )
+  }) {
     P({ classes(Style.Grid.span6, Style.Section.title) }) { Text("Experiments") }
     Model.experiments.forEach { experiment(it) }
   }

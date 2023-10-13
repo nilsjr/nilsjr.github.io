@@ -3,7 +3,7 @@
  * Copyright © 2023 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.styles
+package de.nilsdruyen.portfolio.ui
 
 import org.jetbrains.compose.web.css.StyleScope
 

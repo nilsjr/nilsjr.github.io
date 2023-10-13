@@ -1,15 +1,10 @@
 /*
- * Created by Nils Druyen on 07-31-2022
- * Copyright © 2022 Nils Druyen. All rights reserved.
+ * Created by Nils Druyen on 10-13-2023
+ * Copyright © 2023 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.data
+package de.nilsdruyen.portfolio.model
 
-import de.nilsdruyen.portfolio.model.Experiment
-import de.nilsdruyen.portfolio.model.Interest
-import de.nilsdruyen.portfolio.model.ProfileLink
-import de.nilsdruyen.portfolio.model.Project
-import de.nilsdruyen.portfolio.model.Work
 import de.nilsdruyen.portfolio.ui.Icons
 
 object AboutMe {
@@ -92,9 +87,23 @@ object Model {
   )
 
   val interests = listOf(
-    Interest("Kotlin"),
-    Interest("Android"),
-    Interest("Kotlin Mulitplatform"),
-    Interest("Compose Mulitplatform"),
+    Interest(
+      "Kotlin Mulitplatform",
+      "https://kotlinlang.org/",
+      "kotlin",
+      40,
+    ),
+    Interest(
+      "Android",
+      "https://developer.android.com/",
+      "android-robot",
+      50,
+    ),
+    Interest(
+      "Compose Mulitplatform",
+      "https://www.jetbrains.com/de-de/lp/compose-multiplatform/",
+      "compose-logo",
+      70,
+    ),
   )
 }

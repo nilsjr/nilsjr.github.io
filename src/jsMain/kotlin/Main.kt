@@ -4,7 +4,7 @@
  */
 
 import de.nilsdruyen.portfolio.page
-import de.nilsdruyen.portfolio.styles.Style
+import de.nilsdruyen.portfolio.ui.Style
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.renderComposable
 
