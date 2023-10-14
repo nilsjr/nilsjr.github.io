@@ -6,23 +6,22 @@
 package de.nilsdruyen.portfolio
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.components.AboutMe
-import de.nilsdruyen.portfolio.components.Footer
-import de.nilsdruyen.portfolio.components.Header
-import de.nilsdruyen.portfolio.components.Navigation
-import de.nilsdruyen.portfolio.components.Projects
-import de.nilsdruyen.portfolio.components.Skills
-import de.nilsdruyen.portfolio.components.Timeline
+import de.nilsdruyen.portfolio.components.aboutMe
+import de.nilsdruyen.portfolio.components.contributions
+import de.nilsdruyen.portfolio.components.footer
+import de.nilsdruyen.portfolio.components.placeholder
+import de.nilsdruyen.portfolio.components.projects
+import de.nilsdruyen.portfolio.components.title
+import de.nilsdruyen.portfolio.components.work
 
 @Composable
-fun WebPage() {
-  println("recompose")
-
-  Navigation()
-  Header()
-  AboutMe()
-  Timeline()
-  Skills()
-  Projects()
-  Footer()
+fun page() {
+  placeholder()
+  title()
+  aboutMe()
+  work()
+  projects()
+  contributions()
+  footer()
+  placeholder()
 }

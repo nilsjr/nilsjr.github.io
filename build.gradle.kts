@@ -1,7 +1,6 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
@@ -25,6 +24,7 @@ kotlin {
     val jsMain by getting {
       dependencies {
         implementation(compose.html.core)
+        implementation(compose.html.svg)
         implementation(compose.runtime)
       }
     }
@@ -54,19 +54,19 @@ rootProject.plugins.withType<YarnPlugin> {
     lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
 
     resolution("async", "2.6.4")
-    resolution("engine.io", "6.2.1")
+    resolution("engine.io", "6.4.2")
     resolution("eventsource", "1.1.1")
     resolution("express", "4.17.3")
     resolution("loader-utils", "2.0.4")
     resolution("minimist", "1.2.6")
     resolution("node-forge", "1.3.0")
-    resolution("url-parse", "1.5.8")
+    resolution("url-parse", "1.5.9")
     resolution("qs", "6.9.7")
     resolution("socket.io-parser", "4.2.3")
     resolution("ua-parser-js", "0.7.33")
     resolution("json5", "2.2.2")
     resolution("minimatch", "3.0.5")
-    resolution("follow-redirects", "1.14.7")
+    resolution("follow-redirects", "1.14.8")
   }
   rootProject.the<NodeJsRootExtension>().apply {
     versions.webpackDevServer.version = libs.versions.webpackDevServer.get()

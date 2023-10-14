@@ -1,60 +1,97 @@
 /*
- * Created by Nils Druyen on 07-29-2022
- * Copyright © 2022 Nils Druyen. All rights reserved.
+ * Created by Nils Druyen on 10-10-2023
+ * Copyright © 2023 Nils Druyen. All rights reserved.
  */
 
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.data.models.Project
-import de.nilsdruyen.portfolio.data.projects
-import de.nilsdruyen.portfolio.styles.WebPageStyle
-import kotlinx.browser.window
-import org.jetbrains.compose.web.dom.Button
+import de.nilsdruyen.portfolio.model.Model
+import de.nilsdruyen.portfolio.model.Project
+import de.nilsdruyen.portfolio.ui.Colors
+import de.nilsdruyen.portfolio.ui.Style
+import org.jetbrains.compose.web.ExperimentalComposeWebSvgApi
+import org.jetbrains.compose.web.attributes.ATarget
+import org.jetbrains.compose.web.attributes.target
+import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.H1
-import org.jetbrains.compose.web.dom.Section
+import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.svg.Path
+import org.jetbrains.compose.web.svg.Svg
+import org.jetbrains.compose.web.svg.fill
+import org.jetbrains.compose.web.svg.height
+import org.jetbrains.compose.web.svg.width
 
 @Composable
-fun Projects() {
-  val openLink: (String) -> Unit = {
-    window.open(url = it, target = "_blank")
-  }
-
-  Section({
-    id("projects")
-    classes(WebPageStyle.Projects.section)
-  }) {
-    H1({ classes(WebPageStyle.Projects.projectHeading) }) {
-      Text("some of my projects")
-    }
-    Div({ classes(WebPageStyle.Projects.projectContainer) }) {
-      projects.forEach {
-        ProjectItem(it, openLink)
+fun projects() {
+  gridRow {
+    Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
+      Div({
+        classes(
+          Style.Grid.borderX,
+          Style.borderGray,
+          Style.Grid.span12,
+          Style.Section.dotted,
+          Style.Section.orange,
+        )
+      }) {
+        Div({ classes(Style.paddingMedium) }) {
+          P({ classes(Style.Section.title) }) { Text("Projects") }
+          Div({ classes(Style.Projects.grid) }) {
+            Model.projects.forEach { project(it) }
+          }
+        }
       }
     }
   }
 }
 
 @Composable
-fun ProjectItem(project: Project, openLink: (url: String) -> Unit) {
-  Div({
-    classes(WebPageStyle.Projects.projectItemContainer)
-  }) {
-    Div({
-      classes(WebPageStyle.Projects.projectItemContent)
-    }) {
-      H1({ classes(WebPageStyle.Projects.projectTitle) }) {
-        Text(project.name)
+private fun project(project: Project) {
+  Div({ classes(Style.Grid.span2, Style.Projects.container) }) {
+    A(
+      href = project.link,
+      attrs = {
+        target(ATarget.Blank)
+        classes(Style.Projects.containerOverlay)
       }
-      Button({
-        classes(WebPageStyle.Projects.projectBtn)
-        onClick {
-          openLink(project.link)
+    ) {
+      Div({ classes(Style.Projects.containerInner) }) {
+        P({ classes(Style.Section.title2) }) { Text(project.title) }
+        P({ classes(Style.Section.subtitle, Style.Section.flexItem, Style.smallMargin) }) { Text(project.subtitle) }
+        viewMore()
+      }
+    }
+  }
+}
+
+@OptIn(ExperimentalComposeWebSvgApi::class)
+@Composable
+private fun viewMore() {
+  Div({ classes(Style.Projects.Button.container, Style.smallMargin) }) {
+    Div({ classes(Style.Projects.Button.text) }) { Text("View more") }
+    Div({ classes(Style.Projects.Button.icon) }) {
+      Svg(
+        viewBox = "0 0 8 8",
+        attrs = {
+          width(.5.cssRem)
+          height(.5.cssRem)
+          fill("none")
         }
-      }) {
-        Text("Show me")
+      ) {
+        Path(
+          d = "M6.8291 6.82849L6.8291 1.17163M6.8291 1.17163L1.17225 1.17163M6.8291 1.17163L1.17188 6.82849",
+          attrs = {
+            style {
+              property("stroke", Colors.Blue)
+              property("stroke-width", "1.5")
+              property("stroke-linecap", "round")
+              property("stroke-linejoin", "round")
+            }
+          },
+        )
       }
     }
   }

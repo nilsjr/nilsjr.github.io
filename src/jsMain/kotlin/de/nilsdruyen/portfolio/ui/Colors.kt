@@ -3,15 +3,14 @@
  * Copyright © 2022 Nils Druyen. All rights reserved.
  */
 
-package de.nilsdruyen.portfolio.styles
+package de.nilsdruyen.portfolio.ui
 
 import org.jetbrains.compose.web.css.Color
 
 object Colors {
 
-  const val Blue = "#002147"
-  const val Grey = "#f2f2f2"
-  const val LightBlue = "#213a57"
+  val Blue = "#0583f2".toColor()
+  val DarkGrey = "#050608".toColor()
 }
 
 fun String.toColor() = Color(this)

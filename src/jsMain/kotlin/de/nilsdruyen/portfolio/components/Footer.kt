@@ -1,74 +1,40 @@
 /*
- * Created by Nils Druyen on 07-29-2022
- * Copyright © 2022 Nils Druyen. All rights reserved.
+ * Created by Nils Druyen on 10-10-2023
+ * Copyright © 2023 Nils Druyen. All rights reserved.
  */
 
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import de.nilsdruyen.portfolio.data.links
-import de.nilsdruyen.portfolio.data.models.ProfileLink
-import de.nilsdruyen.portfolio.styles.WebPageStyle
-import org.jetbrains.compose.web.attributes.ATarget
-import org.jetbrains.compose.web.attributes.target
-import org.jetbrains.compose.web.css.DisplayStyle
-import org.jetbrains.compose.web.css.display
-import org.jetbrains.compose.web.css.marginLeft
+import de.nilsdruyen.portfolio.ui.Style
+import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.A
+import org.jetbrains.compose.web.dom.Br
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.H3
-import org.jetbrains.compose.web.dom.Img
+import org.jetbrains.compose.web.dom.Footer
 import org.jetbrains.compose.web.dom.P
-import org.jetbrains.compose.web.dom.Section
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun Footer() {
-  Section({ classes(WebPageStyle.Footer.section) }) {
+fun footer() {
+  Footer({ classes(Style.Grid.borderB, Style.borderGray) }) {
     Div({
-      style {
-        display(DisplayStyle.InlineBlock)
-        property("vertical-align", "middle")
-      }
+      classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto)
+      style { height(120.px) }
     }) {
-      H3({ classes(WebPageStyle.Footer.linksTitle) }) {
-        Text("stay in touch with me")
-      }
-      Div({ classes(WebPageStyle.Footer.linksContainer) }) {
-        links.forEachIndexed { index, link ->
-          Link(link, index != 0)
-        }
+      Div({
+        classes(
+          Style.Grid.borderX,
+          Style.borderGray,
+          Style.Grid.span12,
+          Style.Flex.column,
+          Style.Flex.alignCenter,
+        )
+      }) {
+        P({ classes(Style.Footer.text) }) { Text("built with love & kotlin multiplatform <3") }
+        Br { }
+        P({ classes(Style.Footer.text) }) { Text("© 2023 Nils Druyen") }
       }
     }
-  }
-  org.jetbrains.compose.web.dom.Footer({
-    classes(WebPageStyle.Footer.background)
-  }) {
-    P({ classes(WebPageStyle.Footer.text) }) {
-      Text("© 2022 Nils Druyen")
-    }
-  }
-}
-
-@Composable
-fun Link(profileLink: ProfileLink, addMargin: Boolean) {
-  A(
-    href = profileLink.link,
-    attrs = {
-      target(ATarget.Blank)
-    },
-  ) {
-    Img(
-      "assets/links/${profileLink.image}",
-      attrs = {
-        classes(WebPageStyle.Footer.linkImage)
-        if (addMargin) {
-          style {
-            marginLeft(30.px)
-          }
-        }
-      }
-    )
   }
 }
