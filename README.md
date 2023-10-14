@@ -12,6 +12,8 @@ with kotlin compose.
 - create darkmode
 - update readme
 
-# inspiration
+# Inspiration
 
 https://github.com/c5inco/portfolio-compose
+
+https://kuldar.com/?ref=onepagelove
