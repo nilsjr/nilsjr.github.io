@@ -16,7 +16,6 @@ import kotlinx.coroutines.delay
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
 
-
 private val images = listOf(
   "nils",
   "nils02",
