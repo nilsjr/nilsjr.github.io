@@ -6,21 +6,18 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import de.nilsdruyen.portfolio.model.AboutMe
 import de.nilsdruyen.portfolio.model.Experiment
 import de.nilsdruyen.portfolio.model.Model
 import de.nilsdruyen.portfolio.ui.Style
-import kotlinx.coroutines.delay
 import org.jetbrains.compose.web.attributes.ATarget
 import org.jetbrains.compose.web.attributes.target
+import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.minHeight
+import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 
@@ -39,17 +36,23 @@ fun aboutMe() {
 private fun description() {
   Div({
     classes(
-      Style.Grid.borderX,
       Style.borderGray,
-      Style.Grid.description,
       Style.paddingMedium,
-      Style.Flex.column
+      Style.Grid.borderX,
+      Style.Grid.description,
+      Style.Flex.column,
     )
   }) {
     P({ classes(Style.Section.title) }) { Text(AboutMe.TITLE) }
     P({ classes(Style.AboutMe.description) }) { Text(AboutMe.FIRST_LINE) }
     P({ classes(Style.AboutMe.description) }) { Text(AboutMe.SECOND_LINE) }
     P({ classes(Style.AboutMe.description) }) { Text(AboutMe.THIRD_LINE) }
+    Div({
+      style {
+        height(100.percent)
+        minHeight(2.cssRem)
+      }
+    }) {}
     social()
   }
 }
@@ -68,38 +71,6 @@ private fun social() {
     }
   }
 }
-
-val images = listOf(
-  "nils",
-  "nils02",
-  "nils03",
-  "nils04",
-  "nils05",
-)
-
-@Composable
-private fun image() {
-  var image by remember { mutableStateOf("nils") }
-
-  LaunchedEffect(Unit) {
-    while (true) {
-      delay(5_000)
-      val randomList = images.filter { it != image }
-      image = randomList.random()
-    }
-  }
-
-  Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Grid.image, Style.paddingMedium, Style.Flex.container) }) {
-    images.forEach {
-      Img(
-        src = "assets/$it.jpg",
-        attrs = { classes(Style.profileImage, addStyle(image == it)) }
-      )
-    }
-  }
-}
-
-fun addStyle(show: Boolean) = if (show) Style.visible else Style.hidden
 
 @Composable
 private fun experiments() {

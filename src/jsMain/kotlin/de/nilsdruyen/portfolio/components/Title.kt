@@ -7,6 +7,7 @@ package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.ui.Style
+import org.jetbrains.compose.web.css.fontWeight
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
@@ -25,7 +26,7 @@ fun title() {
         classes(
           Style.Grid.borderX,
           Style.borderGray,
-          Style.Grid.span6,
+          Style.Grid.title,
           Style.Flex.container,
           Style.Flex.alignLeft,
         )
@@ -33,7 +34,23 @@ fun title() {
         P({ classes(Style.title) }) { Text("nilsjr.") }
       }
       Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Grid.span1) }) {}
-      Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Section.gradient, Style.Grid.span5) }) {}
+      Div({
+        classes(
+          Style.Grid.borderR,
+          Style.borderGray,
+          Style.Section.gradient,
+          Style.Grid.span5,
+          Style.Grid.titleHidden,
+        )
+      }) {
+        P({
+          style {
+            fontWeight(500)
+          }
+        }) {
+          Text("Coming soon...")
+        }
+      }
     }
   }
 }

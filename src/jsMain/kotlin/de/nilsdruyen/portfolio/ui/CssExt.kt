@@ -9,6 +9,7 @@ import org.jetbrains.compose.web.css.CSSMediaQuery
 import org.jetbrains.compose.web.css.CSSUnitValue
 import org.jetbrains.compose.web.css.GenericStyleSheetBuilder
 import org.jetbrains.compose.web.css.StyleScope
+import org.jetbrains.compose.web.css.mediaMaxWidth
 import org.jetbrains.compose.web.css.mediaMinWidth
 
 fun StyleScope.color(value: String) {
@@ -23,3 +24,6 @@ fun StyleScope.color(value: String) {
  */
 fun <TBuilder> GenericStyleSheetBuilder<TBuilder>.mediaOnlyScreenMinWidth(width: CSSUnitValue) =
   CSSMediaQuery.Only(CSSMediaQuery.MediaType(CSSMediaQuery.MediaType.Enum.Screen), mediaMinWidth(width))
+
+fun <TBuilder> GenericStyleSheetBuilder<TBuilder>.mediaOnlyScreenMaxWidth(width: CSSUnitValue) =
+  CSSMediaQuery.Only(CSSMediaQuery.MediaType(CSSMediaQuery.MediaType.Enum.Screen), mediaMaxWidth(width))

@@ -20,15 +20,14 @@ import org.jetbrains.compose.web.dom.Text
 fun contributions() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
-      Div({ classes(Style.Grid.borderX, Style.borderGray, Style.Grid.span2) }) {}
       Div({
         classes(
-          Style.Grid.borderR,
           Style.borderGray,
-          Style.Grid.span10,
           Style.paddingMedium,
+          Style.Grid.borderX,
+          Style.Grid.span12,
           Style.Section.dotted,
-          Style.Section.lime
+          Style.Section.lime,
         )
       }) {
         P({ classes(Style.Section.title) }) { Text("Contributions") }

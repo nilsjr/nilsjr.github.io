@@ -35,7 +35,6 @@ import org.jetbrains.compose.web.css.gridColumn
 import org.jetbrains.compose.web.css.gridTemplateColumns
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
-import org.jetbrains.compose.web.css.left
 import org.jetbrains.compose.web.css.letterSpacing
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
@@ -44,7 +43,9 @@ import org.jetbrains.compose.web.css.marginLeft
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.media
+import org.jetbrains.compose.web.css.minHeight
 import org.jetbrains.compose.web.css.opacity
+import org.jetbrains.compose.web.css.order
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.paddingLeft
 import org.jetbrains.compose.web.css.paddingRight
@@ -52,7 +53,6 @@ import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
-import org.jetbrains.compose.web.css.right
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.transform
@@ -107,12 +107,8 @@ object Style : StyleSheet() {
   }
 
   val profileImage by style {
-    maxWidth(300.px)
-    width(100.percent)
     position(Position.Absolute)
-    property("margin", "0 auto")
-    left(0.percent)
-    right(0.percent)
+    maxWidth(280.px)
     borderRadius(1.cssRem)
     border {
       width = 1.px
@@ -184,6 +180,13 @@ object Style : StyleSheet() {
       display(DisplayStyle.Grid)
       paddingLeft(2.5.cssRem)
       paddingRight(2.5.cssRem)
+
+      media(mediaOnlyScreenMaxWidth(600.px)) {
+        self style {
+          paddingLeft(1.5.cssRem)
+          paddingRight(1.5.cssRem)
+        }
+      }
     }
 
     val span12 by style { gridColumn("span 12/span 12") }
@@ -213,6 +216,20 @@ object Style : StyleSheet() {
       }
     }
 
+    val borderSmallL by style {
+      property("border-left-width", "1px")
+      media(mediaOnlyScreenMinWidth(768.px)) {
+        self style { property("border-left-width", "0") }
+      }
+    }
+
+    val borderMediumL by style {
+      property("border-left-width", "1px")
+      media(mediaOnlyScreenMinWidth(896.px)) {
+        self style { property("border-left-width", "0") }
+      }
+    }
+
     val borderT by style {
       property("border-top-width", "1px")
       media(mediaOnlyScreenMinWidth(1280.px)) {
@@ -225,10 +242,42 @@ object Style : StyleSheet() {
       property("border-right-width", "1px")
     }
 
+    val placeholder by style {
+      height(2.5.cssRem)
+      media(mediaOnlyScreenMaxWidth(600.px)) {
+        self style { height(1.5.cssRem) }
+      }
+    }
+
+    val title by style {
+      gridColumn("span 11/span 11")
+      media(mediaOnlyScreenMinWidth(768.px)) {
+        self style {
+          gridColumn("span 6/span 6")
+        }
+      }
+    }
+
+    val titleHidden by style {
+      gridColumn("span 5/span 5")
+      display(DisplayStyle.None)
+      media(mediaOnlyScreenMinWidth(768.px)) {
+        self style {
+          display(DisplayStyle.Flex)
+          justifyContent(JustifyContent.Center)
+          alignItems(AlignItems.Center)
+        }
+      }
+    }
+
     val description by style {
       gridColumn("span 12/span 12")
+      order(2)
       media(mediaOnlyScreenMinWidth(768.px)) {
-        self style { gridColumn("span 6/span 6") }
+        self style {
+          gridColumn("span 6/span 6")
+          order(1)
+        }
       }
       media(mediaOnlyScreenMinWidth(896.px)) {
         self style { gridColumn("span 8/span 8") }
@@ -240,8 +289,15 @@ object Style : StyleSheet() {
 
     val image by style {
       gridColumn("span 12/span 12")
+      order(1)
+      minHeight(320.px)
+      display(DisplayStyle.Flex)
+      justifyContent(JustifyContent.Center)
+      alignItems(AlignItems.Center)
       media(mediaOnlyScreenMinWidth(768.px)) {
-        self style { gridColumn("span 6/span 6") }
+        self style {
+          gridColumn("span 6/span 6")
+        }
       }
       media(mediaOnlyScreenMinWidth(896.px)) {
         self style { gridColumn("span 4/span 4") }
@@ -253,6 +309,7 @@ object Style : StyleSheet() {
 
     val experiments by style {
       gridColumn("span 12/span 12")
+      order(3)
       display(DisplayStyle.Flex)
       flexDirection(FlexDirection.Column)
       gap(1.cssRem)
@@ -265,8 +322,39 @@ object Style : StyleSheet() {
       display(DisplayStyle.Flex)
       flexDirection(FlexDirection.Row)
       gap(1.cssRem)
+      media(mediaOnlyScreenMaxWidth(768.px)) {
+        self style { flexDirection(FlexDirection.Column) }
+      }
       media(mediaOnlyScreenMinWidth(1280.px)) {
         self style { flexDirection(FlexDirection.Column) }
+      }
+    }
+
+    val work by style {
+      gridColumn("span 12/span 12")
+      media(mediaOnlyScreenMinWidth(896.px)) {
+        self style { gridColumn("span 5/span 5") }
+      }
+    }
+
+    val interests by style {
+      gridColumn("span 12/span 12")
+      property("border-top-width", "1px")
+      media(mediaOnlyScreenMinWidth(896.px)) {
+        self style {
+          gridColumn("span 7/span 7")
+          property("border-top-width", "0")
+        }
+      }
+    }
+
+    val interestsContainer by style {
+      width(80.percent)
+      display(DisplayStyle.Flex)
+      flexDirection(FlexDirection.Column)
+
+      media(mediaOnlyScreenMinWidth(1280.px)) {
+        self style { flexDirection(FlexDirection.Row) }
       }
     }
   }
@@ -387,10 +475,20 @@ object Style : StyleSheet() {
 
     val grid by style {
       display(DisplayStyle.Grid)
-      gridTemplateColumns("repeat(6,minmax(0,1fr))")
+      gridTemplateColumns("repeat(4,minmax(0,1fr))")
       gap(2.cssRem)
       position(Position.Relative)
       marginTop(1.cssRem)
+      media(mediaOnlyScreenMaxWidth(600.px)) {
+        self style {
+          gridTemplateColumns("repeat(2,minmax(0,1fr))")
+        }
+      }
+      media(mediaOnlyScreenMinWidth(768.px)) {
+        self style {
+          gridTemplateColumns("repeat(6,minmax(0,1fr))")
+        }
+      }
     }
 
     val container by style {

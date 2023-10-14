@@ -13,9 +13,7 @@ import org.jetbrains.compose.web.attributes.target
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.paddingBottom
-import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
@@ -26,7 +24,7 @@ import org.jetbrains.compose.web.dom.Text
 fun work() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
-      Div({ classes(Style.Grid.borderX, Style.borderGray, Style.Grid.span5, Style.paddingMedium) }) {
+      Div({ classes(Style.Grid.borderX, Style.borderGray, Style.Grid.work, Style.paddingMedium) }) {
         P({ classes(Style.Section.title) }) { Text("Work") }
         P({ classes(Style.Section.subtitle, Style.smallMargin) }) {
           Model.timeline.forEach {
@@ -47,18 +45,16 @@ private fun interests() {
       Style.paddingMedium,
       Style.Section.gradient,
       Style.Grid.borderR,
-      Style.Grid.span7,
+      Style.Grid.borderMediumL,
+      Style.Grid.interests,
       Style.Flex.column,
       Style.Flex.center,
-      Style.Flex.gapMedium,
+      Style.Flex.gapSmall,
     )
     style { paddingBottom(1.cssRem) }
   }) {
     P({ classes(Style.Section.title) }) { Text("Interests") }
-    Div({
-      classes(Style.Flex.row, Style.smallMarginBottom)
-      style { width(80.percent) }
-    }) {
+    Div({ classes(Style.smallMarginBottom, Style.Grid.interestsContainer) }) {
       Model.interests.forEach {
         Div({ classes(Style.Flex.stretch) }) {
           A(

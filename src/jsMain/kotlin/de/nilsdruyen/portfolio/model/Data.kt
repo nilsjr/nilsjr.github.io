@@ -95,16 +95,16 @@ object Model {
 
   val interests = listOf(
     Interest(
-      "Kotlin Mulitplatform",
-      "https://kotlinlang.org/",
-      "kotlin",
-      40,
-    ),
-    Interest(
       "Android",
       "https://developer.android.com/",
       "android-robot",
       50,
+    ),
+    Interest(
+      "Kotlin Mulitplatform",
+      "https://kotlinlang.org/",
+      "kotlin",
+      40,
     ),
     Interest(
       "Compose Mulitplatform",
