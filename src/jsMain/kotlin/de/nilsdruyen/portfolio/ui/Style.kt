@@ -333,6 +333,9 @@ object Style : StyleSheet() {
     val work by style {
       gridColumn("span 12/span 12")
       media(mediaOnlyScreenMinWidth(896.px)) {
+        self style { gridColumn("span 7/span 7") }
+      }
+      media(mediaOnlyScreenMinWidth(1280.px)) {
         self style { gridColumn("span 5/span 5") }
       }
     }
@@ -342,9 +345,12 @@ object Style : StyleSheet() {
       property("border-top-width", "1px")
       media(mediaOnlyScreenMinWidth(896.px)) {
         self style {
-          gridColumn("span 7/span 7")
+          gridColumn("span 5/span 5")
           property("border-top-width", "0")
         }
+      }
+      media(mediaOnlyScreenMinWidth(1280.px)) {
+        self style { gridColumn("span 7/span 7") }
       }
     }
 

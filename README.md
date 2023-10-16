@@ -7,10 +7,8 @@ with kotlin compose.
 [Portfolio](https://nilsjr.github.io/)
 
 # Roadmap
-- add more animations
-- hover effects
-- create darkmode
 - update readme
+- add darkmode
 
 # Inspiration
 
