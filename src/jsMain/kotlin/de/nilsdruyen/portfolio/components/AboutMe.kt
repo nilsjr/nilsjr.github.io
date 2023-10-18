@@ -60,14 +60,20 @@ private fun description() {
 @Composable
 private fun social() {
   Div({ classes(Style.AboutMe.social) }) {
-    Model.links.forEach {
+    Model.links.forEachIndexed { index, socialLink ->
       A(
-        href = it.link,
+        href = socialLink.link,
         attrs = {
           target(ATarget.Blank)
           classes(Style.AboutMe.profileLink)
         }
-      ) { it.icon() }
+      ) {
+        Div({
+          style {
+            Style.AboutMe.socialFadeIn(this, 150 * index)
+          }
+        }) { socialLink.icon() }
+      }
     }
   }
 }

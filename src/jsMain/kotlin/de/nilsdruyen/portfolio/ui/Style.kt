@@ -7,6 +7,8 @@ package de.nilsdruyen.portfolio.ui
 
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.AnimationFillMode
+import org.jetbrains.compose.web.css.AnimationTimingFunction
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.FlexDirection
@@ -14,8 +16,10 @@ import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.StylePropertyNumber
+import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.animation
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.backgroundPosition
@@ -24,7 +28,10 @@ import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.boxSizing
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.css.delay
 import org.jetbrains.compose.web.css.display
+import org.jetbrains.compose.web.css.duration
+import org.jetbrains.compose.web.css.fillMode
 import org.jetbrains.compose.web.css.flex
 import org.jetbrains.compose.web.css.flexDirection
 import org.jetbrains.compose.web.css.fontFamily
@@ -44,6 +51,7 @@ import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.media
 import org.jetbrains.compose.web.css.minHeight
+import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.order
 import org.jetbrains.compose.web.css.padding
@@ -55,6 +63,7 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.textDecoration
+import org.jetbrains.compose.web.css.timingFunction
 import org.jetbrains.compose.web.css.transform
 import org.jetbrains.compose.web.css.value
 import org.jetbrains.compose.web.css.variable
@@ -407,6 +416,18 @@ object Style : StyleSheet() {
 
   object AboutMe : StyleSheet(Style) {
 
+    @OptIn(ExperimentalComposeWebApi::class)
+    private val iconFadeIn by keyframes {
+      0.percent {
+        opacity(0)
+        transform { translateY((-20).px) }
+      }
+      100.percent {
+        opacity(1)
+        transform { translateY(0.px) }
+      }
+    }
+
     val description by style {
       color(Colors.DarkGrey)
       fontSize(18.px)
@@ -420,16 +441,31 @@ object Style : StyleSheet() {
       display(DisplayStyle.Flex)
       alignItems(AlignItems.FlexEnd)
       justifyContent(JustifyContent.FlexEnd)
+      gap(20.px)
     }
 
     @OptIn(ExperimentalComposeWebApi::class)
     val profileLink by style {
-      marginLeft(20.px)
       opacity(.6)
       property("transition", "all .2s ease")
       self + hover style {
-        transform { scale(1.2) }
         opacity(1)
+        transform {
+          scale(1.2)
+        }
+      }
+    }
+
+    fun socialFadeIn(scope: StyleScope, delay: Int) {
+      scope.apply {
+        opacity(0)
+        animation(iconFadeIn) {
+          duration(600.ms)
+          delay(delay.ms)
+          timingFunction(AnimationTimingFunction.EaseInOut)
+          iterationCount = listOf(1)
+          fillMode(AnimationFillMode.Forwards)
+        }
       }
     }
   }
