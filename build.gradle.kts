@@ -1,6 +1,7 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
@@ -75,6 +76,12 @@ rootProject.plugins.withType<YarnPlugin> {
     versions.karma.version = "6.4.0"
     versions.mocha.version = "10.0.0"
   }
+}
+
+// On Apple Silicon (m1) we need Node.js 16.19.0
+// https://youtrack.jetbrains.com/issue/KT-49109
+rootProject.plugins.withType(NodeJsRootPlugin::class) {
+  rootProject.the(NodeJsRootExtension::class).nodeVersion = "16.19.0"
 }
 
 // configure detekt
