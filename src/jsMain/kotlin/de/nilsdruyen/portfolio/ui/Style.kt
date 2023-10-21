@@ -95,7 +95,6 @@ object Style : StyleSheet() {
       margin(0.px)
       padding(0.px)
       boxSizing("border-box")
-      backgroundColor(bgColor.value())
       border {
         width = 0.px
         style = LineStyle.Solid
@@ -112,6 +111,7 @@ object Style : StyleSheet() {
       display(DisplayStyle.Block)
       fontFamily("Roboto", "sans-serif")
       property("margin", "auto")
+      backgroundColor(bgColor.value())
     }
 
     "a" style {
