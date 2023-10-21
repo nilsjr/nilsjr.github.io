@@ -9,6 +9,7 @@ import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.AnimationFillMode
 import org.jetbrains.compose.web.css.AnimationTimingFunction
+import org.jetbrains.compose.web.css.CSSColorValue
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.FlexDirection
@@ -28,6 +29,7 @@ import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.boxSizing
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.css.deg
 import org.jetbrains.compose.web.css.delay
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.duration
@@ -42,7 +44,6 @@ import org.jetbrains.compose.web.css.gridColumn
 import org.jetbrains.compose.web.css.gridTemplateColumns
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
-import org.jetbrains.compose.web.css.letterSpacing
 import org.jetbrains.compose.web.css.lineHeight
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.marginBottom
@@ -69,13 +70,32 @@ import org.jetbrains.compose.web.css.value
 import org.jetbrains.compose.web.css.variable
 import org.jetbrains.compose.web.css.width
 
+@OptIn(ExperimentalComposeWebApi::class)
+fun StyleScope.fadeIn(delay: Int = 0) {
+  this.apply {
+    opacity(0)
+    transform { translateY((-Animation.DISTANCE_SM).px) }
+    animation(Style.containerFadeIn) {
+      delay(delay.ms)
+      duration(400.ms)
+      timingFunction(AnimationTimingFunction.EaseInOut)
+      iterationCount = listOf(1)
+      fillMode(AnimationFillMode.Forwards)
+    }
+  }
+}
+
 object Style : StyleSheet() {
+
+  val bgColor by variable<CSSColorValue>()
+  val textColor by variable<CSSColorValue>()
 
   init {
     universal style {
       margin(0.px)
       padding(0.px)
       boxSizing("border-box")
+      backgroundColor(bgColor.value())
       border {
         width = 0.px
         style = LineStyle.Solid
@@ -99,6 +119,14 @@ object Style : StyleSheet() {
       fontSize(2.cssRem)
       fontWeight(500)
     }
+  }
+
+  val dark by style {
+    bgColor(Color.black)
+  }
+
+  val light by style {
+    bgColor(Color.white)
   }
 
   val borderGray by style {
@@ -131,10 +159,9 @@ object Style : StyleSheet() {
   val visible by style { opacity(1) }
 
   val title by style {
-    fontSize(6.cssRem)
-    letterSpacing(8.px)
-    fontWeight(600)
-    marginLeft(32.px)
+    fontFamily("Rubik Dirt")
+    fontSize(4.cssRem)
+    marginLeft(.4.cssRem)
   }
 
   val paddingMedium by style { padding(2.cssRem) }
@@ -142,6 +169,22 @@ object Style : StyleSheet() {
   val smallMarginBottom by style { marginBottom(1.cssRem) }
 //  val mediumMargin by style { marginTop(2.cssRem) }
 //  val largeMargin by style { marginTop(4.cssRem) }
+
+  @OptIn(ExperimentalComposeWebApi::class)
+  val containerFadeIn by keyframes {
+    0.percent {
+      opacity(0)
+      transform {
+        translateY((-Animation.DISTANCE_SM).px)
+      }
+    }
+    100.percent {
+      opacity(1)
+      transform {
+        translateY(0.px)
+      }
+    }
+  }
 
   object Flex : StyleSheet(Style) {
 
@@ -260,6 +303,11 @@ object Style : StyleSheet() {
 
     val title by style {
       gridColumn("span 11/span 11")
+      media(mediaOnlyScreenMaxWidth(600.px)) {
+        self style {
+          gridColumn("span 12/span 12")
+        }
+      }
       media(mediaOnlyScreenMinWidth(768.px)) {
         self style {
           gridColumn("span 6/span 6")
@@ -275,6 +323,15 @@ object Style : StyleSheet() {
           display(DisplayStyle.Flex)
           justifyContent(JustifyContent.Center)
           alignItems(AlignItems.Center)
+        }
+      }
+    }
+
+    val hidden by style {
+      display(DisplayStyle.Flex)
+      media(mediaOnlyScreenMaxWidth(600.px)) {
+        self style {
+          display(DisplayStyle.None)
         }
       }
     }
@@ -296,13 +353,53 @@ object Style : StyleSheet() {
       }
     }
 
+    @OptIn(ExperimentalComposeWebApi::class)
+    val imageFadeIn by keyframes {
+      0.percent {
+        opacity(0)
+        transform {
+          rotate(10.deg)
+          translateY((-30).px)
+        }
+      }
+      60.percent {
+        opacity(1)
+      }
+      100.percent {
+        opacity(1)
+        transform {
+          rotate(0.deg)
+          translateY(0.px)
+        }
+      }
+    }
+
+    @OptIn(ExperimentalComposeWebApi::class)
+    val imageContainer by style {
+      width(100.percent)
+      height(100.percent)
+      display(DisplayStyle.Flex)
+      justifyContent(JustifyContent.Center)
+      alignItems(AlignItems.Center)
+      opacity(0)
+      transform {
+        rotate(10.deg)
+        translateY((-30).px)
+      }
+      animation(imageFadeIn) {
+        duration(1000.ms)
+        delay(350.ms)
+        timingFunction(AnimationTimingFunction.EaseInOut)
+        iterationCount = listOf(1)
+        fillMode(AnimationFillMode.Forwards)
+      }
+    }
+
     val image by style {
       gridColumn("span 12/span 12")
       order(1)
       minHeight(320.px)
-      display(DisplayStyle.Flex)
-      justifyContent(JustifyContent.Center)
-      alignItems(AlignItems.Center)
+
       media(mediaOnlyScreenMinWidth(768.px)) {
         self style {
           gridColumn("span 6/span 6")
@@ -327,6 +424,22 @@ object Style : StyleSheet() {
       }
     }
 
+    @OptIn(ExperimentalComposeWebApi::class)
+    val containerFadeIn by keyframes {
+      0.percent {
+        opacity(0)
+        transform {
+          translateY((-20).px)
+        }
+      }
+      100.percent {
+        opacity(1)
+        transform {
+          translateY(0.px)
+        }
+      }
+    }
+
     val experimentsContainer by style {
       display(DisplayStyle.Flex)
       flexDirection(FlexDirection.Row)
@@ -336,6 +449,19 @@ object Style : StyleSheet() {
       }
       media(mediaOnlyScreenMinWidth(1280.px)) {
         self style { flexDirection(FlexDirection.Column) }
+      }
+    }
+
+    fun experimentsFadeIn(scope: StyleScope, delay: Int) {
+      scope.apply {
+        opacity(0)
+        animation(containerFadeIn) {
+          delay(delay.ms)
+          duration(400.ms)
+          timingFunction(AnimationTimingFunction.EaseInOut)
+          iterationCount = listOf(1)
+          fillMode(AnimationFillMode.Forwards)
+        }
       }
     }
 
@@ -386,9 +512,8 @@ object Style : StyleSheet() {
       color(Colors.DarkGrey)
     }
     val subtitle by style {
-      color(Colors.DarkGrey)
+      color(Colors.TextGray)
       fontSize(14.px)
-      opacity(80.percent)
     }
 
     val gradient by style {
@@ -429,10 +554,9 @@ object Style : StyleSheet() {
     }
 
     val description by style {
-      color(Colors.DarkGrey)
+      color(Colors.TextGray)
       fontSize(18.px)
-      opacity(80.percent)
-      marginTop(16.px)
+      marginTop(1.cssRem)
     }
 
     val social by style {

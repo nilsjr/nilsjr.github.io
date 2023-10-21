@@ -11,6 +11,7 @@ object Colors {
 
   val Blue = "#0583f2".toColor()
   val DarkGrey = "#050608".toColor()
+  val TextGray = "#545454".toColor()
 }
 
 fun String.toColor() = Color(this)

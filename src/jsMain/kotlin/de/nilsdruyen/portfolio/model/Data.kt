@@ -20,6 +20,8 @@ object AboutMe {
 
 object Model {
 
+  const val TITLE = "nils.j.r"
+
   val timeline = listOf(
     Work("2010 - 2016", "Angewandte Informatik", "", "Universität Duisburg-Essen"),
     Work("05.2016 - 12.2021", "", "Software Entwickler", "NanoGiants GmbH"),

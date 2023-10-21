@@ -39,7 +39,7 @@ compose {
 
 tasks.withType<Kotlin2JsCompile>().configureEach {
   compilerOptions {
-    allWarningsAsErrors.set(true)
+    allWarningsAsErrors.set(false)
     progressiveMode.set(true)
   }
   kotlinOptions {

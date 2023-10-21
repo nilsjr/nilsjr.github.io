@@ -45,11 +45,15 @@ fun image() {
       Style.Grid.image,
     )
   }) {
-    images.forEach {
-      Img(
-        src = "assets/$it.jpg",
-        attrs = { classes(Style.profileImage, addStyle(image == it)) }
-      )
+    Div({
+      classes(Style.Grid.imageContainer)
+    }) {
+      images.forEach {
+        Img(
+          src = "assets/$it.jpg",
+          attrs = { classes(Style.profileImage, addStyle(image == it)) }
+        )
+      }
     }
   }
 }

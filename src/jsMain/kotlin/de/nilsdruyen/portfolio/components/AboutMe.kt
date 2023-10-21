@@ -10,12 +10,19 @@ import de.nilsdruyen.portfolio.model.AboutMe
 import de.nilsdruyen.portfolio.model.Experiment
 import de.nilsdruyen.portfolio.model.Model
 import de.nilsdruyen.portfolio.ui.Style
+import de.nilsdruyen.portfolio.ui.Style.Grid.experimentsFadeIn
+import de.nilsdruyen.portfolio.ui.fadeIn
+import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.attributes.ATarget
 import org.jetbrains.compose.web.attributes.target
+import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.minHeight
+import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.percent
+import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.transform
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.P
@@ -43,10 +50,22 @@ private fun description() {
       Style.Flex.column,
     )
   }) {
-    P({ classes(Style.Section.title) }) { Text(AboutMe.TITLE) }
-    P({ classes(Style.AboutMe.description) }) { Text(AboutMe.FIRST_LINE) }
-    P({ classes(Style.AboutMe.description) }) { Text(AboutMe.SECOND_LINE) }
-    P({ classes(Style.AboutMe.description) }) { Text(AboutMe.THIRD_LINE) }
+    P({
+      classes(Style.Section.title)
+      style { fadeIn() }
+    }) { Text(AboutMe.TITLE) }
+    P({
+      classes(Style.AboutMe.description)
+      style { fadeIn(100) }
+    }) { Text(AboutMe.FIRST_LINE) }
+    P({
+      classes(Style.AboutMe.description)
+      style { fadeIn(200) }
+    }) { Text(AboutMe.SECOND_LINE) }
+    P({
+      classes(Style.AboutMe.description)
+      style { fadeIn(300) }
+    }) { Text(AboutMe.THIRD_LINE) }
     Div({
       style {
         height(100.percent)
@@ -78,6 +97,7 @@ private fun social() {
   }
 }
 
+@OptIn(ExperimentalComposeWebApi::class)
 @Composable
 private fun experiments() {
   Div({
@@ -92,24 +112,44 @@ private fun experiments() {
       Style.Grid.experiments,
     )
   }) {
-    P({ classes(Style.Grid.span6, Style.Section.title) }) { Text("Experiments") }
-    Div({ classes(Style.Grid.experimentsContainer) }) {
-      Model.experiments.forEach { experiment(it) }
+    P({
+      classes(Style.Grid.span6, Style.Section.title)
+      style { fadeIn() }
+    }) { Text("Experiments") }
+    Div({
+      classes(Style.Grid.experimentsContainer)
+    }) {
+      Model.experiments.forEachIndexed { index, experiment ->
+        experiment(experiment) {
+          opacity(0)
+          transform {
+            translateY((-20).px)
+          }
+          experimentsFadeIn(this, 200 * index)
+        }
+      }
     }
   }
 }
 
 @Composable
-private fun experiment(experiment: Experiment) {
-  A(
-    href = experiment.link,
-    attrs = {
-      classes(Style.Grid.span6, Style.Experiment.container)
+private fun experiment(experiment: Experiment, styleBlock: StyleScope.() -> Unit) {
+  Div({
+    classes(Style.Grid.span6, Style.Experiment.container)
+    style {
+      styleBlock()
     }
-  ) {
-    Div({ classes(Style.Experiment.containerOverlay) }) {
-      P({ classes(Style.Section.title2) }) { Text(experiment.title) }
-      P({ classes(Style.Section.subtitle, Style.smallMargin) }) { Text(experiment.subtitle) }
+  }) {
+    A(
+      href = experiment.link,
+      attrs = {
+        classes(Style.Grid.span6, Style.Experiment.container)
+      }
+    ) {
+      Div({ classes(Style.Experiment.containerOverlay) }) {
+        P({ classes(Style.Section.title2) }) { Text(experiment.title) }
+        P({ classes(Style.Section.subtitle, Style.smallMargin) }) { Text(experiment.subtitle) }
+      }
     }
   }
 }

@@ -15,9 +15,9 @@ import de.nilsdruyen.portfolio.components.title
 import de.nilsdruyen.portfolio.components.work
 
 @Composable
-fun page() {
+fun page(isDark: Boolean, toggleDarkMode: () -> Unit) {
   placeholder()
-  title()
+  title(isDark, toggleDarkMode)
   aboutMe()
   work()
   projects()

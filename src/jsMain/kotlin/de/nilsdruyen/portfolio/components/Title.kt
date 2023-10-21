@@ -6,17 +6,21 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
+import de.nilsdruyen.portfolio.model.Model
 import de.nilsdruyen.portfolio.ui.Style
-import org.jetbrains.compose.web.css.fontWeight
+import de.nilsdruyen.portfolio.ui.fadeIn
+import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Header
 import org.jetbrains.compose.web.dom.P
+import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun title() {
+fun title(isDark: Boolean, toggleDarkMode: () -> Unit) {
   Header({ classes(Style.Grid.borderB, Style.borderGray) }) {
     Div({
       classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto)
@@ -31,23 +35,39 @@ fun title() {
           Style.Flex.alignLeft,
         )
       }) {
-        P({ classes(Style.title) }) { Text("nilsjr.") }
+        Div({ style { width(2.cssRem) } }) { }
+        Model.TITLE.forEachIndexed { index, c ->
+          P({
+            classes(Style.title)
+            style {
+              fadeIn(200 * index)
+            }
+          }) {
+            Span {
+              Text(c.toString())
+            }
+          }
+        }
       }
-      Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Grid.span1) }) {}
+      Div({ classes(Style.Grid.borderR, Style.borderGray, Style.Grid.span1, Style.Grid.hidden) }) {}
       Div({
         classes(
-          Style.Grid.borderR,
-          Style.borderGray,
           Style.Section.gradient,
+          Style.borderGray,
+          Style.Grid.borderR,
           Style.Grid.span5,
           Style.Grid.titleHidden,
         )
       }) {
-        P({
-          style {
-            fontWeight(500)
-          }
-        }) {
+//        A(
+//          attrs = {
+//            classes(Style.AboutMe.profileLink)
+//            onClick { toggleDarkMode() }
+//          }
+//        ) {
+//          Icons.darkMode(isDark)
+//        }
+        P({ classes(Style.Section.subtitle) }) {
           Text("Coming soon...")
         }
       }
