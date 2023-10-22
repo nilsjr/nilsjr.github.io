@@ -58,6 +58,7 @@ import org.jetbrains.compose.web.css.order
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.paddingLeft
 import org.jetbrains.compose.web.css.paddingRight
+import org.jetbrains.compose.web.css.paddingTop
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
@@ -74,7 +75,7 @@ import org.jetbrains.compose.web.css.width
 fun StyleScope.fadeIn(delay: Int = 0) {
   this.apply {
     opacity(0)
-    transform { translateY((-Animation.DISTANCE_SM).px) }
+    transform { translateY((-Constants.DISTANCE_SM).px) }
     animation(Style.containerFadeIn) {
       delay(delay.ms)
       duration(400.ms)
@@ -87,8 +88,10 @@ fun StyleScope.fadeIn(delay: Int = 0) {
 
 object Style : StyleSheet() {
 
-  val bgColor by variable<CSSColorValue>()
+  val titleColor by variable<CSSColorValue>()
+  val sectionTitleColor by variable<CSSColorValue>()
   val textColor by variable<CSSColorValue>()
+  val iconColor by variable<CSSColorValue>()
 
   init {
     universal style {
@@ -111,7 +114,6 @@ object Style : StyleSheet() {
       display(DisplayStyle.Block)
       fontFamily("Roboto", "sans-serif")
       property("margin", "auto")
-      backgroundColor(bgColor.value())
     }
 
     "a" style {
@@ -121,16 +123,31 @@ object Style : StyleSheet() {
     }
   }
 
-  val dark by style {
-    bgColor(Color.black)
+  val light by style {
+    backgroundColor(Color.white)
+
+    property("--tw-border-opacity", "1")
+    property("transition", "background-color 1.0s ease-in")
+
+    titleColor(Color.black)
+    sectionTitleColor(Colors.DarkGrey)
+    textColor(Colors.TextGray)
+    iconColor(Colors.DarkGrey)
   }
 
-  val light by style {
-    bgColor(Color.white)
+  val dark by style {
+    backgroundColor(Color.black)
+
+    property("--tw-border-opacity", ".3")
+    property("transition", "background-color 1.0s ease-in")
+
+    titleColor(Color.white)
+    sectionTitleColor(Color.white)
+    textColor(Color.white)
+    iconColor(Color.white)
   }
 
   val borderGray by style {
-    property("--tw-border-opacity", "1")
     property("border-color", "rgb(215 221 228/var(--tw-border-opacity))")
   }
 
@@ -162,6 +179,8 @@ object Style : StyleSheet() {
     fontFamily("Rubik Dirt")
     fontSize(4.cssRem)
     marginLeft(.4.cssRem)
+    color(titleColor.value())
+    property("transition", "color 1.5s ease-in")
   }
 
   val paddingMedium by style { padding(2.cssRem) }
@@ -170,12 +189,20 @@ object Style : StyleSheet() {
 //  val mediumMargin by style { marginTop(2.cssRem) }
 //  val largeMargin by style { marginTop(4.cssRem) }
 
+  val noPaddingTop by style {
+    media(mediaOnlyScreenMaxWidth(600.px)) {
+      self style {
+        paddingTop(0.px)
+      }
+    }
+  }
+
   @OptIn(ExperimentalComposeWebApi::class)
   val containerFadeIn by keyframes {
     0.percent {
       opacity(0)
       transform {
-        translateY((-Animation.DISTANCE_SM).px)
+        translateY((-Constants.DISTANCE_SM).px)
       }
     }
     100.percent {
@@ -505,15 +532,15 @@ object Style : StyleSheet() {
     val title by style {
       fontSize(30.px)
       fontWeight(500)
-      color(Colors.DarkGrey)
+      color(sectionTitleColor.value())
     }
     val title2 by style {
       fontSize(20.px)
-      color(Colors.DarkGrey)
+      color(titleColor.value())
     }
     val subtitle by style {
-      color(Colors.TextGray)
       fontSize(14.px)
+      color(textColor.value())
     }
 
     val gradient by style {
@@ -554,9 +581,9 @@ object Style : StyleSheet() {
     }
 
     val description by style {
-      color(Colors.TextGray)
       fontSize(18.px)
       marginTop(1.cssRem)
+      color(textColor.value())
     }
 
     val social by style {
@@ -571,6 +598,7 @@ object Style : StyleSheet() {
     @OptIn(ExperimentalComposeWebApi::class)
     val profileLink by style {
       opacity(.6)
+
       property("transition", "all .2s ease")
       self + hover style {
         opacity(1)

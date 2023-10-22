@@ -7,11 +7,8 @@ package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.model.Model
-import de.nilsdruyen.portfolio.model.Project
 import de.nilsdruyen.portfolio.ui.Style
-import org.jetbrains.compose.web.attributes.ATarget
-import org.jetbrains.compose.web.attributes.target
-import org.jetbrains.compose.web.dom.A
+import de.nilsdruyen.portfolio.ui.fadeIn
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
@@ -30,30 +27,17 @@ fun contributions() {
           Style.Section.lime,
         )
       }) {
-        P({ classes(Style.Section.title) }) { Text("Contributions") }
+        P({
+          classes(Style.Section.title)
+          style { fadeIn(400) }
+        }) { Text("Contributions") }
         Div({ classes(Style.Projects.grid) }) {
-          Model.contributions.forEach {
-            project(it)
+          Model.contributions.forEachIndexed { index, project ->
+            project(project, false) {
+              fadeIn(400 + 200 * index)
+            }
           }
         }
-      }
-    }
-  }
-}
-
-@Composable
-private fun project(project: Project) {
-  Div({ classes(Style.Grid.span2, Style.Projects.container) }) {
-    A(
-      href = project.link,
-      attrs = {
-        target(ATarget.Blank)
-        classes(Style.Projects.containerOverlay)
-      }
-    ) {
-      Div({ classes(Style.Projects.containerInner) }) {
-        P({ classes(Style.Section.title2) }) { Text(project.title) }
-        P({ classes(Style.Section.subtitle, Style.Section.flexItem, Style.smallMargin) }) { Text(project.subtitle) }
       }
     }
   }

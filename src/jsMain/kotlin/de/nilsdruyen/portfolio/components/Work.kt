@@ -8,6 +8,7 @@ package de.nilsdruyen.portfolio.components
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.model.Model
 import de.nilsdruyen.portfolio.ui.Style
+import de.nilsdruyen.portfolio.ui.fadeIn
 import org.jetbrains.compose.web.attributes.ATarget
 import org.jetbrains.compose.web.attributes.target
 import org.jetbrains.compose.web.css.cssRem
@@ -25,10 +26,16 @@ fun work() {
   gridRow {
     Div({ classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto) }) {
       Div({ classes(Style.Grid.borderX, Style.borderGray, Style.Grid.work, Style.paddingMedium) }) {
-        P({ classes(Style.Section.title) }) { Text("Work") }
+        P({
+          classes(Style.Section.title)
+          style { fadeIn(100) }
+        }) { Text("Work") }
         P({ classes(Style.Section.subtitle, Style.smallMargin) }) {
-          Model.timeline.forEach {
-            P({ classes(Style.AboutMe.description) }) { Text(it.timeFrame + " " + it.name) }
+          Model.timeline.forEachIndexed { index, work ->
+            P({
+              classes(Style.AboutMe.description)
+              style { fadeIn(200 + 200 * index) }
+            }) { Text(work.timeFrame + " " + work.name) }
           }
         }
       }
@@ -53,22 +60,28 @@ private fun interests() {
     )
     style { paddingBottom(1.cssRem) }
   }) {
-    P({ classes(Style.Section.title) }) { Text("Interests") }
+    P({
+      classes(Style.Section.title)
+      style { fadeIn(200) }
+    }) { Text("Interests") }
     Div({ classes(Style.smallMarginBottom, Style.Grid.interestsContainer) }) {
-      Model.interests.forEach {
-        Div({ classes(Style.Flex.stretch) }) {
+      Model.interests.forEachIndexed { index, interest ->
+        Div({
+          classes(Style.Flex.stretch)
+          style { fadeIn(400 + 200 * index) }
+        }) {
           A(
-            href = it.link,
+            href = interest.link,
             attrs = {
               target(ATarget.Blank)
               classes(Style.Work.interestLink)
             }
           ) {
             Img(
-              src = "assets/${it.iconName}.svg",
+              src = "assets/${interest.iconName}.svg",
               attrs = {
                 style {
-                  height(it.iconHeight.px)
+                  height(interest.iconHeight.px)
                 }
               }
             )

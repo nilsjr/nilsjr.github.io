@@ -9,11 +9,14 @@ package de.nilsdruyen.portfolio.ui
 
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.web.ExperimentalComposeWebSvgApi
+import org.jetbrains.compose.web.attributes.AttrsScope
+import org.jetbrains.compose.web.css.value
 import org.jetbrains.compose.web.svg.Path
 import org.jetbrains.compose.web.svg.Svg
 import org.jetbrains.compose.web.svg.fill
 import org.jetbrains.compose.web.svg.height
 import org.jetbrains.compose.web.svg.width
+import org.w3c.dom.svg.SVGElement
 
 object Icons {
 
@@ -21,61 +24,65 @@ object Icons {
 
   @OptIn(ExperimentalComposeWebSvgApi::class)
   @Composable
-  fun github() {
+  fun github(attrBlock: AttrsScope<SVGElement>.() -> Unit) {
     Svg(
       viewBox = "0 0 24 24",
       attrs = {
         width(ICON_SIZE)
         height(ICON_SIZE)
+        attrBlock()
       }
     ) { Path(d = GITHUB) }
   }
 
   @OptIn(ExperimentalComposeWebSvgApi::class)
   @Composable
-  fun twitterX() {
+  fun twitterX(attrBlock: AttrsScope<SVGElement>.() -> Unit) {
     Svg(
       viewBox = "0 0 1200 1227",
       attrs = {
         width(ICON_SIZE)
         height(ICON_SIZE)
-        fill("black")
+        attrBlock()
       }
     ) { Path(d = TWITTER_X) }
   }
 
   @OptIn(ExperimentalComposeWebSvgApi::class)
   @Composable
-  fun instagram() {
+  fun instagram(attrBlock: AttrsScope<SVGElement>.() -> Unit) {
     Svg(
       viewBox = "0 0 24 24",
       attrs = {
         width(ICON_SIZE)
         height(ICON_SIZE)
+        attrBlock()
       }
     ) { Path(d = INSTAGRAM) }
   }
 
   @OptIn(ExperimentalComposeWebSvgApi::class)
   @Composable
-  fun xing() {
+  fun xing(attrBlock: AttrsScope<SVGElement>.() -> Unit) {
     Svg(
       viewBox = "0 0 24 24",
       attrs = {
         width(ICON_SIZE)
         height(ICON_SIZE)
+        attrBlock()
       }
     ) { Path(d = XING) }
   }
 
   @OptIn(ExperimentalComposeWebSvgApi::class)
   @Composable
-  fun linkedin() {
+  fun linkedin(attrBlock: AttrsScope<SVGElement>.() -> Unit) {
     Svg(
       viewBox = "0 0 24 24",
       attrs = {
         width(ICON_SIZE)
         height(ICON_SIZE)
+        attrBlock()
       }
     ) { Path(d = LINKEDIN) }
   }
@@ -86,8 +93,9 @@ object Icons {
     Svg(
       viewBox = "0 -960 960 960",
       attrs = {
-        width(32)
-        height(32)
+        width(24)
+        height(24)
+        fill(Style.textColor.value().toString())
       }
     ) {
       Path(d = if (isDark) DARK_MODE_FILLED else DARK_MODE)

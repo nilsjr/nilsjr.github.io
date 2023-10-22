@@ -20,8 +20,10 @@ import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun title(isDark: Boolean, toggleDarkMode: () -> Unit) {
-  Header({ classes(Style.Grid.borderB, Style.borderGray) }) {
+fun title() {
+  Header({
+    classes(Style.Grid.borderB, Style.borderGray)
+  }) {
     Div({
       classes(Style.Grid.col12, Style.maxWidth, Style.mxAuto)
       style { height(160.px) }
@@ -59,14 +61,6 @@ fun title(isDark: Boolean, toggleDarkMode: () -> Unit) {
           Style.Grid.titleHidden,
         )
       }) {
-//        A(
-//          attrs = {
-//            classes(Style.AboutMe.profileLink)
-//            onClick { toggleDarkMode() }
-//          }
-//        ) {
-//          Icons.darkMode(isDark)
-//        }
         P({ classes(Style.Section.subtitle) }) {
           Text("Coming soon...")
         }

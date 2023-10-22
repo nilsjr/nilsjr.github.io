@@ -29,11 +29,11 @@ object Model {
   )
 
   val links = listOf(
-    ProfileLink("https://github.com/nilsjr") { Icons.github() },
-    ProfileLink("https://twitter.com/NilsJr") { Icons.twitterX() },
-    ProfileLink("https://www.instagram.com/nils.j.r/?hl=de") { Icons.instagram() },
-    ProfileLink("https://www.linkedin.com/in/nils-druyen-235b6024b") { Icons.linkedin() },
-    ProfileLink("https://www.xing.com/profile/Nils_Druyen/cv") { Icons.xing() },
+    ProfileLink("https://github.com/nilsjr") { Icons.github(it) },
+    ProfileLink("https://twitter.com/NilsJr") { Icons.twitterX(it) },
+    ProfileLink("https://www.instagram.com/nils.j.r/?hl=de") { Icons.instagram(it) },
+    ProfileLink("https://www.linkedin.com/in/nils-druyen-235b6024b") { Icons.linkedin(it) },
+    ProfileLink("https://www.xing.com/profile/Nils_Druyen/cv") { Icons.xing(it) },
   )
 
   val experiments = listOf(

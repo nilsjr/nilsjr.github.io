@@ -5,7 +5,7 @@
 
 package de.nilsdruyen.portfolio.ui
 
-object Animation {
+object Constants {
 
   const val DISTANCE_SM = 10
   const val DISTANCE_MD = 10

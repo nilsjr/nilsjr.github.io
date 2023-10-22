@@ -23,10 +23,12 @@ import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.transform
+import org.jetbrains.compose.web.css.value
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.svg.fill
 
 @Composable
 fun aboutMe() {
@@ -45,6 +47,7 @@ private fun description() {
     classes(
       Style.borderGray,
       Style.paddingMedium,
+      Style.noPaddingTop,
       Style.Grid.borderX,
       Style.Grid.description,
       Style.Flex.column,
@@ -91,7 +94,11 @@ private fun social() {
           style {
             Style.AboutMe.socialFadeIn(this, 150 * index)
           }
-        }) { socialLink.icon() }
+        }) {
+          socialLink.icon {
+            fill(Style.iconColor.value().toString())
+          }
+        }
       }
     }
   }
