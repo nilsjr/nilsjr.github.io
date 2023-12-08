@@ -22,6 +22,11 @@ kotlin {
     binaries.executable()
   }
   sourceSets {
+    val commonMain by getting {
+      dependencies {
+        implementation(libs.kotlinx.coroutines)
+      }
+    }
     val jsMain by getting {
       dependencies {
         implementation(compose.html.core)

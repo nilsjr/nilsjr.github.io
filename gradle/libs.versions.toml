@@ -1,7 +1,8 @@
 [versions]
+coroutines = "1.8.0-RC"
 detekt = "1.23.4"
 gradleVersionsPlugin = "0.50.0"
-jetbrainsCompose = "1.6.0-dev1296"
+jetbrainsCompose = "1.6.0-alpha01"
 jetbrainsComposeCompiler = "1.5.4-dev1-kt2.0.0-Beta1"
 kotlin = "2.0.0-Beta1"
 webpack = "5.76.0"
@@ -11,6 +12,7 @@ webpackDevServer = "4.15.0"
 [libraries]
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
