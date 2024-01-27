@@ -2,7 +2,7 @@
 coroutines = "1.8.0-RC2"
 detekt = "1.23.4"
 gradleVersionsPlugin = "0.51.0"
-jetbrainsCompose = "1.6.0-alpha01"
+jetbrainsCompose = "1.6.0-beta01"
 jetbrainsComposeCompiler = "1.5.4-dev1-kt2.0.0-Beta1"
 kotlin = "2.0.0-Beta1"
 webpack = "5.76.0"
