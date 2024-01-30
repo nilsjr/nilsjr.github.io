@@ -251,3 +251,6 @@ gradle-app.setting
 
 # End of https://www.toptal.com/developers/gitignore/api/kotlin,android,intellij,gradle
 /.idea/consolestorage/
+
+# new kotlin folder
+.kotlin/

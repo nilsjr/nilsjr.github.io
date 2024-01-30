@@ -49,7 +49,7 @@ tasks.withType<Kotlin2JsCompile>().configureEach {
   }
   kotlinOptions {
     val arguments = listOf(
-      "-opt-in=kotlin.RequiresOptIn"
+      "-opt-in=kotlin.RequiresOptIn",
     )
     freeCompilerArgs = freeCompilerArgs + arguments
   }
