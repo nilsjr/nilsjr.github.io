@@ -86,7 +86,7 @@ rootProject.plugins.withType<YarnPlugin> {
 // On Apple Silicon (m1) we need Node.js 16.19.0
 // https://youtrack.jetbrains.com/issue/KT-49109
 rootProject.plugins.withType(NodeJsRootPlugin::class) {
-  rootProject.the(NodeJsRootExtension::class).nodeVersion = "16.19.0"
+  rootProject.the(NodeJsRootExtension::class).version = "16.19.0"
 }
 
 // configure detekt
