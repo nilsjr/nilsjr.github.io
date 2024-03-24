@@ -5,9 +5,9 @@ gradleVersionsPlugin = "0.51.0"
 jetbrainsCompose = "1.6.10-dev1523"
 jetbrainsComposeCompiler = "1.5.11-kt-2.0.0-Beta5"
 kotlin = "2.0.0-Beta5"
-webpack = "5.76.0"
-webpackCli = "5.1.1"
-webpackDevServer = "4.15.0"
+webpack = "5.91.0"
+webpackCli = "5.1.4"
+webpackDevServer = "5.0.4"
 
 [libraries]
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
