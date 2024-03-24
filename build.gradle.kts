@@ -52,6 +52,9 @@ tasks.withType<Kotlin2JsCompile>().configureEach {
 rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
     lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
+
+    resolution("socket.io-parser", "4.2.3")
+    resolution("qs", "6.9.7")
   }
   rootProject.the<NodeJsRootExtension>().apply {
     versions.webpackDevServer.version = libs.versions.webpackDevServer.get()
