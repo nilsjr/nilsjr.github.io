@@ -21,7 +21,7 @@ kotlin {
     binaries.executable()
   }
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(libs.kotlinx.coroutines)
       }
