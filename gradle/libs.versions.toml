@@ -2,9 +2,8 @@
 coroutines = "1.8.1-Beta"
 detekt = "1.23.6"
 gradleVersionsPlugin = "0.51.0"
-jetbrainsCompose = "1.6.10-beta02"
-jetbrainsComposeCompiler = "1.5.11-kt-2.0.0-RC1"
-kotlin = "2.0.0-RC1"
+jetbrainsCompose = "1.6.10-beta03"
+kotlin = "2.0.0-RC2"
 webpack = "5.91.0"
 webpackCli = "5.1.4"
 webpackDevServer = "5.0.4"
@@ -19,3 +18,4 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 gradleVersions = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionsPlugin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

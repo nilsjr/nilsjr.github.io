@@ -7,6 +7,7 @@ import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.jetbrains.compose)
   alias(libs.plugins.detekt)
   alias(libs.plugins.gradleVersions)
@@ -34,11 +35,6 @@ kotlin {
       }
     }
   }
-}
-
-val compilerVersion: String = libs.versions.jetbrainsComposeCompiler.get()
-compose {
-  kotlinCompilerPlugin.set(compilerVersion)
 }
 
 tasks.withType<Kotlin2JsCompile>().configureEach {
