@@ -102,12 +102,14 @@ tasks.dependencyUpdates.configure {
 }
 
 tasks.register<Copy>("moveAssets") {
+  mustRunAfter("jsProcessResources")
   from(layout.buildDirectory.dir("processedResources/js/main/assets"))
   into(layout.buildDirectory.dir("dist/assets"))
 }
 
 tasks.register<Copy>("moveExecutable") {
-  dependsOn("moveAssets")
+  mustRunAfter("jsBrowserProductionWebpack")
+  dependsOn("jsBrowserProductionWebpack", "moveAssets")
   from(
     layout.buildDirectory.file("kotlin-webpack/js/productionExecutable/nils.github.io.js"),
     layout.buildDirectory.file("kotlin-webpack/js/productionExecutable/nils.github.io.js.map"),
