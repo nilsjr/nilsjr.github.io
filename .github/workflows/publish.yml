@@ -17,13 +17,13 @@ jobs:
           java-version: '21'
 
       - name: Build
-        run: ./gradlew jsBrowserProductionWebpack
+        run: ./gradlew jsBrowserProductionWebpack moveExecutable
 
       # If main branch update, deploy to gh-pages
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.6.1
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: build/dist/js/productionExecutable # The folder the action should deploy.
+          folder: build/dist # The folder the action should deploy.
           clean: true # Automatically remove deleted files from the deploy branch
           silent: true

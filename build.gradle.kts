@@ -42,6 +42,7 @@ tasks.withType<Kotlin2JsCompile>().configureEach {
     allWarningsAsErrors.set(false)
     progressiveMode.set(true)
     freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+    target.set("es2015")
   }
 }
 
@@ -98,4 +99,19 @@ tasks.register<Detekt>("ktlintCheck") {
 // configure dependency updates
 tasks.dependencyUpdates.configure {
   gradleReleaseChannel = "release-candidate"
+}
+
+tasks.register<Copy>("moveAssets") {
+  from(layout.buildDirectory.dir("processedResources/js/main/assets"))
+  into(layout.buildDirectory.dir("dist/assets"))
+}
+
+tasks.register<Copy>("moveExecutable") {
+  dependsOn("moveAssets")
+  from(
+    layout.buildDirectory.file("kotlin-webpack/js/productionExecutable/nils.github.io.js"),
+    layout.buildDirectory.file("kotlin-webpack/js/productionExecutable/nils.github.io.js.map"),
+    layout.buildDirectory.file("processedResources/js/main/index.html"),
+  )
+  into(layout.buildDirectory.dir("dist"))
 }
