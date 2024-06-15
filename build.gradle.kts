@@ -56,6 +56,7 @@ rootProject.plugins.withType<YarnPlugin> {
 
     resolution("socket.io-parser", "4.2.3")
     resolution("qs", "6.9.7")
+    resolution("braces", "3.0.3")
   }
   rootProject.the<NodeJsRootExtension>().apply {
     versions.webpackDevServer.version = libs.versions.webpackDevServer.get()
