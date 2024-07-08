@@ -37,10 +37,6 @@ kotlin {
   }
 }
 
-composeCompiler {
-  enableStrongSkippingMode = true
-}
-
 tasks.withType<Kotlin2JsCompile>().configureEach {
   compilerOptions {
     allWarningsAsErrors.set(false)
