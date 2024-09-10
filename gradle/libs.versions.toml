@@ -1,6 +1,6 @@
 [versions]
 coroutines = "1.9.0-RC.2"
-detekt = "1.23.6"
+detekt = "1.23.7"
 gradleVersionsPlugin = "0.51.0"
 jetbrainsCompose = "1.7.0-beta02+build1807-release-1.7.0-beta02"
 kotlin = "2.1.0-saturn-419"
