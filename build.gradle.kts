@@ -1,3 +1,4 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
@@ -99,10 +100,10 @@ tasks.register<Detekt>("ktlintCheck") {
 }
 
 // configure dependency updates
-tasks.dependencyUpdates.configure {
+tasks.withType<DependencyUpdatesTask> {
   gradleReleaseChannel = "release-candidate"
   rejectVersionIf {
-    isNonStable(candidate.version)
+    isNonStable(candidate.version) && !isNonStable(currentVersion)
   }
 }
 
