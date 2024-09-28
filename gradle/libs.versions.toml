@@ -2,7 +2,7 @@
 coroutines = "1.9.0"
 detekt = "1.23.7"
 gradleVersionsPlugin = "0.51.0"
-jetbrainsCompose = "1.7.0-rc01+build1844-release-1.7"
+jetbrainsCompose = "1.7.0-rc01+build1854-release-1.7"
 kotlin = "2.1.0-saturn-419"
 webpack = "5.91.0"
 webpackCli = "5.1.4"
