@@ -254,3 +254,4 @@ gradle-app.setting
 
 # new kotlin folder
 .kotlin/
+.idea/
