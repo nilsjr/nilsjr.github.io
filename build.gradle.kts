@@ -55,6 +55,9 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("qs", "6.9.7")
     resolution("braces", "3.0.3")
     resolution("ws", "8.17.1")
+    resolution("path-to-regexp", "0.1.12")
+    resolution("cross-spawn", "7.0.5")
+    resolution("braces", "3.0.3")
   }
   rootProject.the<NodeJsRootExtension>().apply {
     versions.webpackDevServer.version = libs.versions.webpackDevServer.get()

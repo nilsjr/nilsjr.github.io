@@ -854,10 +854,10 @@ cors@~2.8.5:
     object-assign "^4"
     vary "^1"
 
-cross-spawn@^7.0.0, cross-spawn@^7.0.3:
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
-  integrity sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==
+cross-spawn@7.0.5, cross-spawn@^7.0.0, cross-spawn@^7.0.3:
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.5.tgz#910aac880ff5243da96b728bc6521a5f6c2f2f82"
+  integrity sha512-ZVJrKKYunU38/76t0RMOulHOnUcbU9GbpWKAOZ0mhjr7CX6FVrH+4FrAapSOekrgFQ3f/8gwMEuIft0aKq6Hug==
   dependencies:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
@@ -1700,10 +1700,10 @@ kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kotlin-web-helpers@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/kotlin-web-helpers/-/kotlin-web-helpers-2.0.0.tgz#b112096b273c1e733e0b86560998235c09a19286"
-  integrity sha512-xkVGl60Ygn/zuLkDPx+oHj7jeLR7hCvoNF99nhwXMn8a3ApB4lLiC9pk4ol4NHPjyoCbvQctBqvzUcp8pkqyWw==
+kotlin-web-helpers@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/kotlin-web-helpers/-/kotlin-web-helpers-2.1.0.tgz#6cd4b0f0dc3baea163929c8638155b8d19c55a74"
+  integrity sha512-NAJhiNB84tnvJ5EQx7iER3GWw7rsTZkX9HVHZpe7E3dDBD/dhTzqgSwNU3MfQjniy2rB04bP24WM9Z32ntUWRg==
   dependencies:
     format-util "^1.0.5"
 
@@ -2108,10 +2108,10 @@ path-scurry@^1.10.1:
     lru-cache "^9.1.1 || ^10.0.0"
     minipass "^5.0.0 || ^6.0.2 || ^7.0.0"
 
-path-to-regexp@0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
-  integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
+path-to-regexp@0.1.12, path-to-regexp@0.1.7:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.12.tgz#d5e1a12e478a976d432ef3c58d534b9923164bb7"
+  integrity sha512-RA1GjUVMnvYFxuqovrEqZoxxW5NUZqbwKtYz/Tt7nXerk0LbLblQmrsgdeOxV5SFHf0UDggjS/bSeOZwt1pmEQ==
 
 picocolors@^1.0.0:
   version "1.0.0"
