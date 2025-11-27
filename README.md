@@ -8,7 +8,7 @@ with kotlin compose.
 
 # Roadmap
 - update readme daw
-- add darkmode
+- add darkmode daw
 
 # Inspiration
 
