@@ -7,7 +7,7 @@ with kotlin compose.
 [Portfolio](https://nilsjr.github.io/)
 
 # Roadmap
-- update readme
+- update readme daw
 - add darkmode
 
 # Inspiration
