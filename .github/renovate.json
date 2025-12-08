@@ -23,6 +23,7 @@
         "patch",
         "minor"
       ],
+      "minimumReleaseAge": "3 days",
       "automerge": true
     }
   ]

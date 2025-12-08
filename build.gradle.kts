@@ -51,13 +51,14 @@ rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
     lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
 
-    resolution("socket.io-parser", "4.2.3")
-    resolution("qs", "6.9.7")
     resolution("braces", "3.0.3")
-    resolution("ws", "8.17.1")
-    resolution("path-to-regexp", "0.1.12")
+    resolution("braces", "3.0.3")
     resolution("cross-spawn", "7.0.5")
-    resolution("braces", "3.0.3")
+    resolution("node-forge", "1.3.2")
+    resolution("path-to-regexp", "0.1.12")
+    resolution("qs", "6.9.7")
+    resolution("socket.io-parser", "4.2.3")
+    resolution("ws", "8.17.1")
   }
   rootProject.the<NodeJsRootExtension>().apply {
     versions.webpackDevServer.version = libs.versions.webpackDevServer.get()
