@@ -54,6 +54,7 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("braces", "3.0.3")
     resolution("braces", "3.0.3")
     resolution("cross-spawn", "7.0.5")
+    resolution("glob", "10.5.0")
     resolution("node-forge", "1.3.2")
     resolution("path-to-regexp", "0.1.12")
     resolution("qs", "6.9.7")
