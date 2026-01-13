@@ -57,7 +57,7 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("glob", "10.5.0")
     resolution("node-forge", "1.3.2")
     resolution("path-to-regexp", "0.1.12")
-    resolution("qs", "6.9.7")
+    resolution("qs", "6.14.1")
     resolution("socket.io-parser", "4.2.3")
     resolution("ws", "8.17.1")
   }
