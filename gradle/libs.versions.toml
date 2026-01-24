@@ -9,6 +9,9 @@ webpackCli = "5.1.4"
 webpackDevServer = "5.0.4"
 
 [libraries]
+compose-html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "jetbrainsCompose" }
+compose-html-svg = { module = "org.jetbrains.compose.html:html-svg", version.ref = "jetbrainsCompose" }
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrainsCompose" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 

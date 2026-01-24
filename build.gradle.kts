@@ -1,6 +1,7 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
@@ -18,7 +19,7 @@ group = "de.nilsdruyen"
 version = "2025.0.0"
 
 kotlin {
-  js(IR) {
+  js(KotlinJsCompilerType.IR) {
     browser()
     binaries.executable()
   }
@@ -30,9 +31,9 @@ kotlin {
     }
     val jsMain by getting {
       dependencies {
-        implementation(compose.runtime)
-        implementation(compose.html.core)
-        implementation(compose.html.svg)
+        implementation(libs.compose.runtime)
+        implementation(libs.compose.html.core)
+        implementation(libs.compose.html.svg)
       }
     }
   }
