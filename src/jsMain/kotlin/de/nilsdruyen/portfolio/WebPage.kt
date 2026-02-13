@@ -15,7 +15,7 @@ import de.nilsdruyen.portfolio.components.title
 import de.nilsdruyen.portfolio.components.work
 
 @Composable
-fun page(isDark: Boolean, toggleDarkMode: () -> Unit) {
+fun page() {
   placeholder {
 //    A(
 //      href = "#",
