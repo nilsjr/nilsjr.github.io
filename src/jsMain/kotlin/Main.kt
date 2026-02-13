@@ -33,7 +33,7 @@ fun main() {
     Div({
       classes(if (darkMode) Style.dark else Style.light)
     }) {
-      page(darkMode) { darkMode = !darkMode }
+      page()
     }
   }
 }
