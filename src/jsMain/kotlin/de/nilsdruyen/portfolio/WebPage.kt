@@ -14,7 +14,6 @@ import de.nilsdruyen.portfolio.components.projects
 import de.nilsdruyen.portfolio.components.title
 import de.nilsdruyen.portfolio.components.work
 
-@Suppress("UnusedParameter")
 @Composable
 fun page(isDark: Boolean, toggleDarkMode: () -> Unit) {
   placeholder {
