@@ -55,14 +55,15 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("body-parser", "1.20.3")
     resolution("braces", "3.0.3")
     resolution("cross-spawn", "7.0.5")
+    resolution("flatted", "3.4.2")
     resolution("glob", "10.5.0")
     resolution("http-proxy-middleware", "2.0.7")
-    resolution("minimatch", "9.0.6")
+    resolution("minimatch", "9.0.7")
     resolution("node-forge", "1.3.2")
     resolution("path-to-regexp", "0.1.12")
     resolution("qs", "6.14.1")
     resolution("serialize-javascript", "7.0.3")
-    resolution("socket.io-parser", "4.2.3")
+    resolution("socket.io-parser", "4.2.6")
     resolution("ws", "8.17.1")
   }
   rootProject.the<NodeJsRootExtension>().apply {
