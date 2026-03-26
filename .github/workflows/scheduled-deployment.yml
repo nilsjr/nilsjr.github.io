@@ -1,0 +1,85 @@
+name: Scheduled Monthly Deploy
+
+on:
+  schedule:
+    - cron: '0 10 1 * *'  # 1st of each month at 10:00 UTC
+  workflow_dispatch:      # allow manual trigger too
+
+jobs:
+  create-release-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Check for diff
+        id: diff
+        run: |
+          git fetch origin main
+          COUNT=$(git rev-list origin/main..HEAD --count)
+          echo "ahead=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Bump version
+        if: steps.diff.outputs.ahead != '0'
+        id: version-bump
+        run: |
+          CURRENT_VERSION=$(grep '^version =' build.gradle.kts | cut -d '"' -f 2)
+          V_YEAR=$(echo $CURRENT_VERSION | cut -d '.' -f 1)
+          V_MINOR=$(echo $CURRENT_VERSION | cut -d '.' -f 2)
+          
+          CURRENT_YEAR=$(date +%Y)
+          
+          if [ "$CURRENT_YEAR" -gt "$V_YEAR" ]; then
+            NEW_VERSION="$CURRENT_YEAR.0.0"
+          else
+            NEW_MINOR=$((V_MINOR + 1))
+            NEW_VERSION="$V_YEAR.$NEW_MINOR.0"
+          fi
+          
+          echo "Bumping version from $CURRENT_VERSION to $NEW_VERSION"
+          sed -i "s/version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" build.gradle.kts
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create Release Branch and Commit
+        if: steps.diff.outputs.ahead != '0'
+        run: |
+          NEW_VERSION=${{ steps.version-bump.outputs.new_version }}
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "release/v$NEW_VERSION"
+          git commit -am "chore: bump version to $NEW_VERSION"
+          git push origin "release/v$NEW_VERSION"
+
+      - name: Create Pull Request
+        if: steps.diff.outputs.ahead != '0'
+        id: create-pr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: release/v${{ steps.version-bump.outputs.new_version }}
+          title: "chore: scheduled release ${{ steps.version-bump.outputs.new_version }}"
+          body: |
+            ## Automated Monthly Release
+            - Source: `develop`
+            - New Version: `${{ steps.version-bump.outputs.new_version }}`
+            - Triggered: `${{ github.event_name }}`
+            - Run: `${{ github.run_number }}`
+          labels: auto-release
+
+      - name: Enable Auto-Merge
+        if: steps.create-pr.outputs.pull-request-number
+        run: |
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} \
+            --auto \
+            --squash \
+            --delete-branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -16,7 +16,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "2025.0.0"
+version = "2026.0.0"
 
 kotlin {
   js(KotlinJsCompilerType.IR) {
