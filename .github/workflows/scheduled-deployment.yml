@@ -26,11 +26,11 @@ jobs:
           COUNT=$(git rev-list origin/main..HEAD --count)
           echo "ahead=$COUNT" >> $GITHUB_OUTPUT
 
-      - name: Bump version
+      - name: Bump version and Commit
         if: steps.diff.outputs.ahead != '0'
         id: version-bump
         run: |
-          CURRENT_VERSION=$(grep '^version =' build.gradle.kts | cut -d '"' -f 2)
+          CURRENT_VERSION=$(grep '^version = "' build.gradle.kts | cut -d '"' -f 2)
           V_YEAR=$(echo $CURRENT_VERSION | cut -d '.' -f 1)
           V_MINOR=$(echo $CURRENT_VERSION | cut -d '.' -f 2)
           
@@ -45,41 +45,48 @@ jobs:
           
           echo "Bumping version from $CURRENT_VERSION to $NEW_VERSION"
           sed -i "s/version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" build.gradle.kts
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-
-      - name: Create Release Branch and Commit
-        if: steps.diff.outputs.ahead != '0'
-        run: |
-          NEW_VERSION=${{ steps.version-bump.outputs.new_version }}
+          
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b "release/v$NEW_VERSION"
           git commit -am "chore: bump version to $NEW_VERSION"
-          git push origin "release/v$NEW_VERSION"
+          git push origin develop
+          
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request
         if: steps.diff.outputs.ahead != '0'
         id: create-pr
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: main
-          branch: release/v${{ steps.version-bump.outputs.new_version }}
-          title: "chore: scheduled release ${{ steps.version-bump.outputs.new_version }}"
-          body: |
-            ## Automated Monthly Release
-            - Source: `develop`
-            - New Version: `${{ steps.version-bump.outputs.new_version }}`
-            - Triggered: `${{ github.event_name }}`
-            - Run: `${{ github.run_number }}`
-          labels: auto-release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_VERSION=${{ steps.version-bump.outputs.new_version }}
+          
+          # Check if PR already exists
+          PR_EXISTS=$(gh pr list --head develop --base main --state open --json number -q '.[0].number')
+          
+          if [ -z "$PR_EXISTS" ]; then
+            PR_URL=$(gh pr create \
+              --base main \
+              --head develop \
+              --title "$NEW_VERSION" \
+              --body "## Automated Monthly Release
+            - New Version: \`$NEW_VERSION\`
+            - Triggered: \`${{ github.event_name }}\`
+            - Run: \`${{ github.run_number }}\`" \
+              --label auto-release)
+          else
+            echo "PR already exists: $PR_EXISTS"
+            gh pr edit "$PR_EXISTS" --title "$NEW_VERSION"
+            PR_URL=$(gh pr view "$PR_EXISTS" --json url -q ".url")
+          fi
+          
+          echo "pull-request-url=$PR_URL" >> $GITHUB_OUTPUT
 
       - name: Enable Auto-Merge
-        if: steps.create-pr.outputs.pull-request-number
+        if: steps.create-pr.outputs.pull-request-url
         run: |
-          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} \
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-url }} \
             --auto \
-            --squash \
-            --delete-branch
+            --squash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
