@@ -5,8 +5,4 @@
 
 package de.nilsdruyen.portfolio.model
 
-data class Experiment(
-  val title: String,
-  val subtitle: String,
-  val link: String,
-)
+data class Experiment(val title: String, val subtitle: String, val link: String)

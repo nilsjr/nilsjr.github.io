@@ -63,12 +63,12 @@ object Model {
     Project(
       "Gradle FTP upload plugin",
       "Gradle plugin for uploading files via ftp",
-      "https://github.com/nilsjr/gradle-ftp-upload-plugin"
+      "https://github.com/nilsjr/gradle-ftp-upload-plugin",
     ),
     Project(
       "WoWMythicPlus",
       "\uD83D\uDD11 WoW M+ overview displaying data from raider.io api",
-      "https://github.com/nilsjr/WoWMythicPlus"
+      "https://github.com/nilsjr/WoWMythicPlus",
     ),
   )
 
@@ -86,12 +86,12 @@ object Model {
     Project(
       "accompanist",
       "A collection of extension libraries for Jetpack Compose",
-      "https://github.com/google/accompanist"
+      "https://github.com/google/accompanist",
     ),
     Project(
       "azure-gradle-plugins",
       "About Azure Plugins for Gradle",
-      "https://github.com/microsoft/azure-gradle-plugins"
+      "https://github.com/microsoft/azure-gradle-plugins",
     ),
   )
 

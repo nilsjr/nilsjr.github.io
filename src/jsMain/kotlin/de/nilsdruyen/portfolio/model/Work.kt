@@ -5,9 +5,4 @@
 
 package de.nilsdruyen.portfolio.model
 
-data class Work(
-  val timeFrame: String,
-  val result: String,
-  val role: String,
-  val name: String,
-)
+data class Work(val timeFrame: String, val result: String, val role: String, val name: String)

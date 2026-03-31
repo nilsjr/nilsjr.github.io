@@ -75,7 +75,7 @@ private fun interests() {
             attrs = {
               target(ATarget.Blank)
               classes(Style.Work.interestLink)
-            }
+            },
           ) {
             Img(
               src = "assets/${interest.iconName}.svg",
@@ -83,7 +83,7 @@ private fun interests() {
                 style {
                   height(interest.iconHeight.px)
                 }
-              }
+              },
             )
           }
         }

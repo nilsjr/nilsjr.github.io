@@ -88,7 +88,7 @@ private fun social() {
         attrs = {
           target(ATarget.Blank)
           classes(Style.AboutMe.profileLink)
-        }
+        },
       ) {
         Div({
           style {
@@ -151,7 +151,7 @@ private fun experiment(experiment: Experiment, styleBlock: StyleScope.() -> Unit
       href = experiment.link,
       attrs = {
         classes(Style.Grid.span6, Style.Experiment.container)
-      }
+      },
     ) {
       Div({ classes(Style.Experiment.containerOverlay) }) {
         P({ classes(Style.Section.title2) }) { Text(experiment.title) }

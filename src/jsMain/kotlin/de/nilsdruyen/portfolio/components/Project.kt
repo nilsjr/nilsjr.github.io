@@ -35,7 +35,7 @@ fun project(project: Project, showViewMore: Boolean, styleBlock: StyleScope.() -
       attrs = {
         target(ATarget.Blank)
         classes(Style.Projects.containerOverlay)
-      }
+      },
     ) {
       Div({ classes(Style.Projects.containerInner) }) {
         P({ classes(Style.Section.title2) }) { Text(project.title) }
@@ -58,7 +58,7 @@ private fun viewMore() {
           width(.5.cssRem)
           height(.5.cssRem)
           fill("none")
-        }
+        },
       ) {
         Path(
           d = "M6.8291 6.82849L6.8291 1.17163M6.8291 1.17163L1.17225 1.17163M6.8291 1.17163L1.17188 6.82849",

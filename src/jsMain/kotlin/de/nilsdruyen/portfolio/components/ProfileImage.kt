@@ -51,7 +51,7 @@ fun image() {
       images.forEach {
         Img(
           src = "assets/$it.jpg",
-          attrs = { classes(Style.profileImage, addStyle(image == it)) }
+          attrs = { classes(Style.profileImage, addStyle(image == it)) },
         )
       }
     }
