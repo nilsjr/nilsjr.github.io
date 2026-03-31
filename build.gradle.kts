@@ -1,6 +1,6 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import io.gitlab.arturbosch.detekt.Detekt
-import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import dev.detekt.gradle.Detekt
+import dev.detekt.gradle.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
@@ -77,35 +77,56 @@ rootProject.plugins.withType<YarnPlugin> {
 
 // configure detekt
 extensions.configure<DetektExtension> {
-  parallel = true
+  parallel.set(true)
+  buildUponDefaultConfig.set(true)
   source.setFrom(files("src/jsMain/kotlin"))
   config.setFrom(files("$rootDir/detekt.yml"))
-  buildUponDefaultConfig = true
 }
 dependencies {
-  "detektPlugins"(libs.detekt.formatting)
+  "detektPlugins"(libs.detekt.ktlint.wrapper)
 }
 
 tasks.register<Detekt>("ktlintCheck") {
   description = "Run detekt ktlint wrapper"
-  parallel = true
+  parallel.set(true)
   setSource(files("src/jsMain/kotlin"))
   config.setFrom(files("$rootDir/detekt-formatting.yml"))
-  buildUponDefaultConfig = true
-  disableDefaultRuleSets = true
-  autoCorrect = false
+  buildUponDefaultConfig.set(true)
+  disableDefaultRuleSets.set(true)
+  autoCorrect.set(false)
   reports {
-    xml {
+    checkstyle {
       required.set(true)
       outputLocation.set(layout.buildDirectory.file("reports/detekt/detektFormatting.xml"))
     }
     html.required.set(false)
-    txt.required.set(false)
   }
   include(listOf("**/*.kt", "**/*.kts"))
   exclude("build/")
   dependencies {
-    "detektPlugins"(libs.detekt.formatting)
+    "detektPlugins"(libs.detekt.ktlint.wrapper)
+  }
+}
+
+tasks.register<Detekt>("ktlintFormat") {
+  description = "Run detekt ktlint wrapper"
+  parallel.set(true)
+  setSource(files("src/jsMain/kotlin"))
+  config.setFrom(files("$rootDir/detekt-formatting.yml"))
+  buildUponDefaultConfig.set(true)
+  disableDefaultRuleSets.set(true)
+  autoCorrect.set(true)
+  reports {
+    checkstyle {
+      required.set(true)
+      outputLocation.set(layout.buildDirectory.file("reports/detekt/detektFormatting.xml"))
+    }
+    html.required.set(false)
+  }
+  include(listOf("**/*.kt", "**/*.kts"))
+  exclude("build/")
+  dependencies {
+    "detektPlugins"(libs.detekt.ktlint.wrapper)
   }
 }
 
