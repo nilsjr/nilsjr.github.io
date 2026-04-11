@@ -33,7 +33,7 @@ fun footer() {
       }) {
         P({ classes(Style.Footer.text) }) { Text("built with love & kotlin multiplatform <3") }
         Br { }
-        P({ classes(Style.Footer.text) }) { Text("© 2023 Nils Druyen") }
+        P({ classes(Style.Footer.text) }) { Text("© 2026 Nils Druyen") }
       }
     }
   }
