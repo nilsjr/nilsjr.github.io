@@ -2,9 +2,17 @@ name: Check and Build
 on:
   push:
     branches:
-      - develop
       - main
   pull_request:
+    branches:
+      - main
+      - develop
+
+concurrency:
+  # This group ID ensures that only one workflow runs per branch/PR at a time.
+  # github.head_ref is only available in PRs, falling back to github.ref_name for pushes.
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 
 jobs:
   detekt:
