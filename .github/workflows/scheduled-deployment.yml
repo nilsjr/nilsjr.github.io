@@ -86,6 +86,6 @@ jobs:
         if: steps.create-pr.outputs.pull-request-url
         run: |
           gh pr merge ${{ steps.create-pr.outputs.pull-request-url }} \
-            --auto
+            --auto --merge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
