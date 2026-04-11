@@ -97,15 +97,12 @@ tasks.register<Detekt>("ktlintCheck") {
   reports {
     checkstyle {
       required.set(true)
-      outputLocation.set(layout.buildDirectory.file("reports/detekt/detektFormatting.xml"))
+      outputLocation.set(layout.buildDirectory.file("reports/detekt/ktlint-check.xml"))
     }
     html.required.set(false)
   }
   include(listOf("**/*.kt", "**/*.kts"))
   exclude("build/")
-  dependencies {
-    "detektPlugins"(libs.detekt.ktlint.wrapper)
-  }
 }
 
 tasks.register<Detekt>("ktlintFormat") {
@@ -119,15 +116,12 @@ tasks.register<Detekt>("ktlintFormat") {
   reports {
     checkstyle {
       required.set(true)
-      outputLocation.set(layout.buildDirectory.file("reports/detekt/detektFormatting.xml"))
+      outputLocation.set(layout.buildDirectory.file("reports/detekt/ktlint-format.xml"))
     }
     html.required.set(false)
   }
   include(listOf("**/*.kt", "**/*.kts"))
   exclude("build/")
-  dependencies {
-    "detektPlugins"(libs.detekt.ktlint.wrapper)
-  }
 }
 
 // configure dependency updates
