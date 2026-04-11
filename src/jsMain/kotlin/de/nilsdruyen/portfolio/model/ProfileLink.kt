@@ -9,7 +9,4 @@ import androidx.compose.runtime.Composable
 import org.jetbrains.compose.web.attributes.AttrsScope
 import org.w3c.dom.svg.SVGElement
 
-data class ProfileLink(
-  val link: String,
-  val icon: @Composable (AttrsScope<SVGElement>.() -> Unit) -> Unit = {},
-)
+data class ProfileLink(val link: String, val icon: @Composable (AttrsScope<SVGElement>.() -> Unit) -> Unit = {})

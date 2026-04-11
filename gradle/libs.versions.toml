@@ -1,6 +1,6 @@
 [versions]
 coroutines = "1.10.2"
-detekt = "1.23.8"
+detekt = "2.0.0-alpha.2"
 gradleVersionsPlugin = "0.52.0"
 jetbrainsCompose = "1.10.3"
 kotlin = "2.3.20"
@@ -12,11 +12,11 @@ webpackDevServer = "5.0.4"
 compose-html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "jetbrainsCompose" }
 compose-html-svg = { module = "org.jetbrains.compose.html:html-svg", version.ref = "jetbrainsCompose" }
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrainsCompose" }
-detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+detekt-ktlint-wrapper = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt" }
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
 [plugins]
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+detekt = { id = "dev.detekt", version.ref = "detekt" }
 gradleVersions = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionsPlugin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

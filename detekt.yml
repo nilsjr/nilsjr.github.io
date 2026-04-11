@@ -1,6 +1,23 @@
-performance:
-  SpreadOperator:
-    active: false
+console-reports:
+  exclude:
+    - 'ProjectStatisticsReport'
+    - 'ComplexityReport'
+    - 'NotificationReport'
+    - 'FileBasedFindingsReport'
+    - 'LiteFindingsReport'
+
+complexity:
+  ComplexCondition:
+    allowedConditions: 5
+  CyclomaticComplexMethod:
+    ignoreSingleWhenExpression: true
+
+naming:
+  FunctionNaming:
+    functionPattern: "[a-z][a-zA-Z0-9]*"
+    ignoreAnnotated: [ 'Composable' ]
+  TopLevelPropertyNaming:
+    constantPattern: '[A-Z][_A-Z0-9]*|[A-Z][A-Za-z0-9]*'
 
 style:
   MagicNumber:
@@ -8,10 +25,5 @@ style:
   NewLineAtEndOfFile:
     active: false
 
-naming:
-  FunctionNaming:
-    ignoreAnnotated:
-      - 'Composable'
-
-formatting:
+ktlint:
   active: false
