@@ -1,0 +1,91 @@
+name: Scheduled Monthly Deploy
+
+on:
+  schedule:
+    - cron: '0 10 1 * *'  # 1st of each month at 10:00 UTC
+  workflow_dispatch:      # allow manual trigger too
+
+jobs:
+  create-release-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Check for diff
+        id: diff
+        run: |
+          git fetch origin main
+          COUNT=$(git rev-list origin/main..HEAD --count)
+          echo "ahead=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Bump version and Commit
+        if: steps.diff.outputs.ahead != '0'
+        id: version-bump
+        run: |
+          CURRENT_VERSION=$(grep '^version = "' build.gradle.kts | cut -d '"' -f 2)
+          V_YEAR=$(echo $CURRENT_VERSION | cut -d '.' -f 1)
+          V_MINOR=$(echo $CURRENT_VERSION | cut -d '.' -f 2)
+          
+          CURRENT_YEAR=$(date +%Y)
+          
+          if [ "$CURRENT_YEAR" -gt "$V_YEAR" ]; then
+            NEW_VERSION="$CURRENT_YEAR.0.0"
+          else
+            NEW_MINOR=$((V_MINOR + 1))
+            NEW_VERSION="$V_YEAR.$NEW_MINOR.0"
+          fi
+          
+          echo "Bumping version from $CURRENT_VERSION to $NEW_VERSION"
+          sed -i "s/version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" build.gradle.kts
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "chore: bump version to $NEW_VERSION"
+          git push origin develop
+          
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: steps.diff.outputs.ahead != '0'
+        id: create-pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_VERSION=${{ steps.version-bump.outputs.new_version }}
+          
+          # Check if PR already exists
+          PR_EXISTS=$(gh pr list --head develop --base main --state open --json number -q '.[0].number')
+          
+          if [ -z "$PR_EXISTS" ]; then
+            PR_URL=$(gh pr create \
+              --base main \
+              --head develop \
+              --title "$NEW_VERSION" \
+              --body "## Automated Monthly Release
+            - New Version: \`$NEW_VERSION\`
+            - Triggered: \`${{ github.event_name }}\`
+            - Run: \`${{ github.run_number }}\`" \
+              --label auto-release)
+          else
+            echo "PR already exists: $PR_EXISTS"
+            gh pr edit "$PR_EXISTS" --title "$NEW_VERSION"
+            PR_URL=$(gh pr view "$PR_EXISTS" --json url -q ".url")
+          fi
+          
+          echo "pull-request-url=$PR_URL" >> $GITHUB_OUTPUT
+
+      - name: Enable Auto-Merge
+        if: steps.create-pr.outputs.pull-request-url
+        run: |
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-url }} \
+            --auto --merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

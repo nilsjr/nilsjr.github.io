@@ -31,7 +31,7 @@ object Icons {
         width(ICON_SIZE)
         height(ICON_SIZE)
         attrBlock()
-      }
+      },
     ) { Path(d = GITHUB) }
   }
 
@@ -44,7 +44,7 @@ object Icons {
         width(ICON_SIZE)
         height(ICON_SIZE)
         attrBlock()
-      }
+      },
     ) { Path(d = TWITTER_X) }
   }
 
@@ -57,7 +57,7 @@ object Icons {
         width(ICON_SIZE)
         height(ICON_SIZE)
         attrBlock()
-      }
+      },
     ) { Path(d = INSTAGRAM) }
   }
 
@@ -70,7 +70,7 @@ object Icons {
         width(ICON_SIZE)
         height(ICON_SIZE)
         attrBlock()
-      }
+      },
     ) { Path(d = XING) }
   }
 
@@ -83,7 +83,7 @@ object Icons {
         width(ICON_SIZE)
         height(ICON_SIZE)
         attrBlock()
-      }
+      },
     ) { Path(d = LINKEDIN) }
   }
 
@@ -96,7 +96,7 @@ object Icons {
         width(24)
         height(24)
         fill(Style.textColor.value().toString())
-      }
+      },
     ) {
       Path(d = if (isDark) DARK_MODE_FILLED else DARK_MODE)
     }
