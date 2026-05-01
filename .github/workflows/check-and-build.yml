@@ -2,12 +2,10 @@ name: Check and Build
 on:
   push:
     branches:
-      - main
       - develop
   pull_request:
     branches:
       - main
-      - develop
 
 concurrency:
   # This group ID ensures that only one workflow runs per branch/PR at a time.
