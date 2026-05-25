@@ -1,5 +1,5 @@
 [versions]
-coroutines = "1.10.2"
+coroutines = "1.11.0"
 detekt = "2.0.0-alpha.3"
 gradleVersionsPlugin = "0.54.0"
 jetbrainsCompose = "1.10.3"
