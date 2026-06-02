@@ -82,6 +82,14 @@ jobs:
           
           echo "pull-request-url=$PR_URL" >> $GITHUB_OUTPUT
 
+      - name: Dispatch check-and-build workflow
+        if: steps.diff.outputs.ahead != '0'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: pr_created_by_automation
+          client-payload: '{"pull_request_head_ref": "develop"}'
+
       - name: Enable Auto-Merge
         if: steps.create-pr.outputs.pull-request-url
         run: |

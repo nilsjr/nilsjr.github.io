@@ -1,7 +1,7 @@
 [versions]
 coroutines = "1.11.0"
 detekt = "2.0.0-alpha.3"
-gradleVersionsPlugin = "0.54.0"
+gradleVersionsPlugin = "0.52.0"
 jetbrainsCompose = "1.11.0"
 kotlin = "2.3.21"
 webpack = "5.91.0"
