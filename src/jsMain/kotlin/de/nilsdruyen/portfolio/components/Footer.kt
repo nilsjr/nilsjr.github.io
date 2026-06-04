@@ -7,7 +7,6 @@ package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.ui.Style
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.web.css.height
@@ -17,6 +16,7 @@ import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Footer
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
+import kotlin.time.Clock
 
 @Composable
 fun footer() {
