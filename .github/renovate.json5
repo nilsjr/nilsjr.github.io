@@ -13,6 +13,17 @@
     'before 5am on saturday',
     'before 5am on tuesday'
   ],
+  customManagers: [
+    {
+      customType: "regex",
+      description: "Update YarnPlugin npm resolutions in build.gradle.kts",
+      managerFilePatterns: ["(^|.*/)build\\.gradle\\.kts$"],
+      matchStrings: [
+        "resolution\\(\"(?<depName>[^\"]+)\",\\s*\"(?<currentValue>[^\"]+)\"",
+      ],
+      datasourceTemplate: "npm",
+    },
+  ],
   packageRules: [
     {
       groupName: 'Kotlin and KSP',
