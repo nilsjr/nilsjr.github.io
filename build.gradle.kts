@@ -1,7 +1,6 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import dev.detekt.gradle.Detekt
 import dev.detekt.gradle.extensions.DetektExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
@@ -19,7 +18,7 @@ group = "de.nilsdruyen"
 version = "2026.4.0"
 
 kotlin {
-  js(KotlinJsCompilerType.IR) {
+  js {
     browser()
     binaries.executable()
   }
@@ -64,6 +63,7 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("path-to-regexp", "0.1.12")
     resolution("qs", "6.14.1")
     resolution("serialize-javascript", "7.0.3")
+    resolution("shell-quote", "1.8.4")
     resolution("socket.io-parser", "4.2.6")
     resolution("ws", "8.17.1")
   }
