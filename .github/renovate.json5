@@ -40,6 +40,13 @@
       ],
       minimumReleaseAge: '3 days',
       automerge: true
+    },
+    {
+      description: 'Automerge major GitHub Actions updates',
+      matchManagers: ['github-actions'],
+      matchUpdateTypes: ['major'],
+      minimumReleaseAge: '3 days',
+      automerge: true
     }
   ]
 }
