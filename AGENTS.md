@@ -53,6 +53,35 @@ The app follows a straightforward Compose HTML pattern:
 - **Detekt**: Integrated for static code analysis and code style enforcement.
 - **Gradle Versions Plugin**: Used for managing and checking for dependency updates.
 
+## Git Workflow
+
+This project follows **Gitflow**:
+
+- `main` — production-ready code only; merged from `develop` via scheduled PR
+- `develop` — integration branch; all feature/fix branches target this
+- `feature/<description>` — new features branched from `develop`
+- `fix/<description>` — bug or security fixes branched from `develop`
+- `hotfix/<description>` — urgent fixes branched from `main`, merged back to both `main` and `develop`
+
+Always open PRs targeting `develop`, not `main`.
+
+### Commit Messages
+
+Use **Conventional Commits**:
+
+```
+<type>(<scope>): <short summary>
+
+[optional body]
+```
+
+Common types: `feat`, `fix`, `chore`, `docs`, `refactor`, `ci`, `build`.
+
+Examples:
+- `fix(deps): upgrade webpack-dev-server to resolve CVE-2025-30359`
+- `feat(ui): add dark mode toggle`
+- `chore(deps): bump kotlin to 2.4.0`
+
 ## Deployment
 
 CI runs on `.github/workflows/`:
