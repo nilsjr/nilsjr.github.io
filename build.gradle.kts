@@ -60,7 +60,7 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("http-proxy-middleware", "2.0.10")
     resolution("minimatch", "9.0.7")
     resolution("node-forge", "1.3.2")
-    resolution("path-to-regexp", "0.1.12")
+    resolution("path-to-regexp", "0.1.13")
     resolution("qs", "6.15.2")
     resolution("serialize-javascript", "7.0.3")
     resolution("shell-quote", "1.8.4")
