@@ -2,7 +2,7 @@
 coroutines = "1.11.0"
 datetime = "0.8.0-0.6.x-compat"
 detekt = "2.0.0-alpha.5"
-gradleVersionsPlugin = "0.52.0"
+gradleVersionsPlugin = "0.54.0"
 jetbrainsCompose = "1.11.1"
 kotlin = "2.4.0"
 webpack = "5.107.2"
