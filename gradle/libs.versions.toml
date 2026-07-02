@@ -1,12 +1,13 @@
 [versions]
-coroutines = "1.10.2"
-detekt = "2.0.0-alpha.3"
-gradleVersionsPlugin = "0.54.0"
-jetbrainsCompose = "1.10.3"
-kotlin = "2.3.21"
-webpack = "5.91.0"
-webpackCli = "5.1.4"
-webpackDevServer = "5.0.4"
+coroutines = "1.11.0"
+datetime = "0.8.0-0.6.x-compat"
+detekt = "2.0.0-alpha.5"
+gradleVersionsPlugin = "0.52.0"
+jetbrainsCompose = "1.11.1"
+kotlin = "2.4.0"
+webpack = "5.107.2"
+webpackCli = "7.0.3"
+webpackDevServer = "5.2.5"
 
 [libraries]
 compose-html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "jetbrainsCompose" }
@@ -14,6 +15,7 @@ compose-html-svg = { module = "org.jetbrains.compose.html:html-svg", version.ref
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrainsCompose" }
 detekt-ktlint-wrapper = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt" }
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 
 [plugins]
 detekt = { id = "dev.detekt", version.ref = "detekt" }

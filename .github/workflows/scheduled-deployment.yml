@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout develop
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           ref: develop
           fetch-depth: 0
@@ -81,6 +81,14 @@ jobs:
           fi
           
           echo "pull-request-url=$PR_URL" >> $GITHUB_OUTPUT
+
+      - name: Dispatch check-and-build workflow
+        if: steps.diff.outputs.ahead != '0'
+        uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: pr_created_by_automation
+          client-payload: '{"pull_request_head_ref": "develop"}'
 
       - name: Enable Auto-Merge
         if: steps.create-pr.outputs.pull-request-url

@@ -13,6 +13,17 @@
     'before 5am on saturday',
     'before 5am on tuesday'
   ],
+  customManagers: [
+    {
+      customType: "regex",
+      description: "Update YarnPlugin npm resolutions in build.gradle.kts",
+      managerFilePatterns: ["(^|.*/)build\\.gradle\\.kts$"],
+      matchStrings: [
+        "resolution\\(\"(?<depName>[^\"]+)\",\\s*\"(?<currentValue>[^\"]+)\"",
+      ],
+      datasourceTemplate: "npm",
+    },
+  ],
   packageRules: [
     {
       groupName: 'Kotlin and KSP',
@@ -27,6 +38,13 @@
         'patch',
         'minor'
       ],
+      minimumReleaseAge: '3 days',
+      automerge: true
+    },
+    {
+      description: 'Automerge major GitHub Actions updates',
+      matchManagers: ['github-actions'],
+      matchUpdateTypes: ['major'],
       minimumReleaseAge: '3 days',
       automerge: true
     }
