@@ -26,14 +26,16 @@ fun main() {
 
     LaunchedEffect(darkMode) {
       localStorage[KEY] = darkMode.toString()
-      console.log("mode set $darkMode")
     }
 
     Style(Style)
     Div({
       classes(if (darkMode) Style.dark else Style.light)
     }) {
-      page()
+      page(
+        isDark = darkMode,
+        toggleDarkMode = { darkMode = !darkMode },
+      )
     }
   }
 }
