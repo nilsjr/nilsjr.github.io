@@ -96,4 +96,9 @@ jobs:
           gh pr merge ${{ steps.create-pr.outputs.pull-request-url }} \
             --auto --merge
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Must NOT be the default GITHUB_TOKEN: pushes made by GITHUB_TOKEN do
+          # not trigger further workflows, so the merge to main would never fire
+          # publish.yml and the site would not deploy. Using a fine-grained PAT
+          # (or GitHub App installation token) makes the merge push trigger
+          # publish.yml -> Deploy as expected.
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
