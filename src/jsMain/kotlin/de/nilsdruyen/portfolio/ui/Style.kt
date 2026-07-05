@@ -16,12 +16,10 @@ import org.jetbrains.compose.web.css.FlexDirection
 import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.Position
-import org.jetbrains.compose.web.css.StylePropertyNumber
 import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.animation
-import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.backgroundPosition
 import org.jetbrains.compose.web.css.border
@@ -93,6 +91,12 @@ object Style : StyleSheet() {
   val textColor by variable<CSSColorValue>()
   val iconColor by variable<CSSColorValue>()
 
+  // Surfaces that used to be hardcoded light (cards, gradient panels) are driven
+  // by these theme variables so they turn dark in dark mode instead of staying white.
+  val cardTitleColor by variable<CSSColorValue>()
+  val cardTextColor by variable<CSSColorValue>()
+  val cardBorderColor by variable<CSSColorValue>()
+
   init {
     universal style {
       margin(0.px)
@@ -133,10 +137,23 @@ object Style : StyleSheet() {
     sectionTitleColor(Colors.DarkGrey)
     textColor(Colors.TextGray)
     iconColor(Colors.DarkGrey)
+
+    cardTitleColor(Colors.DarkGrey)
+    cardTextColor(Colors.TextGray)
+    cardBorderColor(Color.lightgray)
+    property("--card-bg-rgb", "255 255 255")
+    property("--card-gradient", LIGHT_CARD_GRADIENT)
+    property("--section-gradient", LIGHT_SECTION_GRADIENT)
+    property("--tint-blue", "rgba(242, 246, 250, .4)")
+    // no chip needed on the already-light interests panel
+    property("--logo-chip-bg", "transparent")
+    property("--logo-chip-pad", "0px")
   }
 
   val dark by style {
-    backgroundColor(Color.black)
+    // a soft charcoal grey rather than pure black; cards and panels are lifted
+    // above it (below) so they still read as distinct, elevated surfaces
+    backgroundColor(Color("#1e2127"))
 
     property("--tw-border-opacity", ".3")
     property("transition", "background-color 1.0s ease-in")
@@ -145,6 +162,20 @@ object Style : StyleSheet() {
     sectionTitleColor(Color.white)
     textColor(Color.white)
     iconColor(Color.white)
+
+    cardTitleColor(Color.white)
+    cardTextColor(Color("#9aa0a6"))
+    cardBorderColor(Color("#3a4049"))
+    property("--card-bg-rgb", "43 48 56")
+    property("--card-gradient", DARK_CARD_GRADIENT)
+    property("--section-gradient", DARK_SECTION_GRADIENT)
+    // the Experiments panel tint is near-white at .4 alpha, which glows grey on
+    // black; drop it to a faint tint so it matches the other section panels
+    property("--tint-blue", "rgba(130, 170, 220, .05)")
+    // interest logos sit on a muted grey chip — the darkest shade that still keeps
+    // the black Kotlin wordmark legible — rather than a stark white box
+    property("--logo-chip-bg", "#6b7280")
+    property("--logo-chip-pad", "16px")
   }
 
   val borderGray by style {
@@ -535,29 +566,29 @@ object Style : StyleSheet() {
       color(sectionTitleColor.value())
     }
 
-    // cards and gradient boxes keep a light background in both themes,
-    // so text on them must not follow the theme variables
+    // text on cards and gradient panels; follows the themed card colors so it
+    // stays readable on both the light and the dark surface variants
     val titleOnLight by style {
-      color(Colors.DarkGrey)
+      color(cardTitleColor.value())
     }
     val title2 by style {
       fontSize(20.px)
-      color(Colors.DarkGrey)
+      color(cardTitleColor.value())
     }
     val subtitle by style {
       fontSize(14.px)
-      color(Colors.TextGray)
+      color(cardTextColor.value())
     }
 
     val gradient by style {
-      background("linear-gradient(147deg, rgba(241,241,241,1) 0%, rgba(255,255,255,1) 70%, rgba(255,255,255,1) 100%)")
+      property("background", "var(--section-gradient)")
     }
 
     val flexItem by style {
       flex(1, 1, 0.percent)
     }
 
-    val blue by style { backgroundColor(rgba(242, 246, 250, .4)) }
+    val blue by style { property("background-color", "var(--tint-blue)") }
     val lime by style { backgroundColor(rgba(132, 250, 207, .1)) }
     val orange by style { backgroundColor(rgba(252, 229, 184, .1)) }
     val red by style { backgroundColor(rgba(242, 246, 250, .5)) }
@@ -631,7 +662,7 @@ object Style : StyleSheet() {
   object Experiment : StyleSheet(Style) {
 
     val container by style {
-      background("linear-gradient(30deg, rgba(241,241,241,1) 0%, rgba(255,255,255,1) 50%, rgba(241,241,241,1) 100%)")
+      property("background", "var(--card-gradient)")
       borderRadius(8.px)
     }
     val containerOverlay by style {
@@ -640,11 +671,11 @@ object Style : StyleSheet() {
       borderRadius(8.px)
       border {
         width = 1.px
-        color = Color.lightgray
+        color = cardBorderColor.value()
         style = LineStyle.Dashed
       }
       variable("exp-bg-opacity", 1)
-      property("background-color", "rgb(255 255 255/var(--exp-bg-opacity))")
+      property("background-color", "rgb(var(--card-bg-rgb)/var(--exp-bg-opacity))")
       property("transition", "all .5s ease")
       self + hover style {
         variable("exp-bg-opacity", 0)
@@ -660,6 +691,10 @@ object Style : StyleSheet() {
       height(80.px)
       display(DisplayStyle.Flex)
       alignItems(AlignItems.Center)
+      property("padding-left", "var(--logo-chip-pad)")
+      property("padding-right", "var(--logo-chip-pad)")
+      property("background-color", "var(--logo-chip-bg)")
+      borderRadius(12.px)
       property("transition", "transform .2s ease")
       self + hover style {
         transform {
@@ -670,8 +705,6 @@ object Style : StyleSheet() {
   }
 
   object Projects : StyleSheet(Style) {
-
-    val bgOpacity by variable<StylePropertyNumber>()
 
     val grid by style {
       display(DisplayStyle.Grid)
@@ -692,7 +725,7 @@ object Style : StyleSheet() {
     }
 
     val container by style {
-      background("linear-gradient(30deg, rgba(241,241,241,1) 0%, rgba(255,255,255,1) 50%, rgba(241,241,241,1) 100%)")
+      property("background", "var(--card-gradient)")
       borderRadius(1.cssRem)
     }
 
@@ -708,17 +741,17 @@ object Style : StyleSheet() {
       borderRadius(1.cssRem)
       border {
         width = 1.px
-        color = Color.lightgray
+        color = cardBorderColor.value()
         style = LineStyle.Solid
       }
       display(DisplayStyle.Flex)
       flexDirection(FlexDirection.Column)
       padding(1.cssRem)
-      bgOpacity(1)
-      backgroundColor(rgba(255, 255, 255, bgOpacity.value().unsafeCast<Number>()))
+      variable("proj-bg-opacity", 1)
+      property("background-color", "rgb(var(--card-bg-rgb)/var(--proj-bg-opacity))")
       property("transition", "all .5s ease")
       self + hover style {
-        bgOpacity(0)
+        variable("proj-bg-opacity", 0)
       }
     }
 
@@ -730,7 +763,7 @@ object Style : StyleSheet() {
         border {
           width = 1.px
           style = LineStyle.Solid
-          color = Color.lightgray
+          color = cardBorderColor.value()
         }
         display(DisplayStyle.LegacyInlineFlex)
         alignItems("center")
@@ -745,7 +778,7 @@ object Style : StyleSheet() {
       }
 
       val text by style {
-        color(Colors.DarkGrey)
+        color(cardTitleColor.value())
         fontSize(.875.cssRem)
         fontWeight(700)
         lineHeight("1")
@@ -777,3 +810,13 @@ object Style : StyleSheet() {
     }
   }
 }
+
+// Background gradients for cards and gradient panels, switched per theme via CSS variables.
+private const val LIGHT_CARD_GRADIENT =
+  "linear-gradient(30deg, rgba(241,241,241,1) 0%, rgba(255,255,255,1) 50%, rgba(241,241,241,1) 100%)"
+private const val LIGHT_SECTION_GRADIENT =
+  "linear-gradient(147deg, rgba(241,241,241,1) 0%, rgba(255,255,255,1) 70%, rgba(255,255,255,1) 100%)"
+private const val DARK_CARD_GRADIENT =
+  "linear-gradient(30deg, rgba(38,42,49,1) 0%, rgba(49,54,63,1) 50%, rgba(38,42,49,1) 100%)"
+private const val DARK_SECTION_GRADIENT =
+  "linear-gradient(147deg, rgba(38,42,49,1) 0%, rgba(47,52,61,1) 70%, rgba(47,52,61,1) 100%)"
