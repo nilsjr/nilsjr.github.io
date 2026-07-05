@@ -43,7 +43,6 @@ tasks.withType<Kotlin2JsCompile>().configureEach {
   compilerOptions {
     allWarningsAsErrors.set(false)
     progressiveMode.set(true)
-    freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
     target.set("es2015")
   }
 }

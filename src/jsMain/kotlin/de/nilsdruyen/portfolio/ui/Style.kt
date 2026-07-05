@@ -534,13 +534,19 @@ object Style : StyleSheet() {
       fontWeight(500)
       color(sectionTitleColor.value())
     }
+
+    // cards and gradient boxes keep a light background in both themes,
+    // so text on them must not follow the theme variables
+    val titleOnLight by style {
+      color(Colors.DarkGrey)
+    }
     val title2 by style {
       fontSize(20.px)
-      color(titleColor.value())
+      color(Colors.DarkGrey)
     }
     val subtitle by style {
       fontSize(14.px)
-      color(textColor.value())
+      color(Colors.TextGray)
     }
 
     val gradient by style {
@@ -767,6 +773,7 @@ object Style : StyleSheet() {
       fontWeight(500)
       textAlign("center")
       opacity(.5)
+      color(textColor.value())
     }
   }
 }

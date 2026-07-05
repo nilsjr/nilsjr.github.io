@@ -13,22 +13,30 @@ import de.nilsdruyen.portfolio.components.placeholder
 import de.nilsdruyen.portfolio.components.projects
 import de.nilsdruyen.portfolio.components.title
 import de.nilsdruyen.portfolio.components.work
+import de.nilsdruyen.portfolio.ui.Icons
+import de.nilsdruyen.portfolio.ui.Style
+import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.css.marginRight
+import org.jetbrains.compose.web.dom.A
 
 @Composable
-fun page() {
+fun page(isDark: Boolean, toggleDarkMode: () -> Unit) {
   placeholder {
-//    A(
-//      href = "#",
-//      attrs = {
-//        classes(Style.AboutMe.profileLink)
-//        style {
-//          marginRight(1.cssRem)
-//        }
-//        onClick { toggleDarkMode() }
-//      }
-//    ) {
-//      Icons.darkMode(isDark)
-//    }
+    A(
+      href = "#",
+      attrs = {
+        classes(Style.AboutMe.profileLink)
+        style {
+          marginRight(1.cssRem)
+        }
+        onClick {
+          it.preventDefault()
+          toggleDarkMode()
+        }
+      },
+    ) {
+      Icons.darkMode(isDark)
+    }
   }
   title()
   aboutMe()

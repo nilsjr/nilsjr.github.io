@@ -61,7 +61,7 @@ private fun interests() {
     style { paddingBottom(1.cssRem) }
   }) {
     P({
-      classes(Style.Section.title)
+      classes(Style.Section.title, Style.Section.titleOnLight)
       style { fadeIn(200) }
     }) { Text("Interests") }
     Div({ classes(Style.smallMarginBottom, Style.Grid.interestsContainer) }) {
