@@ -145,8 +145,9 @@ object Style : StyleSheet() {
     property("--card-gradient", LIGHT_CARD_GRADIENT)
     property("--section-gradient", LIGHT_SECTION_GRADIENT)
     property("--tint-blue", "rgba(242, 246, 250, .4)")
-    // logos are readable as-is on the light interests panel
-    property("--logo-filter", "none")
+    // no chip needed on the already-light interests panel
+    property("--logo-chip-bg", "transparent")
+    property("--logo-chip-pad", "0px")
   }
 
   val dark by style {
@@ -169,9 +170,10 @@ object Style : StyleSheet() {
     // the Experiments panel tint is near-white at .4 alpha, which glows grey on
     // black; drop it to a faint tint so it matches the other section panels
     property("--tint-blue", "rgba(130, 170, 220, .05)")
-    // outline the interest logos so the black Kotlin wordmark reads on the dark
-    // panel without wrapping them in a light box
-    property("--logo-filter", LOGO_OUTLINE_DARK)
+    // interest logos sit on a muted grey chip — the darkest shade that still keeps
+    // the black Kotlin wordmark legible — rather than a stark white box
+    property("--logo-chip-bg", "#6b7280")
+    property("--logo-chip-pad", "16px")
   }
 
   val borderGray by style {
@@ -687,7 +689,10 @@ object Style : StyleSheet() {
       height(80.px)
       display(DisplayStyle.Flex)
       alignItems(AlignItems.Center)
-      property("filter", "var(--logo-filter)")
+      property("padding-left", "var(--logo-chip-pad)")
+      property("padding-right", "var(--logo-chip-pad)")
+      property("background-color", "var(--logo-chip-bg)")
+      borderRadius(12.px)
       property("transition", "transform .2s ease")
       self + hover style {
         transform {
@@ -813,9 +818,3 @@ private const val DARK_CARD_GRADIENT =
   "linear-gradient(30deg, rgba(24,26,30,1) 0%, rgba(34,37,43,1) 50%, rgba(24,26,30,1) 100%)"
 private const val DARK_SECTION_GRADIENT =
   "linear-gradient(147deg, rgba(24,26,30,1) 0%, rgba(32,35,40,1) 70%, rgba(32,35,40,1) 100%)"
-
-// Thin white outline (stacked drop-shadows) that keeps the interest logos — including
-// the black Kotlin wordmark — legible on the dark panel while preserving their colors.
-private const val LOGO_OUTLINE_DARK =
-  "drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) " +
-    "drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff)"
