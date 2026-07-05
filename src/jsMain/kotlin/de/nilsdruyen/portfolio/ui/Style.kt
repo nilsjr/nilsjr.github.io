@@ -151,7 +151,9 @@ object Style : StyleSheet() {
   }
 
   val dark by style {
-    backgroundColor(Color.black)
+    // a soft charcoal grey rather than pure black; cards and panels are lifted
+    // above it (below) so they still read as distinct, elevated surfaces
+    backgroundColor(Color("#1e2127"))
 
     property("--tw-border-opacity", ".3")
     property("transition", "background-color 1.0s ease-in")
@@ -163,8 +165,8 @@ object Style : StyleSheet() {
 
     cardTitleColor(Color.white)
     cardTextColor(Color("#9aa0a6"))
-    cardBorderColor(Color("#2f343b"))
-    property("--card-bg-rgb", "28 31 36")
+    cardBorderColor(Color("#3a4049"))
+    property("--card-bg-rgb", "43 48 56")
     property("--card-gradient", DARK_CARD_GRADIENT)
     property("--section-gradient", DARK_SECTION_GRADIENT)
     // the Experiments panel tint is near-white at .4 alpha, which glows grey on
@@ -815,6 +817,6 @@ private const val LIGHT_CARD_GRADIENT =
 private const val LIGHT_SECTION_GRADIENT =
   "linear-gradient(147deg, rgba(241,241,241,1) 0%, rgba(255,255,255,1) 70%, rgba(255,255,255,1) 100%)"
 private const val DARK_CARD_GRADIENT =
-  "linear-gradient(30deg, rgba(24,26,30,1) 0%, rgba(34,37,43,1) 50%, rgba(24,26,30,1) 100%)"
+  "linear-gradient(30deg, rgba(38,42,49,1) 0%, rgba(49,54,63,1) 50%, rgba(38,42,49,1) 100%)"
 private const val DARK_SECTION_GRADIENT =
-  "linear-gradient(147deg, rgba(24,26,30,1) 0%, rgba(32,35,40,1) 70%, rgba(32,35,40,1) 100%)"
+  "linear-gradient(147deg, rgba(38,42,49,1) 0%, rgba(47,52,61,1) 70%, rgba(47,52,61,1) 100%)"
