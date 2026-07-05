@@ -144,9 +144,9 @@ object Style : StyleSheet() {
     property("--card-bg-rgb", "255 255 255")
     property("--card-gradient", LIGHT_CARD_GRADIENT)
     property("--section-gradient", LIGHT_SECTION_GRADIENT)
-    // no chip needed on the already-light interests panel
-    property("--logo-chip-bg", "transparent")
-    property("--logo-chip-pad", "0px")
+    property("--tint-blue", "rgba(242, 246, 250, .4)")
+    // logos are readable as-is on the light interests panel
+    property("--logo-filter", "none")
   }
 
   val dark by style {
@@ -166,10 +166,12 @@ object Style : StyleSheet() {
     property("--card-bg-rgb", "28 31 36")
     property("--card-gradient", DARK_CARD_GRADIENT)
     property("--section-gradient", DARK_SECTION_GRADIENT)
-    // interest logos (e.g. the black Kotlin wordmark) sit on a light chip so they
-    // stay readable on the dark interests panel
-    property("--logo-chip-bg", "#fafafa")
-    property("--logo-chip-pad", "16px")
+    // the Experiments panel tint is near-white at .4 alpha, which glows grey on
+    // black; drop it to a faint tint so it matches the other section panels
+    property("--tint-blue", "rgba(130, 170, 220, .05)")
+    // outline the interest logos so the black Kotlin wordmark reads on the dark
+    // panel without wrapping them in a light box
+    property("--logo-filter", LOGO_OUTLINE_DARK)
   }
 
   val borderGray by style {
@@ -582,7 +584,7 @@ object Style : StyleSheet() {
       flex(1, 1, 0.percent)
     }
 
-    val blue by style { backgroundColor(rgba(242, 246, 250, .4)) }
+    val blue by style { property("background-color", "var(--tint-blue)") }
     val lime by style { backgroundColor(rgba(132, 250, 207, .1)) }
     val orange by style { backgroundColor(rgba(252, 229, 184, .1)) }
     val red by style { backgroundColor(rgba(242, 246, 250, .5)) }
@@ -685,11 +687,7 @@ object Style : StyleSheet() {
       height(80.px)
       display(DisplayStyle.Flex)
       alignItems(AlignItems.Center)
-      justifyContent(JustifyContent.Center)
-      property("padding-left", "var(--logo-chip-pad)")
-      property("padding-right", "var(--logo-chip-pad)")
-      property("background-color", "var(--logo-chip-bg)")
-      borderRadius(12.px)
+      property("filter", "var(--logo-filter)")
       property("transition", "transform .2s ease")
       self + hover style {
         transform {
@@ -815,3 +813,9 @@ private const val DARK_CARD_GRADIENT =
   "linear-gradient(30deg, rgba(24,26,30,1) 0%, rgba(34,37,43,1) 50%, rgba(24,26,30,1) 100%)"
 private const val DARK_SECTION_GRADIENT =
   "linear-gradient(147deg, rgba(24,26,30,1) 0%, rgba(32,35,40,1) 70%, rgba(32,35,40,1) 100%)"
+
+// Thin white outline (stacked drop-shadows) that keeps the interest logos — including
+// the black Kotlin wordmark — legible on the dark panel while preserving their colors.
+private const val LOGO_OUTLINE_DARK =
+  "drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) " +
+    "drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff)"
