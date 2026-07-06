@@ -48,7 +48,6 @@ import org.jetbrains.compose.web.css.minHeight
 import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.opacity
 import org.jetbrains.compose.web.css.padding
-import org.jetbrains.compose.web.css.paddingLeft
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
@@ -139,7 +138,7 @@ object TerminalStyle : StyleSheet() {
   val content by style {
     position(Position.Relative)
     property("z-index", "1")
-    maxWidth(960.px)
+    maxWidth(1280.px)
     property("margin", "0 auto")
     padding(52.px, 48.px, 64.px)
 
@@ -276,24 +275,31 @@ object TerminalStyle : StyleSheet() {
     fontSize(14.px)
   }
 
+  val repoList by style {
+    display(DisplayStyle.Flex)
+    flexDirection(FlexDirection.Column)
+    gap(10.px)
+  }
+
+  val timeline by style {
+    fontSize(14.px)
+    display(DisplayStyle.Flex)
+    flexDirection(FlexDirection.Column)
+    gap(6.px)
+  }
+
+  val timelinePeriod by style {
+    display(DisplayStyle.InlineBlock)
+    width(150.px)
+    color(Colors.Green)
+  }
+
   val arrowLink by style {
     display(DisplayStyle.Block)
     marginTop(12.px)
     color(Colors.Green)
     textDecoration("none")
     fontSize(14.px)
-  }
-
-  val codeLines by style {
-    fontSize(14.px)
-    color(Colors.Body)
-    display(DisplayStyle.Flex)
-    flexDirection(FlexDirection.Column)
-    gap(6.px)
-  }
-
-  val codeIndent by style {
-    paddingLeft(52.px)
   }
 
   val contactList by style {
@@ -312,10 +318,33 @@ object TerminalStyle : StyleSheet() {
     }
   }
 
-  val toolsRow by style {
+  val toolIcon by style {
+    height(40.px)
+    property("width", "auto")
+  }
+
+  val toolIconLarge by style {
+    height(56.px)
+    property("width", "auto")
+  }
+
+  val glowGreen by style {
+    property("filter", "drop-shadow(0 0 12px rgba(61,220,132,0.35))")
+  }
+
+  val glowPurple by style {
+    property("filter", "drop-shadow(0 0 12px rgba(127,82,255,0.4))")
+  }
+
+  val glowBlue by style {
+    property("filter", "drop-shadow(0 0 12px rgba(83,131,236,0.4))")
+  }
+
+  val stackTools by style {
+    marginTop(28.px)
     display(DisplayStyle.Flex)
     flexWrap(FlexWrap.Wrap)
-    gap(40.px)
+    gap(20.px)
     justifyContent(JustifyContent.SpaceAround)
     alignItems(AlignItems.FlexEnd)
   }
@@ -330,29 +359,6 @@ object TerminalStyle : StyleSheet() {
   val toolName by style {
     fontSize(12.px)
     color(Colors.Muted)
-  }
-
-  val ascii by style {
-    margin(0.px)
-    property("font-family", "inherit")
-    fontSize(12.px)
-    lineHeight("1.3")
-  }
-
-  val asciiAndroid by style {
-    color(Colors.AndroidGreen)
-    property("text-shadow", "0 0 12px rgba(61,220,132,0.35)")
-  }
-
-  val asciiKotlin by style {
-    color(Colors.Purple)
-    lineHeight("1.05")
-    property("text-shadow", "0 0 12px rgba(127,82,255,0.4)")
-  }
-
-  val asciiGradle by style {
-    color(Colors.Green)
-    property("text-shadow", "0 0 12px rgba(87,217,163,0.35)")
   }
 
   val prompt by style {

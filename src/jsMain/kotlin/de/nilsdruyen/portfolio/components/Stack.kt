@@ -8,6 +8,7 @@ package de.nilsdruyen.portfolio.components
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.ui.TerminalStyle
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 
@@ -15,28 +16,22 @@ import org.jetbrains.compose.web.dom.Text
 fun stack() {
   Div({ classes(TerminalStyle.card) }) {
     Div({ classes(TerminalStyle.cardLabel) }) { Text("$ cat stack.kt") }
-    Div({ classes(TerminalStyle.codeLines) }) {
-      Span {
-        Span({ classes(TerminalStyle.keyword) }) { Text("listOf") }
-        Text("(")
-        literal("Kotlin")
-        Text(", ")
-        literal("Compose")
-        Text(",")
-      }
-      Span({ classes(TerminalStyle.codeIndent) }) {
-        literal("KMP")
-        Text(", ")
-        literal("Gradle")
-        Text(", ")
-        literal("CI/CD")
-        Text(")")
-      }
+    Div({ classes(TerminalStyle.stackTools) }) {
+      tool("assets/android-robot.svg", TerminalStyle.glowGreen, "android")
+      tool("assets/kodee/kodee-greetings.gif", TerminalStyle.glowPurple, "kotlin", large = true)
+      tool("assets/compose/Compose Multiplatform icon.svg", TerminalStyle.glowBlue, "compose")
+      tool("assets/multiplatform/Kotlin Multiplatform icon.svg", TerminalStyle.glowPurple, "kmp")
+      tool("assets/gradle/gradle.svg", TerminalStyle.glowBlue, "gradle")
     }
   }
 }
 
 @Composable
-private fun literal(value: String) {
-  Span({ classes(TerminalStyle.string) }) { Text("\"$value\"") }
+private fun tool(src: String, glowClass: String, name: String, large: Boolean = false) {
+  Div({ classes(TerminalStyle.tool) }) {
+    Img(src = src, attrs = {
+      classes(if (large) TerminalStyle.toolIconLarge else TerminalStyle.toolIcon, glowClass)
+    })
+    Span({ classes(TerminalStyle.toolName) }) { Text(name) }
+  }
 }

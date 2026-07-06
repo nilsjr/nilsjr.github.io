@@ -16,7 +16,7 @@ import org.jetbrains.compose.web.dom.Text
 fun prompt() {
   Div({
     classes(TerminalStyle.prompt)
-    style { rise(600) }
+    style { rise(720) }
   }) {
     Text("nils@krefeld:~$ ")
     Span({ classes(TerminalStyle.cursor) })

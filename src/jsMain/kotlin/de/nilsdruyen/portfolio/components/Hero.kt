@@ -27,11 +27,16 @@ fun hero() {
       Text(" nils = Druyen()")
     }
     P({ classes(TerminalStyle.heroText) }) {
-      Text("Android developer at ")
-      Span({ classes(TerminalStyle.bright) }) { Text("Fressnapf") }
-      Text(", Krefeld.")
+      Text("Passionate Android developer since 2012, working on several B2B & B2C apps with over ")
+      Text("10m users worldwide — currently as Software Engineer at ")
+      Span({ classes(TerminalStyle.bright) }) { Text("Fressnapf | Maxizoo") }
+      Text(".")
       Br()
       Text("Writing Kotlin for a living — and for fun.")
+    }
+    P({ classes(TerminalStyle.heroText) }) {
+      Text("I live on a small farm on the beautiful Lower Rhine 🇩🇪 and love to work from the home office. ")
+      Text("I like to explore and dig deep in new stuff like Kotlin Multiplatform, Compose Multiplatform and beyond.")
     }
   }
 }

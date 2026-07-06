@@ -16,7 +16,6 @@ object Colors {
   val Muted = "#6B6580".toColor()
   val Purple = "#7F52FF".toColor()
   val Green = "#57D9A3".toColor()
-  val AndroidGreen = "#3DDC84".toColor()
   val Border = "#26232F".toColor()
   val Dot = "#3A3646".toColor()
 }
