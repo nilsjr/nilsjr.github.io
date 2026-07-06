@@ -7,6 +7,7 @@ package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.ui.TerminalStyle
+import de.nilsdruyen.portfolio.ui.openInNewTab
 import de.nilsdruyen.portfolio.ui.rise
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
@@ -52,7 +53,10 @@ fun openSource() {
         "🧍 My portfolio webpage",
       )
     }
-    A(href = "https://github.com/nilsjr", { classes(TerminalStyle.arrowLink) }) {
+    A(href = "https://github.com/nilsjr", {
+      classes(TerminalStyle.arrowLink)
+      openInNewTab()
+    }) {
       Text("→ github.com/nilsjr")
     }
   }
@@ -60,7 +64,10 @@ fun openSource() {
 
 @Composable
 internal fun repo(href: String, name: String, description: String) {
-  A(href = href, { classes(TerminalStyle.repoLink) }) {
+  A(href = href, {
+    classes(TerminalStyle.repoLink)
+    openInNewTab()
+  }) {
     Span({ classes(TerminalStyle.repoName) }) { Text(name) }
     Span({ classes(TerminalStyle.repoDesc) }) { Text(description) }
   }
