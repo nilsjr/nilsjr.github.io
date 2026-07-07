@@ -48,26 +48,27 @@ Requires JDK 21 (CI uses Temurin/Zulu 21). The Gradle wrapper (`./gradlew`) is c
 Standard Compose HTML rendering pattern. All Kotlin sources live under
 `src/jsMain/kotlin/`; static assets and the HTML shell under `src/jsMain/resources/`.
 
+The site is a single dark, terminal-styled landing page with an animated "Kotlin code
+rain" canvas background.
+
 - **Entry point:** `Main.kt` — `main()` calls `renderComposable(rootElementId = "root")`,
-  mounting Compose into `<div id="root">` from `index.html`. It manages dark-mode state
-  with `remember { mutableStateOf(...) }`, persists it to `browser.localStorage` under the
-  key `nilsjr.darkmode` via a `LaunchedEffect`, and wraps the page in a `Div` whose CSS
-  class switches between `Style.dark` / `Style.light`.
+  mounting Compose into `<div id="root">` from `index.html`, installs `TerminalStyle`,
+  and wraps `page()` in the `TerminalStyle.page` container.
 - **Page orchestration:** `de.nilsdruyen.portfolio.WebPage.kt` — the top-level `page()`
-  composable that stacks all sections: `placeholder() → title() → aboutMe() → work() →
-  projects() → contributions() → footer() → placeholder()`.
+  composable that stacks all sections: `codeRain() → terminalHeader() → hero() →
+  openSource() → (stack() + contact() in a two-column grid) → tools() → prompt()`.
 - **Components:** `de.nilsdruyen.portfolio.components` — one composable per UI section/piece
-  (`AboutMe`, `Work`, `Projects`, `Project`, `Contributions`, `Footer`, `Title`,
-  `ProfileImage`, `GridRow`, `Placeholder`). Composable function names are lowercase
-  (e.g. `aboutMe()`), which detekt is configured to allow.
-- **Models:** `de.nilsdruyen.portfolio.model` — plain immutable data classes for content
-  (`Data`, `Project`, `Work`, `Experiment`, `Interest`, `ProfileLink`). Static content
-  data lives here, not fetched at runtime.
-- **UI utilities:** `de.nilsdruyen.portfolio.ui` — `Colors`, `Constants`, `CssExt` (CSS
-  helper extensions), `Icons` (inline SVG), and `Style` (a Compose `StyleSheet` defining
-  global styles plus light/dark variants).
-- **HTML shell:** `src/jsMain/resources/index.html` — loads JetBrains Mono and Rubik Dirt
-  Google Fonts, the favicon, and the compiled `nils.github.io.js` bundle.
+  (`CodeRain`, `Header`, `Hero`, `OpenSource`, `Stack`, `Contact`, `Tools`, `Prompt`).
+  Composable function names are lowercase (e.g. `hero()`), which detekt is configured to
+  allow. `CodeRain.kt` renders a fixed `<canvas>` and drives a
+  `requestAnimationFrame` matrix-style rain of Kotlin keywords/glyphs (paused when
+  `prefers-reduced-motion` is set, cleaned up via the `ref` disposable).
+- **UI utilities:** `de.nilsdruyen.portfolio.ui` — `Colors` (the terminal palette),
+  `CssExt` (CSS helper extensions), and `TerminalStyle` (a Compose `StyleSheet` with the
+  page/card/typography classes, `riseIn`/`blink` keyframes, the `rise(delayMs)` staggered
+  entrance helper, and a `prefers-reduced-motion` override).
+- **HTML shell:** `src/jsMain/resources/index.html` — loads the JetBrains Mono Google
+  Font, the favicon, and the compiled `nils.github.io.js` bundle.
 - **Assets:** `src/jsMain/resources/assets/` — images and SVGs. The `moveAssets` Gradle
   task copies these into `build/dist/assets` during the production build.
 
