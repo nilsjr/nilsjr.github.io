@@ -18,6 +18,7 @@ import kotlin.random.Random
 private const val FONT_SIZE = 14.0
 private const val COLUMN_WIDTH = FONT_SIZE * 1.6
 private const val FRAME_INTERVAL_MS = 40.0
+private const val RESIZE_DEBOUNCE_MS = 150
 private const val RAIN_DENSITY = 0.2
 private const val BACKGROUND = "#0E0D12"
 private const val TRAIL = "rgba(14,13,18,0.14)"
@@ -52,7 +53,11 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
 
   private val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
   private val reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
-  private val onResize: (Event) -> Unit = { setSize() }
+  private val onResize: (Event) -> Unit = {
+    window.clearTimeout(resizeTimer)
+    resizeTimer = window.setTimeout({ setSize() }, RESIZE_DEBOUNCE_MS)
+  }
+  private var resizeTimer = 0
   private val onMotionChange: (Event) -> Unit = {
     window.cancelAnimationFrame(rafId)
     if (!reducedMotion.matches) rafId = window.requestAnimationFrame(::tick)
@@ -72,6 +77,7 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
 
   fun stop() {
     window.cancelAnimationFrame(rafId)
+    window.clearTimeout(resizeTimer)
     window.removeEventListener("resize", onResize)
     reducedMotion.removeEventListener("change", onMotionChange)
   }
@@ -84,7 +90,9 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     canvas.height = (viewHeight * dpr).toInt()
     ctx.scale(dpr, dpr)
     val columns = (viewWidth / COLUMN_WIDTH).toInt()
-    drops = Array(columns) { Drop(y = Random.nextDouble() * -viewHeight, speed = randomSpeed()) }
+    drops = Array(columns) { index ->
+      drops.getOrNull(index) ?: Drop(y = Random.nextDouble() * -viewHeight, speed = randomSpeed())
+    }
     ctx.fillStyle = BACKGROUND
     ctx.fillRect(0.0, 0.0, viewWidth, viewHeight)
   }
