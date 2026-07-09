@@ -182,7 +182,50 @@ object TerminalStyle : StyleSheet() {
   }
 
   val hero by style {
+    position(Position.Relative)
     marginTop(76.px)
+  }
+
+  val miniTerminal by style {
+    position(Position.Absolute)
+    property("top", "0")
+    property("right", "0")
+    width(430.px)
+    border {
+      width = 1.px
+      style = LineStyle.Solid
+      color = Colors.Border
+    }
+    borderRadius(10.px)
+    padding(14.px, 18.px)
+    backgroundColor(rgba(19, 17, 24, 0.88))
+    property("backdrop-filter", "blur(2px)")
+
+    media(mediaOnlyScreenMaxWidth(1120.px)) {
+      self style {
+        display(DisplayStyle.None)
+      }
+    }
+  }
+
+  val miniTerminalHeader by style {
+    display(DisplayStyle.Flex)
+    justifyContent(JustifyContent.SpaceBetween)
+    alignItems(AlignItems.Center)
+    marginBottom(10.px)
+  }
+
+  val miniTerminalBody by style {
+    height(230.px)
+    property("overflow", "hidden")
+    display(DisplayStyle.Flex)
+    flexDirection(FlexDirection.Column)
+    justifyContent(JustifyContent.FlexEnd)
+    fontSize(12.px)
+    lineHeight("1.65")
+    color(Colors.Body)
+    property("white-space", "pre-wrap")
+    property("word-break", "break-all")
   }
 
   val heroTitle by style {

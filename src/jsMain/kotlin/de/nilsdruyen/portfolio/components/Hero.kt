@@ -21,6 +21,7 @@ fun hero() {
     classes(TerminalStyle.hero)
     style { rise(120) }
   }) {
+    miniTerminal()
     Div({ classes(TerminalStyle.muted) }) { Text("// who am i") }
     H1({ classes(TerminalStyle.heroTitle) }) {
       Span({ classes(TerminalStyle.keyword) }) { Text("val") }
