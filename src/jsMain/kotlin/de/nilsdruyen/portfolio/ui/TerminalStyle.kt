@@ -410,6 +410,16 @@ object TerminalStyle : StyleSheet() {
     fontSize(13.px)
   }
 
+  val footer by style {
+    marginTop(48.px)
+    color(Colors.Muted)
+    fontSize(13.px)
+    property("text-align", "center")
+    display(DisplayStyle.Flex)
+    flexDirection(FlexDirection.Column)
+    gap(4.px)
+  }
+
   val cursor by style {
     display(DisplayStyle.InlineBlock)
     width(9.px)

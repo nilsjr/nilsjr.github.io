@@ -10,6 +10,7 @@ import de.nilsdruyen.portfolio.components.career
 import de.nilsdruyen.portfolio.components.codeRain
 import de.nilsdruyen.portfolio.components.contact
 import de.nilsdruyen.portfolio.components.contributions
+import de.nilsdruyen.portfolio.components.footer
 import de.nilsdruyen.portfolio.components.hero
 import de.nilsdruyen.portfolio.components.openSource
 import de.nilsdruyen.portfolio.components.prompt
@@ -36,5 +37,6 @@ fun page() {
       contact()
     }
     prompt()
+    footer()
   }
 }
