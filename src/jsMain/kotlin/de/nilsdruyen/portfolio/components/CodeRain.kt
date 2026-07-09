@@ -56,6 +56,8 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
   private var drops: Array<Drop> = emptyArray()
   private var rafId = 0
   private var lastFrame = 0.0
+  private var viewWidth = 0.0
+  private var viewHeight = 0.0
 
   fun start() {
     setSize()
@@ -69,12 +71,16 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
   }
 
   private fun setSize() {
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
-    val columns = (canvas.width / COLUMN_WIDTH).toInt()
-    drops = Array(columns) { Drop(y = Random.nextDouble() * -canvas.height, speed = randomSpeed()) }
+    val dpr = window.devicePixelRatio
+    viewWidth = window.innerWidth.toDouble()
+    viewHeight = window.innerHeight.toDouble()
+    canvas.width = (viewWidth * dpr).toInt()
+    canvas.height = (viewHeight * dpr).toInt()
+    ctx.scale(dpr, dpr)
+    val columns = (viewWidth / COLUMN_WIDTH).toInt()
+    drops = Array(columns) { Drop(y = Random.nextDouble() * -viewHeight, speed = randomSpeed()) }
     ctx.fillStyle = BACKGROUND
-    ctx.fillRect(0.0, 0.0, canvas.width.toDouble(), canvas.height.toDouble())
+    ctx.fillRect(0.0, 0.0, viewWidth, viewHeight)
   }
 
   private fun tick(timestamp: Double) {
@@ -84,7 +90,7 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     lastFrame = timestamp
 
     ctx.fillStyle = TRAIL
-    ctx.fillRect(0.0, 0.0, canvas.width.toDouble(), canvas.height.toDouble())
+    ctx.fillRect(0.0, 0.0, viewWidth, viewHeight)
     ctx.font = "${FONT_SIZE.toInt()}px 'JetBrains Mono', monospace"
 
     drops.forEachIndexed { index, drop ->
@@ -92,7 +98,7 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
       ctx.fillStyle = nextColor()
       ctx.fillText(nextChar(drop), index * COLUMN_WIDTH, drop.y)
       drop.y += FONT_SIZE * drop.speed
-      if (drop.y > canvas.height + 100) recycle(drop)
+      if (drop.y > viewHeight + 100) recycle(drop)
     }
   }
 
