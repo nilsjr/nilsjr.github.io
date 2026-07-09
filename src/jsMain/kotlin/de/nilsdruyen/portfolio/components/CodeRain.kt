@@ -53,6 +53,10 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
   private val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
   private val reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
   private val onResize: (Event) -> Unit = { setSize() }
+  private val onMotionChange: (Event) -> Unit = {
+    window.cancelAnimationFrame(rafId)
+    if (!reducedMotion.matches) rafId = window.requestAnimationFrame(::tick)
+  }
   private var drops: Array<Drop> = emptyArray()
   private var rafId = 0
   private var lastFrame = 0.0
@@ -62,12 +66,14 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
   fun start() {
     setSize()
     window.addEventListener("resize", onResize)
-    rafId = window.requestAnimationFrame(::tick)
+    reducedMotion.addEventListener("change", onMotionChange)
+    if (!reducedMotion.matches) rafId = window.requestAnimationFrame(::tick)
   }
 
   fun stop() {
     window.cancelAnimationFrame(rafId)
     window.removeEventListener("resize", onResize)
+    reducedMotion.removeEventListener("change", onMotionChange)
   }
 
   private fun setSize() {
@@ -85,7 +91,6 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
 
   private fun tick(timestamp: Double) {
     rafId = window.requestAnimationFrame(::tick)
-    if (reducedMotion.matches) return
     if (timestamp - lastFrame < FRAME_INTERVAL_MS) return
     lastFrame = timestamp
 
