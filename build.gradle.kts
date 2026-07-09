@@ -70,8 +70,8 @@ rootProject.plugins.withType<YarnPlugin> {
     versions.webpackDevServer.version = libs.versions.webpackDevServer.get()
     versions.webpack.version = libs.versions.webpack.get()
     versions.webpackCli.version = libs.versions.webpackCli.get()
-    versions.karma.version = "6.4.0"
-    versions.mocha.version = "10.0.0"
+    versions.karma.version = libs.versions.karma.get()
+    versions.mocha.version = libs.versions.mocha.get()
   }
 }
 
