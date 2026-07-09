@@ -23,6 +23,9 @@ private const val MAX_LINES = 11
 private const val TYPE_DELAY_MS = 55L
 private const val OUTPUT_DELAY_MS = 350L
 private const val PAUSE_BETWEEN_SCRIPTS_MS = 2200L
+private const val REDUCED_MOTION_POLL_MS = 500L
+
+private val STATIC_SNAPSHOT = listOf("$ ./gradlew assembleRelease", "BUILD SUCCESSFUL in 24s", "$ ")
 
 private sealed interface Step {
   data class Type(val text: String) : Step
@@ -105,16 +108,21 @@ fun miniTerminal() {
   var current by remember { mutableStateOf("") }
 
   LaunchedEffect(Unit) {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      lines = listOf("$ ./gradlew assembleRelease", "BUILD SUCCESSFUL in 24s", "$ ")
-      return@LaunchedEffect
-    }
+    val reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
     fun commit(line: String) {
       lines = (lines + line).takeLast(MAX_LINES)
       current = ""
     }
     var last = -1
     while (true) {
+      if (reducedMotion.matches) {
+        if (lines != STATIC_SNAPSHOT) {
+          lines = STATIC_SNAPSHOT
+          current = ""
+        }
+        delay(REDUCED_MOTION_POLL_MS)
+        continue
+      }
       val index = generateSequence { Random.nextInt(SCRIPTS.size) }.first { it != last }
       last = index
       SCRIPTS[index].forEach { step ->
