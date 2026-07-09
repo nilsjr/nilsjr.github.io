@@ -29,7 +29,7 @@ private const val PURPLE = "rgba(127,82,255,0.45)"
 private val KEYWORDS = listOf(
   "val", "fun", "when", "data", "class", "suspend", "object", "null", "if", "else", "return", "{}", "->", "::", "?:",
 )
-private val GLYPHS = "01{}<>=+-*/;:val funktolin".toList()
+private val GLYPHS = "01{}<>=+-*/;:val funktolin".map { it.toString() }
 
 @Composable
 fun codeRain() {
@@ -95,6 +95,7 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     }
     ctx.fillStyle = BACKGROUND
     ctx.fillRect(0.0, 0.0, viewWidth, viewHeight)
+    ctx.font = "${FONT_SIZE.toInt()}px 'JetBrains Mono', monospace"
   }
 
   private fun tick(timestamp: Double) {
@@ -104,7 +105,6 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
 
     ctx.fillStyle = TRAIL
     ctx.fillRect(0.0, 0.0, viewWidth, viewHeight)
-    ctx.font = "${FONT_SIZE.toInt()}px 'JetBrains Mono', monospace"
 
     drops.forEachIndexed { index, drop ->
       if (drop.y >= 0) {
@@ -132,14 +132,17 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
         newWord.first().toString()
       }
 
-      else -> GLYPHS.random().toString()
+      else -> GLYPHS.random()
     }
   }
 
-  private fun nextColor(): String = when {
-    Random.nextDouble() < 0.12 -> HEAD
-    Random.nextDouble() < 0.15 -> GREEN
-    else -> PURPLE
+  private fun nextColor(): String {
+    val roll = Random.nextDouble()
+    return when {
+      roll < 0.12 -> HEAD
+      roll < 0.25 -> GREEN
+      else -> PURPLE
+    }
   }
 
   private fun recycle(drop: Drop) {
