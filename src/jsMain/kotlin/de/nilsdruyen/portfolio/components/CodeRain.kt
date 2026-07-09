@@ -107,9 +107,10 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     ctx.font = "${FONT_SIZE.toInt()}px 'JetBrains Mono', monospace"
 
     drops.forEachIndexed { index, drop ->
-      if (Random.nextDouble() > RAIN_DENSITY * 0.9 + 0.1 && drop.y < 0) return@forEachIndexed
-      ctx.fillStyle = nextColor()
-      ctx.fillText(nextChar(drop), index * COLUMN_WIDTH, drop.y)
+      if (drop.y >= 0) {
+        ctx.fillStyle = nextColor()
+        ctx.fillText(nextChar(drop), index * COLUMN_WIDTH, drop.y)
+      }
       drop.y += FONT_SIZE * drop.speed
       if (drop.y > viewHeight + 100) recycle(drop)
     }
@@ -142,7 +143,7 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
   }
 
   private fun recycle(drop: Drop) {
-    drop.y = Random.nextDouble() * -300
+    drop.y = Random.nextDouble() * -viewHeight / RAIN_DENSITY
     drop.speed = randomSpeed()
     drop.word = null
     drop.wordLeft = 0
