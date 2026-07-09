@@ -29,7 +29,7 @@ kotlin {
         implementation(libs.kotlinx.datetime)
       }
     }
-    val jsMain by getting {
+    jsMain {
       dependencies {
         implementation(libs.compose.runtime)
         implementation(libs.compose.html.core)
@@ -140,12 +140,16 @@ fun isNonStable(version: String): Boolean {
 }
 
 tasks.register<Copy>("moveAssets") {
+  description = "Move assets to a directory"
+
   mustRunAfter("jsProcessResources")
   from(layout.buildDirectory.dir("processedResources/js/main/assets"))
   into(layout.buildDirectory.dir("dist/assets"))
 }
 
 tasks.register<Copy>("moveExecutable") {
+  description = "Move files to a directory"
+
   mustRunAfter("jsBrowserProductionWebpack")
   dependsOn("jsBrowserProductionWebpack", "moveAssets")
   from(
