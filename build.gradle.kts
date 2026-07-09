@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "2026.5.0"
+version = "2026.6.0"
 
 kotlin {
   js {
@@ -29,7 +29,7 @@ kotlin {
         implementation(libs.kotlinx.datetime)
       }
     }
-    val jsMain by getting {
+    jsMain {
       dependencies {
         implementation(libs.compose.runtime)
         implementation(libs.compose.html.core)
@@ -43,7 +43,6 @@ tasks.withType<Kotlin2JsCompile>().configureEach {
   compilerOptions {
     allWarningsAsErrors.set(false)
     progressiveMode.set(true)
-    freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
     target.set("es2015")
   }
 }
@@ -71,8 +70,8 @@ rootProject.plugins.withType<YarnPlugin> {
     versions.webpackDevServer.version = libs.versions.webpackDevServer.get()
     versions.webpack.version = libs.versions.webpack.get()
     versions.webpackCli.version = libs.versions.webpackCli.get()
-    versions.karma.version = "6.4.0"
-    versions.mocha.version = "10.0.0"
+    versions.karma.version = libs.versions.karma.get()
+    versions.mocha.version = libs.versions.mocha.get()
   }
 }
 
@@ -138,21 +137,4 @@ fun isNonStable(version: String): Boolean {
   val regex = "^[0-9,.v-]+(-r)?$".toRegex()
   val isStable = stableKeyword || regex.matches(version)
   return isStable.not()
-}
-
-tasks.register<Copy>("moveAssets") {
-  mustRunAfter("jsProcessResources")
-  from(layout.buildDirectory.dir("processedResources/js/main/assets"))
-  into(layout.buildDirectory.dir("dist/assets"))
-}
-
-tasks.register<Copy>("moveExecutable") {
-  mustRunAfter("jsBrowserProductionWebpack")
-  dependsOn("jsBrowserProductionWebpack", "moveAssets")
-  from(
-    layout.buildDirectory.file("kotlin-webpack/js/productionExecutable/nils.github.io.js"),
-    layout.buildDirectory.file("kotlin-webpack/js/productionExecutable/nils.github.io.js.map"),
-    layout.buildDirectory.file("processedResources/js/main/index.html"),
-  )
-  into(layout.buildDirectory.dir("dist"))
 }

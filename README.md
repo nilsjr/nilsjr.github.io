@@ -1,14 +1,17 @@
 # NilsJR portfolio
 
-This is my portfolio webpage completely written in kotlin. Its also a showcase to demonstrate creating a static webpages
-with kotlin compose.
+My portfolio webpage, completely written in Kotlin. It is also a showcase for building
+static web pages with Kotlin Multiplatform and Compose HTML — a dark, terminal-styled
+single page with an animated Kotlin code-rain background, a self-typing mini terminal,
+and open-source/contribution sections loaded live from the GitHub API.
 
 # Website
 [Portfolio](https://nilsjr.github.io/)
 
-# Roadmap
-- update readme
-- add darkmode
+# Development
+
+See [AGENTS.md](AGENTS.md) for full project documentation (commands, architecture,
+workflow).
 
 # Inspiration
 

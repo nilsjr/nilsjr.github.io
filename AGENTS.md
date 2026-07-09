@@ -12,9 +12,10 @@ The whole UI is written in Kotlin and compiled to JavaScript via the Kotlin/JS I
 compiler, then bundled with webpack. It doubles as a showcase for building static web
 pages with Compose. The site is published to GitHub Pages at https://nilsjr.github.io/.
 
-There is **no application/business logic and no tests** — it is a purely presentational
-single-page frontend. (`./gradlew build` still runs the standard `test`/`check` tasks,
-but no test sources exist.)
+There are **no tests** (`./gradlew build` still runs the standard `test`/`check` tasks,
+but no test sources exist). The site is mostly presentational, with a small amount of
+client-side logic: canvas/coroutine-driven animations (`CodeRain`, `MiniTerminal`) and
+repo lists fetched from the public GitHub API at runtime (`data/GitHubRepos.kt`).
 
 ## Common Commands
 
@@ -22,8 +23,8 @@ but no test sources exist.)
 # Run the dev server with hot reload (http://localhost:8080)
 ./gradlew jsBrowserDevelopmentRun
 
-# Production build → outputs to build/dist/ (JS bundle, source map, index.html, assets)
-./gradlew jsBrowserProductionWebpack moveExecutable
+# Production build → outputs to build/dist/js/productionExecutable/ (JS bundle, source map, index.html, assets)
+./gradlew jsBrowserDistribution
 
 # Static analysis + lint (detekt rules + ktlint wrapper)
 ./gradlew detekt ktlintCheck
@@ -41,35 +42,46 @@ but no test sources exist.)
 ./gradlew dependencyUpdates
 ```
 
-Requires JDK 21 (CI uses Temurin/Zulu 21). The Gradle wrapper (`./gradlew`) is committed.
+Requires JDK 21 (CI uses Temurin 21). The Gradle wrapper (`./gradlew`) is committed.
 
 ## Architecture
 
 Standard Compose HTML rendering pattern. All Kotlin sources live under
 `src/jsMain/kotlin/`; static assets and the HTML shell under `src/jsMain/resources/`.
 
+The site is a single dark, terminal-styled landing page with an animated "Kotlin code
+rain" canvas background.
+
 - **Entry point:** `Main.kt` — `main()` calls `renderComposable(rootElementId = "root")`,
-  mounting Compose into `<div id="root">` from `index.html`. It manages dark-mode state
-  with `remember { mutableStateOf(...) }`, persists it to `browser.localStorage` under the
-  key `nilsjr.darkmode` via a `LaunchedEffect`, and wraps the page in a `Div` whose CSS
-  class switches between `Style.dark` / `Style.light`.
+  mounting Compose into `<div id="root">` from `index.html`, installs `TerminalStyle`,
+  and wraps `page()` in the `TerminalStyle.page` container.
 - **Page orchestration:** `de.nilsdruyen.portfolio.WebPage.kt` — the top-level `page()`
-  composable that stacks all sections: `placeholder() → title() → aboutMe() → work() →
-  projects() → contributions() → footer() → placeholder()`.
+  composable renders `codeRain()` and then, inside a `TerminalStyle.content` wrapper:
+  `terminalHeader() → hero() → career() → openSource() → contributions() →
+  (stack() + contact() in a two-column grid) → prompt() → footer()`. `hero()` also
+  renders `miniTerminal()` pinned to its top-right.
 - **Components:** `de.nilsdruyen.portfolio.components` — one composable per UI section/piece
-  (`AboutMe`, `Work`, `Projects`, `Project`, `Contributions`, `Footer`, `Title`,
-  `ProfileImage`, `GridRow`, `Placeholder`). Composable function names are lowercase
-  (e.g. `aboutMe()`), which detekt is configured to allow.
-- **Models:** `de.nilsdruyen.portfolio.model` — plain immutable data classes for content
-  (`Data`, `Project`, `Work`, `Experiment`, `Interest`, `ProfileLink`). Static content
-  data lives here, not fetched at runtime.
-- **UI utilities:** `de.nilsdruyen.portfolio.ui` — `Colors`, `Constants`, `CssExt` (CSS
-  helper extensions), `Icons` (inline SVG), and `Style` (a Compose `StyleSheet` defining
-  global styles plus light/dark variants).
-- **HTML shell:** `src/jsMain/resources/index.html` — loads JetBrains Mono and Rubik Dirt
-  Google Fonts, the favicon, and the compiled `nils.github.io.js` bundle.
-- **Assets:** `src/jsMain/resources/assets/` — images and SVGs. The `moveAssets` Gradle
-  task copies these into `build/dist/assets` during the production build.
+  (`CodeRain`, `Header`, `Hero`, `MiniTerminal`, `Career`, `OpenSource`, `Contributions`,
+  `Stack`, `Contact`, `Prompt`, `Footer`).
+  Composable function names are lowercase (e.g. `hero()`), which detekt is configured to
+  allow. `CodeRain.kt` renders a fixed `<canvas>` and drives a
+  `requestAnimationFrame` matrix-style rain of Kotlin keywords/glyphs (DPI-aware, stopped
+  when `prefers-reduced-motion` is set, cleaned up via the `ref` disposable).
+  `MiniTerminal.kt` is a coroutine-driven fake terminal that types randomized
+  shell/Kotlin sessions (static snapshot under reduced motion; hidden below 1120px).
+- **Data:** `de.nilsdruyen.portfolio.data.GitHubRepos.kt` — fetches the repo lists from
+  the public GitHub API at runtime: `loadPortfolioRepos()` (own repos tagged with the
+  `portfolio` topic) and `loadContributions()` (external repos with merged PRs authored
+  by the user), both sorted by stars with hardcoded fallback lists on failure.
+- **UI utilities:** `de.nilsdruyen.portfolio.ui` — `Colors` (the terminal palette),
+  `CssExt` (CSS helper extensions), and `TerminalStyle` (a Compose `StyleSheet` with the
+  page/card/typography classes, `riseIn`/`blink` keyframes, the `rise(delayMs)` staggered
+  entrance helper, and a `prefers-reduced-motion` override).
+- **HTML shell:** `src/jsMain/resources/index.html` — loads the JetBrains Mono Google
+  Font (non-blocking, weights 400–600), the favicon, and the compiled deferred
+  `nils.github.io.js` bundle.
+- **Assets:** `src/jsMain/resources/assets/` — images and SVGs, copied into the
+  distribution by `jsBrowserDistribution`.
 
 ## Tech Stack
 
@@ -84,8 +96,8 @@ Standard Compose HTML rendering pattern. All Kotlin sources live under
 
 ## Build Configuration Notes
 
-- `build.gradle.kts` holds the project `version` (format `YYYY.MINOR.PATCH`, currently
-  `2026.4.0`). The scheduled-deploy workflow bumps this automatically.
+- `build.gradle.kts` holds the project `version` (format `YYYY.MINOR.PATCH`). The
+  scheduled-deploy workflow bumps this automatically each month.
 - Yarn resolutions and pinned webpack/karma/mocha versions are configured in
   `build.gradle.kts` to keep transitive JS deps patched; the lockfile lives in
   `.kotlin-js-store/yarn.lock`.
@@ -139,9 +151,9 @@ GitHub Actions workflows in `.github/workflows/` (all run on JDK 21):
 - **`check-and-build.yml`** — runs `detekt ktlintCheck` and `./gradlew build` plus a
   Gradle dependency-graph submission. Triggers on pushes to `develop`, PRs to `main`/
   `develop`, and the `pr_created_by_automation` repository dispatch.
-- **`publish.yml`** — builds production artifacts
-  (`jsBrowserProductionWebpack moveExecutable`) and, on push to `main`, deploys
-  `build/dist` to the `gh-pages` branch (GitHub Pages).
+- **`publish.yml`** — builds production artifacts (`jsBrowserDistribution`) and, on push
+  to `main`, deploys `build/dist/js/productionExecutable` to the `gh-pages` branch
+  (GitHub Pages).
 - **`scheduled-deployment.yml`** — runs on the 1st of each month (and manual dispatch);
   if `develop` is ahead of `main`, it bumps the version in `build.gradle.kts`, pushes to
   `develop`, and opens (or updates) an auto-merge `develop → main` release PR.
