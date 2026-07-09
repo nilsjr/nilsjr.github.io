@@ -6,6 +6,13 @@
 package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import de.nilsdruyen.portfolio.data.fallbackContributions
+import de.nilsdruyen.portfolio.data.loadContributions
 import de.nilsdruyen.portfolio.ui.TerminalStyle
 import de.nilsdruyen.portfolio.ui.rise
 import org.jetbrains.compose.web.dom.Div
@@ -18,27 +25,12 @@ fun contributions() {
     style { rise(480) }
   }) {
     Div({ classes(TerminalStyle.cardLabel) }) { Text("$ ls ~/contributions") }
+    var repos by remember { mutableStateOf(fallbackContributions) }
+    LaunchedEffect(Unit) {
+      loadContributions()?.let { repos = it }
+    }
     Div({ classes(TerminalStyle.repoList) }) {
-      repo(
-        "https://github.com/mobile-dev-inc/maestro",
-        "Maestro/",
-        "Painless Mobile UI Automation",
-      )
-      repo(
-        "https://github.com/postmanlabs/postman-code-generators",
-        "postman-code-generators/",
-        "Common repository for all code generators shipped with Postman",
-      )
-      repo(
-        "https://github.com/google/accompanist",
-        "accompanist/",
-        "A collection of extension libraries for Jetpack Compose",
-      )
-      repo(
-        "https://github.com/microsoft/azure-gradle-plugins",
-        "azure-gradle-plugins/",
-        "About Azure Plugins for Gradle",
-      )
+      repos.forEach { repo(it.url, "${it.name}/", it.description) }
     }
   }
 }
