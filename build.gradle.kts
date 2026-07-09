@@ -138,24 +138,3 @@ fun isNonStable(version: String): Boolean {
   val isStable = stableKeyword || regex.matches(version)
   return isStable.not()
 }
-
-tasks.register<Copy>("moveAssets") {
-  description = "Move assets to a directory"
-
-  mustRunAfter("jsProcessResources")
-  from(layout.buildDirectory.dir("processedResources/js/main/assets"))
-  into(layout.buildDirectory.dir("dist/assets"))
-}
-
-tasks.register<Copy>("moveExecutable") {
-  description = "Move files to a directory"
-
-  mustRunAfter("jsBrowserProductionWebpack")
-  dependsOn("jsBrowserProductionWebpack", "moveAssets")
-  from(
-    layout.buildDirectory.file("kotlin-webpack/js/productionExecutable/nils.github.io.js"),
-    layout.buildDirectory.file("kotlin-webpack/js/productionExecutable/nils.github.io.js.map"),
-    layout.buildDirectory.file("processedResources/js/main/index.html"),
-  )
-  into(layout.buildDirectory.dir("dist"))
-}
