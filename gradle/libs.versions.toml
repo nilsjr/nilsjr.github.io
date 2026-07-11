@@ -1,6 +1,6 @@
 [versions]
 coroutines = "1.11.0"
-datetime = "0.8.0"
+datetime = "0.8.0-0.6.x-compat"
 detekt = "2.0.0-alpha.5"
 gradleVersionsPlugin = "0.54.0"
 jetbrainsCompose = "1.11.1"
