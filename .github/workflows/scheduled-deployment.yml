@@ -18,11 +18,10 @@ jobs:
         with:
           ref: develop
           fetch-depth: 0
-          # Persist the PAT instead of the default GITHUB_TOKEN: the version bump
-          # below is pushed with these credentials, and a push made by GITHUB_TOKEN
-          # does not trigger any further workflow. With the PAT the push fires the
-          # release PR's `synchronize` event, so Check and Build actually runs on it.
-          token: ${{ secrets.RELEASE_TOKEN }}
+          # Do not leave any credentials in .git/config for the rest of the job.
+          # The repository is public, so `git fetch` below needs no auth at all,
+          # and the single step that needs write access authenticates explicitly.
+          persist-credentials: false
 
       - name: Check for diff
         id: diff
@@ -34,6 +33,8 @@ jobs:
       - name: Bump version and Commit
         if: steps.diff.outputs.ahead != '0'
         id: version-bump
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
           CURRENT_VERSION=$(grep '^version = "' build.gradle.kts | cut -d '"' -f 2)
           V_YEAR=$(echo $CURRENT_VERSION | cut -d '.' -f 1)
@@ -54,8 +55,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -am "chore: bump version to $NEW_VERSION"
-          git push origin develop
-          
+
+          # Push with the PAT rather than GITHUB_TOKEN: a push made by GITHUB_TOKEN
+          # does not trigger any further workflow, so the release PR would never get
+          # its `synchronize` event and Check and Build would not run on it. Passed
+          # inline instead of via actions/checkout so the credential is scoped to
+          # this one command and never lands in .git/config.
+          git push "https://x-access-token:${RELEASE_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:develop
+
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request
