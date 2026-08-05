@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "2026.6.0"
+version = "2026.7.0"
 
 kotlin {
   js {

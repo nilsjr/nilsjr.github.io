@@ -14,10 +14,14 @@ jobs:
 
     steps:
       - name: Checkout develop
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: develop
           fetch-depth: 0
+          # Do not leave any credentials in .git/config for the rest of the job.
+          # The repository is public, so `git fetch` below needs no auth at all,
+          # and the single step that needs write access authenticates explicitly.
+          persist-credentials: false
 
       - name: Check for diff
         id: diff
@@ -29,6 +33,8 @@ jobs:
       - name: Bump version and Commit
         if: steps.diff.outputs.ahead != '0'
         id: version-bump
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
           CURRENT_VERSION=$(grep '^version = "' build.gradle.kts | cut -d '"' -f 2)
           V_YEAR=$(echo $CURRENT_VERSION | cut -d '.' -f 1)
@@ -49,15 +55,24 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -am "chore: bump version to $NEW_VERSION"
-          git push origin develop
-          
+
+          # Push with the PAT rather than GITHUB_TOKEN: a push made by GITHUB_TOKEN
+          # does not trigger any further workflow, so the release PR would never get
+          # its `synchronize` event and Check and Build would not run on it. Passed
+          # inline instead of via actions/checkout so the credential is scoped to
+          # this one command and never lands in .git/config.
+          git push "https://x-access-token:${RELEASE_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:develop
+
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request
         if: steps.diff.outputs.ahead != '0'
         id: create-pr
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Same reason as above: a PR opened with GITHUB_TOKEN does not trigger the
+          # `pull_request` event, so its required checks would never report and the
+          # PR would stay blocked forever.
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
           NEW_VERSION=${{ steps.version-bump.outputs.new_version }}
           
@@ -82,13 +97,10 @@ jobs:
           
           echo "pull-request-url=$PR_URL" >> $GITHUB_OUTPUT
 
-      - name: Dispatch check-and-build workflow
-        if: steps.diff.outputs.ahead != '0'
-        uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: pr_created_by_automation
-          client-payload: '{"pull_request_head_ref": "develop"}'
+      # No repository_dispatch fallback anymore: it only existed to get Check and
+      # Build to run for a PR opened by GITHUB_TOKEN. Since the PR is now opened with
+      # the PAT, the regular `pull_request` event does that - and the dispatched run
+      # shared a concurrency group with the PR run, so the two cancelled each other.
 
       - name: Enable Auto-Merge
         if: steps.create-pr.outputs.pull-request-url
