@@ -1,19 +1,22 @@
 name: Check and Build
 on:
-  push:
-    branches:
-      - develop
+  # pull_request only. `develop` is both the default branch and the head branch of the
+  # monthly release PR, so a `push`/`repository_dispatch` trigger produces a *second*
+  # run on the exact same commit as the release PR's run. Both runs land in the same
+  # concurrency group and cancel each other, which leaves cancelled (= blocking)
+  # required check runs on the PR head commit and stops auto-merge.
+  # Nothing goes unchecked: a commit either arrives via a PR against develop, or it
+  # lands on develop while the release PR is open, which fires `synchronize`.
   pull_request:
     branches:
       - main
       - develop
-  repository_dispatch:
-    types: [ pr_created_by_automation ]
 
 concurrency:
-  # This group ID ensures that only one workflow runs per branch/PR at a time.
-  # github.head_ref is only available in PRs, falling back to github.ref_name for pushes.
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  # One run per pull request. Keyed on the PR number instead of the branch name, so
+  # runs of different PRs can never cancel each other - notably a feature PR into
+  # develop vs. the release PR that has develop as its head branch.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
@@ -23,8 +26,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          ref: ${{ github.event.client_payload.pull_request_head_ref || github.ref }}
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: 'temurin'
@@ -40,8 +41,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          ref: ${{ github.event.client_payload.pull_request_head_ref || github.ref }}
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: 'temurin'
