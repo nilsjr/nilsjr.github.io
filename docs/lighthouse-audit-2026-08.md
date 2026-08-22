@@ -256,6 +256,121 @@ Add a Lighthouse CI job to `check-and-build.yml` that builds
 accessibility = 1.00, TBT ≤ 300 ms). Without this, Step 1 quietly regresses the first
 time a new animation lands.
 
+## Re-audit — 2026-08-22 (real production build)
+
+The original audit above could not build the project or reach the live site (sandboxed
+egress). This session's environment has working network access, so the audit was redone
+against **an actual local production build** rather than an inference from the deployed
+artifact:
+
+```bash
+./gradlew jsBrowserDistribution   # → build/dist/js/productionExecutable/
+# served locally with a small Node static server replicating GitHub Pages headers
+# (gzip for text assets, cache-control: max-age=600) — plain `python -m http.server`
+# does not gzip and gives misleadingly slow numbers, see caveat below
+```
+
+| | Mobile | Desktop |
+| --- | --- | --- |
+| **Performance** | **0.88** | 0.99 |
+| **Accessibility** | 0.87 | 0.87 |
+| **Best Practices** | **1.00** | 1.00 |
+| **SEO** | 0.91 | 0.91 |
+
+With real network access, `errors-in-console` passes outright (the two `api.github.com`
+calls and the Google Fonts request all succeed for real), confirming the original audit's
+best-practices asterisk.
+
+**Accessibility and SEO findings reproduce exactly**: same `color-contrast` failure (card
+labels/muted text and repo-name purple), same missing `<main>` landmark, same missing
+`meta-description`. The Step 3/4 fixes above are still the right ones.
+
+**Performance is real but smaller than the original estimate, and the animation-cost
+finding does not reproduce here.** Re-running the same `--force-prefers-reduced-motion`
+experiment against this build:
+
+| Run | Perf | LCP | TBT | Main-thread |
+| --- | --- | --- | --- | --- |
+| Production as-is | 0.88 | 3.1 s | 290 ms | 1.6 s |
+| `--force-prefers-reduced-motion` | 0.86 | 3.0 s | 270 ms | **1.1 s** |
+
+Turning the animations off only saves ~0.5 s of main-thread time here, not the ~6 s the
+original audit measured on the deployed `gh-pages` artifact. That's too large a gap to be
+noise. Since this run's other numbers line up closely with the original where they should
+(unused-JS is 89 KB in both, gzip bundle is 174 KB in both, the same three a11y/SEO
+audits fail identically), the likely explanation is that Lighthouse's simulated
+CPU-throttling multiplier is sensitive to the host machine, not that the original
+animation-cost finding was wrong — **treat the P0 "animations dominate the main thread"
+finding as unverified in absolute terms, but keep Step 1 anyway**: pausing `CodeRain` on
+`visibilitychange` and gating `miniTerminal()` out of composition below 1120px cost
+nothing and stop real, measured waste (a fully hidden coroutine still ticking on every
+phone) regardless of how big the number reads on any given machine.
+
+**The GitHub API fan-out is confirmed for real, not just theorized.** With network access
+working, the trace shows the full `2 + N` sequence firing exactly as documented:
+`GET /users/nilsjr/repos`, `GET /search/issues?...`, then one `GET /repos/{owner}/{name}`
+per external contribution (6 in the current fallback/live list — Flocon, Maestro,
+azure-gradle-plugins, postman-code-generators, android-livetemplates, rollbar-java). Step
+5 remains the fix; this just moves it from "inferred from code reading" to "measured on
+the wire."
+
+Reports: `docs/lh-reports/lh-mobile.report.html` and `lh-desktop.report.html` (git-ignored
+scratch output, not committed).
+
+## Implementation — 2026-08-22
+
+All 7 plan steps above have been implemented and verified against a real local
+production build (same gzip/cache-control setup as the re-audit above).
+
+| | Mobile | Desktop |
+| --- | --- | --- |
+| **Performance** | 0.88 → **0.93** | 0.99 → **0.99** |
+| **Accessibility** | 0.87 → **1.00** | 0.87 → **1.00** |
+| **Best Practices** | 1.00 → **1.00** | 1.00 → **1.00** |
+| **SEO** | 0.91 → **1.00** | 0.91 → **1.00** |
+
+| Metric | Before | After |
+| --- | --- | --- |
+| LCP (mobile) | 3.1 s | **2.5 s** |
+| TBT (mobile) | 290 ms | **240 ms** |
+| CLS (mobile / desktop) | 0 / 0 | **0.025 / 0.072** |
+
+`color-contrast`, `landmark-one-main`, and `meta-description` all now pass. The
+`ci/assert-lighthouse-budgets.cjs` check from Step 7 passes against this build
+(performance 0.95, accessibility/best-practices 1.00, SEO 1.00, TBT 192ms — one more
+run, slightly different from the table above due to normal run-to-run variance in
+Lighthouse's simulated throttling).
+
+**One accepted trade-off**: the static-hero swap (Step 2) introduced a small CLS where
+there was previously an exact 0 — 0.025 mobile / 0.072 desktop, both comfortably inside
+Google's "good" (<0.1) band. Root cause: the real `<h1>`/hero paragraph, once swapped in
+for the static markup, can render with a very slightly different box (a web-font
+FOUT/FOIT reflow, or a sub-pixel difference between the static markup's plain CSS and
+Compose's generated classes) than what was on screen a moment before. This is an inherent
+limitation of a hydration-less prerender-then-swap technique, not a bug in the swap logic
+itself — it was investigated by reproducing it twice and inspecting Lighthouse's
+`layout-shifts` audit detail, and traded deliberately against eliminating ~2.4s of prior
+LCP wait (nothing painted at all until the JS bundle evaluated). Chasing it fully to zero
+would mean either giving up the immediate-opacity hero (reintroducing a flash-to-blank
+relative to the static content) or hand-tuning the static markup's font metrics to match
+Compose's output pixel-for-pixel under every font-load timing — not worth it at this
+margin.
+
+Deliberate deviations from the plan's literal wording, and why:
+- The static prerender (Step 2) also mirrors the header dots row, not just the hero text,
+  so the swap doesn't visibly push content down by the header's height.
+- Step 2 removes the hero/header `rise()` fade-in entirely (not just its delay) so the
+  real Compose content appears at full opacity the instant it swaps in, matching the
+  already-visible static content with no flash. The hero's *second* paragraph (not
+  covered by the static markup) keeps a `rise()` call specifically to hide the font-swap
+  reflow described above — every other section's stagger is untouched.
+- Step 5's scheduled data refresh pushes straight to `develop` with the default
+  `GITHUB_TOKEN` (mirroring the existing version-bump workflow's pattern), not through a
+  PR — so freshly-fetched repo data reaches production on the existing monthly release
+  cadence, not instantly. Given the goal was eliminating client-side API fan-out risk, not
+  guaranteeing real-time freshness, this was judged an acceptable fit with how this repo
+  already ships changes.
+
 ## Reproducing
 
 ```bash

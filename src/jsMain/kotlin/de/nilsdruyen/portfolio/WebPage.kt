@@ -19,11 +19,12 @@ import de.nilsdruyen.portfolio.components.terminalHeader
 import de.nilsdruyen.portfolio.ui.TerminalStyle
 import de.nilsdruyen.portfolio.ui.rise
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Main
 
 @Composable
 fun page() {
   codeRain()
-  Div({ classes(TerminalStyle.content) }) {
+  Main({ classes(TerminalStyle.content) }) {
     terminalHeader()
     hero()
     career()

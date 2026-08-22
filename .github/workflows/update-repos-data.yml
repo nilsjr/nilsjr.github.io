@@ -1,0 +1,56 @@
+name: Update GitHub Repos Data
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # every Monday at 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  update-repos-json:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: develop
+
+      - name: Fetch portfolio repos and contributions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          USER=nilsjr
+          AUTH_HEADER="Authorization: Bearer ${GH_TOKEN}"
+
+          portfolio=$(curl -sf -H "$AUTH_HEADER" "https://api.github.com/users/$USER/repos?per_page=100" \
+            | jq '[.[] | select((.topics // []) | index("portfolio"))] | sort_by(-.stargazers_count) | map({url: .html_url, name: .name, description: (.description // "")})')
+
+          pr_repo_urls=$(curl -sf -H "$AUTH_HEADER" "https://api.github.com/search/issues?q=author:$USER+is:pr+is:merged&per_page=100" \
+            | jq -r --arg user "$USER" '[.items[].repository_url] | unique | map(select((. | contains("/repos/\($user)/")) | not)) | .[]')
+
+          contributions="[]"
+          for repo_url in $pr_repo_urls; do
+            entry=$(curl -sf -H "$AUTH_HEADER" "$repo_url" | jq '{url: .html_url, name: .name, description: (.description // ""), stars: .stargazers_count}')
+            contributions=$(echo "$contributions" | jq --argjson e "$entry" '. + [$e]')
+          done
+          contributions=$(echo "$contributions" | jq 'sort_by(-.stars) | map(del(.stars))')
+
+          jq -n --argjson portfolioRepos "$portfolio" --argjson contributions "$contributions" \
+            --arg generatedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{generatedAt: $generatedAt, portfolioRepos: $portfolioRepos, contributions: $contributions}' \
+            > src/jsMain/resources/assets/repos.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- src/jsMain/resources/assets/repos.json; then
+            echo "No changes."
+          else
+            git add src/jsMain/resources/assets/repos.json
+            git commit -m "chore: refresh GitHub repos data"
+            git push origin HEAD:develop
+          fi

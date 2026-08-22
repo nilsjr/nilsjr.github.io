@@ -4,7 +4,23 @@
   <title>nilsjr.dev 🐷</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="assets/favicon-32x32.png" type="image/png"/>
+  <meta name="description" content="Nils Druyen — Android/Kotlin engineer since 2012. Portfolio built entirely in Kotlin with Kotlin Multiplatform and Compose for Web.">
+  <link rel="canonical" href="https://nilsjr.github.io/">
+  <meta name="theme-color" content="#0E0D12">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nilsjr.github.io/">
+  <meta property="og:title" content="nilsjr.dev">
+  <meta property="og:description" content="Nils Druyen — Android/Kotlin engineer since 2012. Portfolio built entirely in Kotlin with Kotlin Multiplatform and Compose for Web.">
+  <meta property="og:image" content="https://nilsjr.github.io/assets/og-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="nilsjr.dev">
+  <meta name="twitter:description" content="Nils Druyen — Android/Kotlin engineer since 2012. Portfolio built entirely in Kotlin with Kotlin Multiplatform and Compose for Web.">
+  <meta name="twitter:image" content="https://nilsjr.github.io/assets/og-image.png">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+  <link rel="icon" href="assets/favicon-32x32.png" type="image/png" sizes="32x32"/>
+  <link rel="apple-touch-icon" href="assets/favicon-32x32.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..600&display=swap"
@@ -19,7 +35,41 @@
   }</style>
 </head>
 <body>
+<div id="static-hero" style="position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:52px 48px 64px;font-family:'JetBrains Mono',monospace;font-size:15px;line-height:1.7;color:#D9D6E3;box-sizing:border-box;">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div style="color:#8A83A3;font-size:13px;">~/nilsjr 🐷</div>
+    <div style="display:flex;gap:8px;">
+      <span style="width:11px;height:11px;border-radius:50%;background:#3A3646;display:block;"></span>
+      <span style="width:11px;height:11px;border-radius:50%;background:#3A3646;display:block;"></span>
+      <span style="width:11px;height:11px;border-radius:50%;background:#7F52FF;display:block;"></span>
+    </div>
+  </div>
+  <div style="position:relative;margin-top:76px;">
+    <div style="color:#8A83A3;">// who am i</div>
+    <h1 style="margin:10px 0 0;font-size:46px;font-weight:600;letter-spacing:-0.02em;color:#F4F2FA;line-height:1.15;font-family:inherit;">
+      <span style="color:#7F52FF;">val</span> nils = Druyen()
+    </h1>
+    <p style="margin:26px 0 0;max-width:640px;color:#A9A3BC;">
+      Passionate Android developer since 2012, working on several B2B &amp; B2C apps with over 10m users worldwide — currently as Software Engineer at <span style="color:#F4F2FA;">Fressnapf | Maxizoo</span>.<br>
+      Writing Kotlin for a living — and for fun.
+    </p>
+  </div>
+</div>
 <div id="root"></div>
+<script>
+  (function () {
+    var root = document.getElementById('root');
+    var staticHero = document.getElementById('static-hero');
+    if (!root || !staticHero) return;
+    var observer = new MutationObserver(function () {
+      if (root.querySelector('h1')) {
+        staticHero.remove();
+        observer.disconnect();
+      }
+    });
+    observer.observe(root, { childList: true, subtree: true });
+  })();
+</script>
 <script type="text/javascript" src="nils.github.io.js" defer></script>
 </body>
 </html>

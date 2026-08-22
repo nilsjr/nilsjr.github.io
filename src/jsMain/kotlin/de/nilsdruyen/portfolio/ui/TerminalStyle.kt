@@ -91,7 +91,9 @@ object TerminalStyle : StyleSheet() {
     media(CSSMediaQuery.Raw("(prefers-reduced-motion: reduce)")) {
       universal style {
         property("animation-duration", "0.01ms !important")
+        property("animation-delay", "0.01ms !important")
         property("animation-iteration-count", "1 !important")
+        property("transition-duration", "0.01ms !important")
       }
     }
   }
@@ -309,7 +311,7 @@ object TerminalStyle : StyleSheet() {
   }
 
   val repoName by style {
-    color(Colors.Purple)
+    color(Colors.PurpleText)
     fontWeight(600)
   }
 

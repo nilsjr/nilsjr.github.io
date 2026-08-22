@@ -7,7 +7,6 @@ package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.ui.TerminalStyle
-import de.nilsdruyen.portfolio.ui.rise
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
@@ -16,7 +15,6 @@ import org.jetbrains.compose.web.dom.Text
 fun terminalHeader() {
   Div({
     classes(TerminalStyle.header)
-    style { rise() }
   }) {
     Div({ classes(TerminalStyle.label) }) { Text("~/nilsjr 🐷") }
     Div({ classes(TerminalStyle.dots) }) {
