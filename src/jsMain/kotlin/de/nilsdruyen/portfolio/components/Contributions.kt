@@ -16,6 +16,7 @@ import de.nilsdruyen.portfolio.data.loadContributions
 import de.nilsdruyen.portfolio.ui.TerminalStyle
 import de.nilsdruyen.portfolio.ui.rise
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
@@ -24,7 +25,7 @@ fun contributions() {
     classes(TerminalStyle.card, TerminalStyle.sectionGap)
     style { rise(480) }
   }) {
-    Div({ classes(TerminalStyle.cardLabel) }) { Text("$ ls ~/contributions") }
+    H2({ classes(TerminalStyle.cardLabel) }) { Text("$ ls ~/contributions") }
     var repos by remember { mutableStateOf(fallbackContributions) }
     LaunchedEffect(Unit) {
       loadContributions()?.let { repos = it }

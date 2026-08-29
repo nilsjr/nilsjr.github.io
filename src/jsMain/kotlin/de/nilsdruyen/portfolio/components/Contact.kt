@@ -10,13 +10,14 @@ import de.nilsdruyen.portfolio.ui.TerminalStyle
 import de.nilsdruyen.portfolio.ui.openInNewTab
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun contact() {
   Div({ classes(TerminalStyle.card) }) {
-    Div({ classes(TerminalStyle.cardLabel) }) { Text("$ contact --all") }
+    H2({ classes(TerminalStyle.cardLabel) }) { Text("$ contact --all") }
     Div({ classes(TerminalStyle.contactList) }) {
       contactLink("https://github.com/nilsjr", "github", "nilsjr")
       contactLink("https://twitter.com/NilsJr", "twitter", "NilsJr")

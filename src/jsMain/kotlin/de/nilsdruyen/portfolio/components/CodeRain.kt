@@ -7,6 +7,7 @@ package de.nilsdruyen.portfolio.components
 
 import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.ui.TerminalStyle
+import kotlinx.browser.document
 import kotlinx.browser.window
 import org.jetbrains.compose.web.dom.ElementBuilder
 import org.jetbrains.compose.web.dom.TagElement
@@ -20,6 +21,7 @@ private const val COLUMN_WIDTH = FONT_SIZE * 1.6
 private const val FRAME_INTERVAL_MS = 40.0
 private const val RESIZE_DEBOUNCE_MS = 150
 private const val RAIN_DENSITY = 0.2
+private const val SMALL_SCREEN_BREAKPOINT = 640.0
 private const val BACKGROUND = "#0E0D12"
 private const val TRAIL = "rgba(14,13,18,0.14)"
 private const val HEAD = "#B9A1FF"
@@ -37,6 +39,7 @@ fun codeRain() {
     elementBuilder = ElementBuilder.createBuilder("canvas"),
     applyAttrs = {
       classes(TerminalStyle.rainCanvas)
+      attr("aria-hidden", "true")
       ref { canvas ->
         val rain = CodeRain(canvas)
         rain.start()
@@ -62,6 +65,12 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     window.cancelAnimationFrame(rafId)
     if (!reducedMotion.matches) rafId = window.requestAnimationFrame(::tick)
   }
+  private val onVisibilityChange: (Event) -> Unit = {
+    window.cancelAnimationFrame(rafId)
+    if (!isDocumentHidden() && !reducedMotion.matches) {
+      rafId = window.requestAnimationFrame(::tick)
+    }
+  }
   private var drops: Array<Drop> = emptyArray()
   private var rafId = 0
   private var lastFrame = 0.0
@@ -72,7 +81,8 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     setSize()
     window.addEventListener("resize", onResize)
     reducedMotion.addEventListener("change", onMotionChange)
-    if (!reducedMotion.matches) rafId = window.requestAnimationFrame(::tick)
+    document.addEventListener("visibilitychange", onVisibilityChange)
+    if (!reducedMotion.matches && !isDocumentHidden()) rafId = window.requestAnimationFrame(::tick)
   }
 
   fun stop() {
@@ -80,16 +90,18 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     window.clearTimeout(resizeTimer)
     window.removeEventListener("resize", onResize)
     reducedMotion.removeEventListener("change", onMotionChange)
+    document.removeEventListener("visibilitychange", onVisibilityChange)
   }
 
   private fun setSize() {
-    val dpr = window.devicePixelRatio
+    val dpr = minOf(window.devicePixelRatio, 2.0)
     viewWidth = window.innerWidth.toDouble()
     viewHeight = window.innerHeight.toDouble()
     canvas.width = (viewWidth * dpr).toInt()
     canvas.height = (viewHeight * dpr).toInt()
     ctx.scale(dpr, dpr)
-    val columns = (viewWidth / COLUMN_WIDTH).toInt()
+    val effectiveColumnWidth = if (viewWidth < SMALL_SCREEN_BREAKPOINT) COLUMN_WIDTH * 1.6 else COLUMN_WIDTH
+    val columns = (viewWidth / effectiveColumnWidth).toInt()
     drops = Array(columns) { index ->
       drops.getOrNull(index) ?: Drop(y = Random.nextDouble() * -viewHeight, speed = randomSpeed())
     }
@@ -100,7 +112,8 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
 
   private fun tick(timestamp: Double) {
     rafId = window.requestAnimationFrame(::tick)
-    if (timestamp - lastFrame < FRAME_INTERVAL_MS) return
+    val interval = if (viewWidth < SMALL_SCREEN_BREAKPOINT) FRAME_INTERVAL_MS * 1.5 else FRAME_INTERVAL_MS
+    if (timestamp - lastFrame < interval) return
     lastFrame = timestamp
 
     ctx.fillStyle = TRAIL
@@ -153,4 +166,7 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
   }
 
   private fun randomSpeed() = 0.6 + Random.nextDouble() * 1.6
+
+  @Suppress("UnsafeCastFromDynamic")
+  private fun isDocumentHidden(): Boolean = js("document.hidden") as Boolean
 }

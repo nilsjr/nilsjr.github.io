@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-08-22T00:00:00Z",
+  "portfolioRepos": [
+    {"url": "https://github.com/nilsjr/Snappy", "name": "Snappy", "description": "📸 Android CameraX Library"},
+    {"url": "https://github.com/nilsjr/gradle-ftp-upload-plugin", "name": "gradle-ftp-upload-plugin", "description": "Gradle plugin for uploading files via ftp"},
+    {"url": "https://github.com/nilsjr/WoWMythicPlus", "name": "WoWMythicPlus", "description": "🔑 WoW M+ overview displaying data from raider.io api"},
+    {"url": "https://github.com/nilsjr/Koncept", "name": "Koncept", "description": "🔨 Android playground app for architecture, new frameworks & other stuff"},
+    {"url": "https://github.com/nilsjr/ComposeParty", "name": "ComposeParty", "description": "🎉 Compose playground project on steroids"},
+    {"url": "https://github.com/nilsjr/nilsjr.github.io", "name": "nilsjr.github.io", "description": "🧍 My portfolio webpage"}
+  ],
+  "contributions": [
+    {"url": "https://github.com/mobile-dev-inc/maestro", "name": "Maestro", "description": "Painless Mobile UI Automation"},
+    {"url": "https://github.com/postmanlabs/postman-code-generators", "name": "postman-code-generators", "description": "Common repository for all code generators shipped with Postman"},
+    {"url": "https://github.com/google/accompanist", "name": "accompanist", "description": "A collection of extension libraries for Jetpack Compose"},
+    {"url": "https://github.com/microsoft/azure-gradle-plugins", "name": "azure-gradle-plugins", "description": "About Azure Plugins for Gradle"}
+  ]
+}

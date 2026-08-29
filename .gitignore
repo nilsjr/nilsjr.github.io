@@ -255,3 +255,6 @@ gradle-app.setting
 # new kotlin folder
 .kotlin/
 .idea/
+
+# Lighthouse audit scratch output
+docs/lh-reports/

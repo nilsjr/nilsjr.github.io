@@ -18,6 +18,7 @@ import de.nilsdruyen.portfolio.ui.openInNewTab
 import de.nilsdruyen.portfolio.ui.rise
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 
@@ -27,7 +28,7 @@ fun openSource() {
     classes(TerminalStyle.card, TerminalStyle.sectionGap)
     style { rise(360) }
   }) {
-    Div({ classes(TerminalStyle.cardLabel) }) { Text("$ ls ~/open-source") }
+    H2({ classes(TerminalStyle.cardLabel) }) { Text("$ ls ~/open-source") }
     var repos by remember { mutableStateOf(fallbackRepos) }
     LaunchedEffect(Unit) {
       loadPortfolioRepos()?.let { repos = it }
