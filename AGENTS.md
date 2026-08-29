@@ -85,11 +85,11 @@ rain" canvas background.
 
 ## Tech Stack
 
-- **Kotlin 2.4.0** (Multiplatform, JS/IR target, compiling to `es2015`)
+- **Kotlin 2.4.10** (Multiplatform, JS/IR target, compiling to `es2015`)
 - **JetBrains Compose for Web 1.11.1** — `compose.runtime`, `compose.html.core`,
   `compose.html.svg`
 - **kotlinx-coroutines** and **kotlinx-datetime** (declared in `commonMain`)
-- **detekt 2.0.0-alpha.5** with the ktlint-wrapper ruleset for static analysis/formatting
+- **detekt 2.0.0-alpha.6** with the ktlint-wrapper ruleset for static analysis/formatting
 - **Gradle Versions Plugin** for dependency-update reporting
 - **webpack** (dev server + production bundling, versions pinned in the version catalog)
 - Dependencies are managed via a **Gradle version catalog** at `gradle/libs.versions.toml`
@@ -149,16 +149,23 @@ Dependency updates are automated via **Renovate** (`renovate.json5`).
 GitHub Actions workflows in `.github/workflows/` (all run on JDK 21):
 
 - **`check-and-build.yml`** — runs `detekt ktlintCheck` and `./gradlew build` plus a
-  Gradle dependency-graph submission. Triggers on pushes to `develop`, PRs to `main`/
-  `develop`, and the `pr_created_by_automation` repository dispatch.
-- **`publish.yml`** — builds production artifacts (`jsBrowserDistribution`) and, on push
-  to `main`, deploys `build/dist/js/productionExecutable` to the `gh-pages` branch
-  (GitHub Pages).
+  Gradle dependency-graph submission. Triggers on PRs to `main`/`develop` only; a
+  `push` trigger would double up with the release PR's run and the two would cancel
+  each other.
+- **`publish.yml`** — builds production artifacts (`jsBrowserDistribution`) on pushes
+  and PRs to `main`, plus manual dispatch; on push to `main` it also deploys
+  `build/dist/js/productionExecutable` to the `gh-pages` branch (GitHub Pages).
 - **`scheduled-deployment.yml`** — runs on the 1st of each month (and manual dispatch);
   if `develop` is ahead of `main`, it bumps the version in `build.gradle.kts`, pushes to
   `develop`, and opens (or updates) an auto-merge `develop → main` release PR.
 - **`update-yarn-lock.yml`** — on Renovate PRs touching `build.gradle.kts`, regenerates
   `.kotlin-js-store/yarn.lock` (`kotlinUpgradeYarnLock`) and commits it back.
+- **`security-yarn-lock.yml`** — Friday 18:17 UTC (and manual dispatch, defaulting to a
+  dry run). Scans `.kotlin-js-store/yarn.lock` with `osv-scanner`, pins HIGH/CRITICAL
+  findings via `.github/scripts/apply-npm-resolutions.mjs`, regenerates the lockfile,
+  verifies the build, then opens a `develop` PR that squash-merges once checks pass.
+  It exists because the lockfile has no `package.json`, so neither Dependabot nor
+  Renovate can patch it — see the comment block at the top of the workflow.
 
 ## Versioning
 
