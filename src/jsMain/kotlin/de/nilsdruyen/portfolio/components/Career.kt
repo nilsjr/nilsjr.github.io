@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import de.nilsdruyen.portfolio.ui.TerminalStyle
 import de.nilsdruyen.portfolio.ui.rise
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 
@@ -18,7 +19,7 @@ fun career() {
     classes(TerminalStyle.card, TerminalStyle.heroGap)
     style { rise(240) }
   }) {
-    Div({ classes(TerminalStyle.cardLabel) }) { Text("$ git log --reverse career") }
+    H2({ classes(TerminalStyle.cardLabel) }) { Text("$ git log --reverse career") }
     Div({ classes(TerminalStyle.timeline) }) {
       station("2010 - 2016", "Angewandte Informatik", "Universität Duisburg-Essen")
       station("2016 - 2021", "Software Entwickler", "NanoGiants GmbH")

@@ -1,0 +1,67 @@
+{
+  "generatedAt": "2026-08-31T13:05:07Z",
+  "portfolioRepos": [
+    {
+      "url": "https://github.com/nilsjr/Snappy",
+      "name": "Snappy",
+      "description": "📸 Android CameraX Library"
+    },
+    {
+      "url": "https://github.com/nilsjr/gradle-ftp-upload-plugin",
+      "name": "gradle-ftp-upload-plugin",
+      "description": "Gradle plugin for uploading files via ftp"
+    },
+    {
+      "url": "https://github.com/nilsjr/Koncept",
+      "name": "Koncept",
+      "description": "🔨 Android playground app for architecture, new frameworks & other stuff."
+    },
+    {
+      "url": "https://github.com/nilsjr/ComposeParty",
+      "name": "ComposeParty",
+      "description": "🎉 Compose playground with a lot of party 🥳"
+    },
+    {
+      "url": "https://github.com/nilsjr/nilsjr.github.io",
+      "name": "nilsjr.github.io",
+      "description": "🧍 My portfolio webpage"
+    },
+    {
+      "url": "https://github.com/nilsjr/WoWMythicPlus",
+      "name": "WoWMythicPlus",
+      "description": "🔑 WoW M+ overview displaying data from raider.io api"
+    }
+  ],
+  "contributions": [
+    {
+      "url": "https://github.com/mobile-dev-inc/Maestro",
+      "name": "Maestro",
+      "description": "Painless E2E Automation for Mobile and Web"
+    },
+    {
+      "url": "https://github.com/postmanlabs/postman-code-generators",
+      "name": "postman-code-generators",
+      "description": "Common repository for all code generators shipped with Postman"
+    },
+    {
+      "url": "https://github.com/openflocon/Flocon",
+      "name": "Flocon",
+      "description": "A powerful desktop companion for Android & kmp (desktop, iOS) apps — inspect, debug, mock and control your app in real time. Supports OkHttp, GraphQl, WebSockets, GRPC, databases, analytics "
+    },
+    {
+      "url": "https://github.com/rollbar/rollbar-java",
+      "name": "rollbar-java",
+      "description": "Rollbar for Java and Android"
+    },
+    {
+      "url": "https://github.com/microsoft/azure-gradle-plugins",
+      "name": "azure-gradle-plugins",
+      "description": "Azure Plugins for Gradle"
+    },
+    {
+      "url": "https://github.com/nanogiants/android-livetemplates",
+      "name": "android-livetemplates",
+      "description": "This is a repository where android livetemplates can be downloaded and installed"
+    }
+  ]
+}
