@@ -66,7 +66,7 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("path-to-regexp", "0.1.13")
     resolution("qs", "6.15.2")
     resolution("serialize-javascript", "7.0.3")
-    resolution("shell-quote", "1.9.0")
+    resolution("shell-quote", "1.10.0")
     resolution("socket.io-parser", "4.2.7")
     resolution("ws", "8.21.0")
   }
