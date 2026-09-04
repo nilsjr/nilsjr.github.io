@@ -1,0 +1,118 @@
+name: Back-merge main into develop
+
+# Gitflow's back-merge step, automated. Releases flow develop -> main, but anything
+# that lands on main *directly* (a hotfix, or a PR opened against main by hand, like
+# #237) leaves develop behind and every later release PR carries the divergence along.
+#
+# A clean merge is pushed straight to develop; a conflicting one becomes a PR for a
+# human, because resolving a release conflict unattended is exactly the thing that
+# quietly loses a hotfix.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+# Both the push and the PR go through RELEASE_TOKEN, for the same reason as in
+# security-yarn-lock.yml, so the default token only needs to read the repository.
+permissions:
+  contents: read
+
+env:
+  BRANCH: chore/backmerge-main
+
+jobs:
+  backmerge:
+    name: Merge main into develop
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: develop
+          # Need main's history too, and the whole log so the merge base is real.
+          fetch-depth: 0
+          # No credentials left in .git/config: the repository is public and the
+          # writing steps authenticate explicitly with RELEASE_TOKEN.
+          persist-credentials: false
+
+      - name: Attempt the merge
+        id: merge
+        run: |
+          set -euo pipefail
+
+          # actions/checkout only configures a refspec for the ref it checked out,
+          # so main is not there yet even with fetch-depth: 0.
+          git fetch --no-tags origin main develop
+
+          # The numeric prefix is what attributes the commit to the bot account.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if [ -z "$(git rev-list origin/develop..origin/main)" ]; then
+            echo "develop already contains main; nothing to back-merge."
+            echo "state=up-to-date" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # --no-ff keeps the back-merge visible as its own commit in the history,
+          # the way the manual Gitflow step does.
+          if git merge --no-ff origin/main \
+              -m "chore: back-merge main into develop"; then
+            echo "state=merged" >> "$GITHUB_OUTPUT"
+          else
+            git merge --abort
+            echo "state=conflict" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push to develop
+        if: steps.merge.outputs.state == 'merged'
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          set -euo pipefail
+          # Passed inline so the credential is scoped to this one command. Not forced:
+          # if develop moved while this job ran, failing and re-running is correct.
+          git push \
+            "https://x-access-token:${RELEASE_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:refs/heads/develop
+          echo "Back-merged main into develop." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open a pull request for the conflict
+        if: steps.merge.outputs.state == 'conflict'
+        env:
+          # Must not be GITHUB_TOKEN: a PR opened with it does not fire the
+          # `pull_request` event, so Check and Build would never report on it.
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # Look before pushing. $BRANCH has a fixed name, and once a PR is open a
+          # human is expected to push their conflict resolution onto it - rebuilding
+          # the branch from bare origin/main would force-push that work away. So an
+          # open PR is left strictly alone; it already tracks main and a second
+          # hotfix only adds to the same conflict its author is resolving.
+          EXISTING=$(gh pr list --head "$BRANCH" --base develop --state open             --json number -q '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            gh pr comment "$EXISTING" --body               "\`main\` moved again while this back-merge was open. This branch was deliberately left untouched so no in-progress conflict resolution is lost - pull \`main\` in yourself when you resolve it."
+            echo "::warning::Back-merge conflicted; PR #${EXISTING} is already open."
+            exit 0
+          fi
+
+          # A branch off main, so the PR's conflicts are the real ones and a human
+          # resolves them in the GitHub UI or locally. Not forced: with no open PR
+          # any leftover branch is spent, but a plain push failing is a louder and
+          # safer signal than silently overwriting whatever is there.
+          git checkout -B "$BRANCH" origin/main
+          git push             "https://x-access-token:${RELEASE_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"             "HEAD:refs/heads/${BRANCH}"
+
+          gh pr create --base develop --head "$BRANCH"             --title "chore: back-merge main into develop"             --body "\`main\` cannot be merged into \`develop\` automatically - the back-merge conflicts. Resolve it here so develop stops trailing the release."
+          echo "::warning::Back-merge conflicted; a pull request was opened instead."
