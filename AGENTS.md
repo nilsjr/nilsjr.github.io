@@ -12,8 +12,9 @@ The whole UI is written in Kotlin and compiled to JavaScript via the Kotlin/JS I
 compiler, then bundled with webpack. It doubles as a showcase for building static web
 pages with Compose. The site is published to GitHub Pages at https://nilsjr.github.io/.
 
-There are **no tests** (`./gradlew build` still runs the standard `test`/`check` tasks,
-but no test sources exist). The site is mostly presentational, with a small amount of
+There are **no Kotlin tests** (`./gradlew build` still runs the standard `test`/`check`
+tasks, but no test sources exist); the only test suite is the Node one covering the CI
+security scripts under `.github/scripts/`. The site is mostly presentational, with a small amount of
 client-side logic: canvas/coroutine-driven animations (`CodeRain`, `MiniTerminal`) and
 repo lists fetched from the public GitHub API at runtime (`data/GitHubRepos.kt`).
 
@@ -40,6 +41,9 @@ repo lists fetched from the public GitHub API at runtime (`data/GitHubRepos.kt`)
 
 # Report available dependency updates
 ./gradlew dependencyUpdates
+
+# Unit-test the CI security scripts (no Gradle involved)
+node --test .github/scripts/test/scripts.test.mjs
 ```
 
 Requires JDK 21 (CI uses Temurin 21). The Gradle wrapper (`./gradlew`) is committed.
@@ -166,6 +170,21 @@ GitHub Actions workflows in `.github/workflows/` (all run on JDK 21):
   verifies the build, then opens a `develop` PR that squash-merges once checks pass.
   It exists because the lockfile has no `package.json`, so neither Dependabot nor
   Renovate can patch it — see the comment block at the top of the workflow.
+- **`security-gradle.yml`** — Friday 19:47 UTC (and manual dispatch, defaulting to a
+  dry run). The Maven counterpart: `./gradlew --write-verification-metadata` resolves
+  the full classpath (~150 artifacts, plugins and transitives included) into
+  `gradle/verification-metadata.xml`, `osv-scanner` reads that as a lockfile, and
+  `.github/scripts/apply-gradle-versions.mjs` bumps the HIGH/CRITICAL findings that map
+  to a `gradle/libs.versions.toml` entry, then regenerates the yarn lockfile and
+  verifies the build before opening the same kind of self-merging `develop` PR.
+  Findings on a transitive artifact cannot be fixed by a catalog bump at all, so those
+  go to a reused tracking issue instead. The metadata file is deleted right after the
+  scan and is gitignored — committing it would enable Gradle dependency verification
+  for real builds. Shares a concurrency group with `security-yarn-lock.yml`.
+
+Both security workflows share `.github/scripts/lib/osv-common.mjs` (severity threshold,
+version parsing, and the rule that a fix is never applied across a major — or across a
+minor below 1.0). The scripts are covered by `node --test .github/scripts/test/scripts.test.mjs`.
 
 ## Versioning
 
