@@ -258,3 +258,7 @@ gradle-app.setting
 
 # Lighthouse audit scratch output
 docs/lh-reports/
+
+# Written by security-gradle.yml to feed osv-scanner, then deleted. Committing it would
+# switch on Gradle dependency verification for real builds.
+gradle/verification-metadata.xml
