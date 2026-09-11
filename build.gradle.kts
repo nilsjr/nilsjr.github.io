@@ -60,7 +60,7 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("flatted", "3.4.2")
     resolution("glob", "10.5.0")
     resolution("http-proxy-middleware", "2.0.10")
-    resolution("js-yaml", "4.3.1")
+    resolution("js-yaml", "4.3.2")
     resolution("minimatch", "9.0.7")
     resolution("nanoid", "3.3.18")
     resolution("node-forge", "1.4.0")
