@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "2026.8.0"
+version = "2026.9.0"
 
 kotlin {
   js {
@@ -54,12 +54,13 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("body-parser", "1.20.5")
     resolution("brace-expansion", "5.0.9")
     resolution("braces", "3.0.3")
+    resolution("browserslist", "4.28.7")
     resolution("cross-spawn", "7.0.6")
-    resolution("fast-uri", "3.1.5")
+    resolution("fast-uri", "3.1.6")
     resolution("flatted", "3.4.2")
     resolution("glob", "10.5.0")
     resolution("http-proxy-middleware", "2.0.10")
-    resolution("js-yaml", "4.3.1")
+    resolution("js-yaml", "4.3.2")
     resolution("minimatch", "9.0.7")
     resolution("nanoid", "3.3.18")
     resolution("node-forge", "1.4.0")

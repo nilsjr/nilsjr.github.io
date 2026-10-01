@@ -56,8 +56,8 @@
     },
     {
       customType: "regex",
-      description: "Update the pinned osv-scanner release in security-yarn-lock.yml",
-      managerFilePatterns: ["^\\.github/workflows/security-yarn-lock\\.yml$"],
+      description: "Update the pinned osv-scanner release in the security workflows",
+      managerFilePatterns: ["^\\.github/workflows/security-(yarn-lock|gradle)\\.yml$"],
       matchStrings: ["OSV_SCANNER_VERSION:\\s*(?<currentValue>v[\\d.]+)"],
       depNameTemplate: "google/osv-scanner",
       datasourceTemplate: "github-releases",
