@@ -162,6 +162,9 @@ GitHub Actions workflows in `.github/workflows/` (all run on JDK 21):
 - **`scheduled-deployment.yml`** — runs on the 1st of each month (and manual dispatch);
   if `develop` is ahead of `main`, it bumps the version in `build.gradle.kts`, pushes to
   `develop`, and opens (or updates) an auto-merge `develop → main` release PR.
+- **`github-release.yml`** — on push to `main` (and manual dispatch), reads the version
+  from `build.gradle.kts` and, unless the `v<version>` release already exists, creates it
+  with GitHub's auto-generated changelog (pull requests merged since the previous tag).
 - **`update-yarn-lock.yml`** — on Renovate PRs touching `build.gradle.kts`, regenerates
   `.kotlin-js-store/yarn.lock` (`kotlinUpgradeYarnLock`) and commits it back.
 - **`security-yarn-lock.yml`** — Friday 18:17 UTC (and manual dispatch, defaulting to a
