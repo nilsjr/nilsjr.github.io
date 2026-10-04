@@ -14,6 +14,13 @@ import org.jetbrains.compose.web.dom.TagElement
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.events.Event
+import org.w3c.dom.pointerevents.PointerEvent
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.max
+import kotlin.math.sin
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 private const val FONT_SIZE = 14.0
@@ -24,9 +31,31 @@ private const val RAIN_DENSITY = 0.2
 private const val SMALL_SCREEN_BREAKPOINT = 640.0
 private const val BACKGROUND = "#0E0D12"
 private const val TRAIL = "rgba(14,13,18,0.14)"
-private const val HEAD = "#B9A1FF"
-private const val GREEN = "rgba(87,217,163,0.55)"
-private const val PURPLE = "rgba(127,82,255,0.45)"
+
+// Umbrella: drops inside this radius around the cursor are pushed sideways to its edge. They get out of the way
+// quickly and drift back to their column slowly, which leaves a dry, sheltered gap below the cursor.
+private const val SHIELD_RADIUS = 90.0
+private const val SHIELD_PUSH = 0.5
+private const val SHIELD_RELEASE = 0.08
+
+// Drops slide over the umbrella at this fraction of their speed, so they trace a visible arc around it.
+private const val SHIELD_SLOWDOWN = 0.4
+
+// Drops that pass close to the cursor are tinted mint and keep that tint as they fall, fading per frame.
+private const val GLOW_RADIUS = 130.0
+private const val GLOW_DECAY = 0.93
+private const val GLOW_MIN = 0.02
+
+// Click splash: glyphs burst out of the cursor and fall back down with gravity.
+private const val SPARK_COUNT = 14
+private const val SPARK_LIFE = 34
+private const val SPARK_GRAVITY = 0.45
+private const val SPARK_MAX = 140
+
+private val HEAD = Rgba(185, 161, 255, 1.0)
+private val GREEN = Rgba(87, 217, 163, 0.55)
+private val PURPLE = Rgba(127, 82, 255, 0.45)
+private val LIT = Rgba(170, 255, 214, 1.0)
 
 private val KEYWORDS = listOf(
   "val", "fun", "when", "data", "class", "suspend", "object", "null", "if", "else", "return", "{}", "->", "::", "?:",
@@ -50,7 +79,93 @@ fun codeRain() {
   )
 }
 
-private class Drop(var y: Double, var speed: Double, var word: String? = null, var wordLeft: Int = 0)
+private class Drop(
+  var y: Double,
+  var speed: Double,
+  var word: String? = null,
+  var wordLeft: Int = 0,
+  var offset: Double = 0.0,
+  var glow: Double = 0.0,
+) {
+
+  /**
+   * Eases the sideways [offset] towards the edge of the cursor's umbrella, or back to the drop's column.
+   * Returns whether the drop is currently sliding over the umbrella.
+   */
+  fun shield(columnX: Double, pointer: Pointer): Boolean {
+    var target = 0.0
+    val dy = y - pointer.y
+    if (pointer.active && abs(dy) < SHIELD_RADIUS) {
+      val dx = columnX - pointer.x
+      val edge = sqrt(SHIELD_RADIUS * SHIELD_RADIUS - dy * dy)
+      if (abs(dx) < edge) target = (if (dx < 0) -1 else 1) * (edge - abs(dx))
+    }
+    val easing = if (abs(target) > abs(offset)) SHIELD_PUSH else SHIELD_RELEASE
+    offset += (target - offset) * easing
+    return target != 0.0
+  }
+
+  /** Tints the drop by its distance to the cursor; the tint then fades frame by frame as the drop falls on. */
+  fun tint(x: Double, pointer: Pointer) {
+    val proximity = if (pointer.active) {
+      val dx = x - pointer.x
+      val dy = y - pointer.y
+      1 - sqrt(dx * dx + dy * dy) / GLOW_RADIUS
+    } else {
+      0.0
+    }
+    glow = max(proximity, glow * GLOW_DECAY).coerceIn(0.0, 1.0)
+  }
+}
+
+private class Pointer(var x: Double = 0.0, var y: Double = 0.0, var active: Boolean = false)
+
+private class Spark(var x: Double, var y: Double, var vx: Double, var vy: Double, val char: String, var life: Int)
+
+/** Click splash: a ring of glyphs bursts out of the click point and falls back down with gravity. */
+private class Splashes {
+
+  private val sparks = ArrayDeque<Spark>()
+
+  fun burst(x: Double, y: Double) {
+    repeat(SPARK_COUNT) { index ->
+      val angle = 2 * PI * index / SPARK_COUNT + Random.nextDouble() * 0.4
+      val speed = 3 + Random.nextDouble() * 5
+      sparks.addLast(Spark(x, y, cos(angle) * speed, sin(angle) * speed - 3, GLYPHS.random(), SPARK_LIFE))
+    }
+    while (sparks.size > SPARK_MAX) sparks.removeFirst()
+  }
+
+  fun draw(ctx: CanvasRenderingContext2D) {
+    val iterator = sparks.iterator()
+    while (iterator.hasNext()) {
+      val spark = iterator.next()
+      spark.x += spark.vx
+      spark.y += spark.vy
+      spark.vy += SPARK_GRAVITY
+      spark.life--
+      if (spark.life <= 0) {
+        iterator.remove()
+        continue
+      }
+      ctx.fillStyle = LIT.copy(alpha = spark.life.toDouble() / SPARK_LIFE).css
+      ctx.fillText(spark.char, spark.x, spark.y)
+    }
+  }
+}
+
+private data class Rgba(val r: Int, val g: Int, val b: Int, val alpha: Double) {
+
+  /** Built once per instance, so untinted glyphs reuse the same string every frame. */
+  val css = "rgba($r,$g,$b,$alpha)"
+
+  fun mix(other: Rgba, amount: Double): Rgba = Rgba(
+    r = (r + (other.r - r) * amount).toInt(),
+    g = (g + (other.g - g) * amount).toInt(),
+    b = (b + (other.b - b) * amount).toInt(),
+    alpha = alpha + (other.alpha - alpha) * amount,
+  )
+}
 
 private class CodeRain(private val canvas: HTMLCanvasElement) {
 
@@ -61,6 +176,28 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     resizeTimer = window.setTimeout({ setSize() }, RESIZE_DEBOUNCE_MS)
   }
   private var resizeTimer = 0
+  private val pointer = Pointer()
+  private val splashes = Splashes()
+  private val onPointerMove: (Event) -> Unit = { event ->
+    val move = event as PointerEvent
+    if (move.pointerType != "touch") {
+      pointer.x = move.clientX.toDouble()
+      pointer.y = move.clientY.toDouble()
+      pointer.active = true
+    }
+  }
+  private val onPointerOut: (Event) -> Unit = { event ->
+    // A null relatedTarget means the pointer left the window, not just moved between elements.
+    if ((event as PointerEvent).relatedTarget == null) pointer.active = false
+  }
+  private val onPointerDown: (Event) -> Unit = { event ->
+    val down = event as PointerEvent
+    // Only a primary click/tap splashes, and only while the rain is animating, so sparks never pile up unseen.
+    val animating = !reducedMotion.matches && !isDocumentHidden()
+    if (animating && down.isPrimary && down.button.toInt() == 0) {
+      splashes.burst(down.clientX.toDouble(), down.clientY.toDouble())
+    }
+  }
   private val onMotionChange: (Event) -> Unit = {
     window.cancelAnimationFrame(rafId)
     if (!reducedMotion.matches) rafId = window.requestAnimationFrame(::tick)
@@ -82,6 +219,9 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     window.addEventListener("resize", onResize)
     reducedMotion.addEventListener("change", onMotionChange)
     document.addEventListener("visibilitychange", onVisibilityChange)
+    window.addEventListener("pointermove", onPointerMove)
+    window.addEventListener("pointerdown", onPointerDown)
+    document.addEventListener("pointerout", onPointerOut)
     if (!reducedMotion.matches && !isDocumentHidden()) rafId = window.requestAnimationFrame(::tick)
   }
 
@@ -91,6 +231,9 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     window.removeEventListener("resize", onResize)
     reducedMotion.removeEventListener("change", onMotionChange)
     document.removeEventListener("visibilitychange", onVisibilityChange)
+    window.removeEventListener("pointermove", onPointerMove)
+    window.removeEventListener("pointerdown", onPointerDown)
+    document.removeEventListener("pointerout", onPointerOut)
   }
 
   private fun setSize() {
@@ -120,13 +263,19 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     ctx.fillRect(0.0, 0.0, viewWidth, viewHeight)
 
     drops.forEachIndexed { index, drop ->
+      val columnX = index * COLUMN_WIDTH
+      val sheltered = drop.shield(columnX, pointer)
       if (drop.y >= 0) {
-        ctx.fillStyle = nextColor()
-        ctx.fillText(nextChar(drop), index * COLUMN_WIDTH, drop.y)
+        val x = columnX + drop.offset
+        drop.tint(x, pointer)
+        val base = nextColor()
+        ctx.fillStyle = if (drop.glow < GLOW_MIN) base.css else base.mix(LIT, drop.glow).css
+        ctx.fillText(nextChar(drop), x, drop.y)
       }
-      drop.y += FONT_SIZE * drop.speed
+      drop.y += FONT_SIZE * drop.speed * (if (sheltered) SHIELD_SLOWDOWN else 1.0)
       if (drop.y > viewHeight + 100) recycle(drop)
     }
+    splashes.draw(ctx)
   }
 
   private fun nextChar(drop: Drop): String {
@@ -149,7 +298,7 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     }
   }
 
-  private fun nextColor(): String {
+  private fun nextColor(): Rgba {
     val roll = Random.nextDouble()
     return when {
       roll < 0.12 -> HEAD
@@ -163,6 +312,8 @@ private class CodeRain(private val canvas: HTMLCanvasElement) {
     drop.speed = randomSpeed()
     drop.word = null
     drop.wordLeft = 0
+    drop.offset = 0.0
+    drop.glow = 0.0
   }
 
   private fun randomSpeed() = 0.6 + Random.nextDouble() * 1.6
