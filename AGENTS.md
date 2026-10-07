@@ -16,7 +16,7 @@ There are **no Kotlin tests** (`./gradlew build` still runs the standard `test`/
 tasks, but no test sources exist); the only test suite is the Node one covering the CI
 security scripts under `.github/scripts/`. The site is mostly presentational, with a small amount of
 client-side logic: canvas/coroutine-driven animations (`CodeRain`, `MiniTerminal`) and
-repo lists fetched from the public GitHub API at runtime (`data/GitHubRepos.kt`).
+repo lists loaded from the generated `repos.json` asset (`data/GitHubRepos.kt`).
 
 ## Common Commands
 
@@ -73,10 +73,11 @@ rain" canvas background.
   when `prefers-reduced-motion` is set, cleaned up via the `ref` disposable).
   `MiniTerminal.kt` is a coroutine-driven fake terminal that types randomized
   shell/Kotlin sessions (static snapshot under reduced motion; hidden below 1120px).
-- **Data:** `de.nilsdruyen.portfolio.data.GitHubRepos.kt` — fetches the repo lists from
-  the public GitHub API at runtime: `loadPortfolioRepos()` (own repos tagged with the
-  `portfolio` topic) and `loadContributions()` (external repos with merged PRs authored
-  by the user), both sorted by stars with hardcoded fallback lists on failure.
+- **Data:** `de.nilsdruyen.portfolio.data.GitHubRepos.kt` — loads `assets/repos.json`,
+  generated weekly by `.github/workflows/update-repos-data.yml` from the GitHub API.
+  `loadPortfolioRepos()` reads own repos tagged with the `portfolio` topic, while
+  `loadContributions()` reads external repos with merged PRs authored by the user; both
+  use hardcoded fallback lists if the asset cannot be loaded.
 - **UI utilities:** `de.nilsdruyen.portfolio.ui` — `Colors` (the terminal palette),
   `CssExt` (CSS helper extensions), and `TerminalStyle` (a Compose `StyleSheet` with the
   page/card/typography classes, `riseIn`/`blink` keyframes, the `rise(delayMs)` staggered
@@ -89,8 +90,8 @@ rain" canvas background.
 
 ## Tech Stack
 
-- **Kotlin 2.4.10** (Multiplatform, JS/IR target, compiling to `es2015`)
-- **JetBrains Compose for Web 1.11.1** — `compose.runtime`, `compose.html.core`,
+- **Kotlin 2.4.20** (Multiplatform, JS/IR target, compiling to `es2015`)
+- **JetBrains Compose for Web 1.12.1** — `compose.runtime`, `compose.html.core`,
   `compose.html.svg`
 - **kotlinx-coroutines** and **kotlinx-datetime** (declared in `commonMain`)
 - **detekt 2.0.0-alpha.6** with the ktlint-wrapper ruleset for static analysis/formatting
