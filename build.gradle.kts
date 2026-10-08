@@ -34,6 +34,7 @@ kotlin {
         implementation(libs.compose.runtime)
         implementation(libs.compose.html.core)
         implementation(libs.compose.html.svg)
+        implementation(npm("swetrix", "4.7.0"))
       }
     }
   }
