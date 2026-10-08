@@ -56,7 +56,8 @@ Standard Compose HTML rendering pattern. All Kotlin sources live under
 The site is a single dark, terminal-styled landing page with an animated "Kotlin code
 rain" canvas background.
 
-- **Entry point:** `Main.kt` — `main()` calls `renderComposable(rootElementId = "root")`,
+- **Entry point:** `Main.kt` — `main()` starts analytics, then calls
+  `renderComposable(rootElementId = "root")`,
   mounting Compose into `<div id="root">` from `index.html`, installs `TerminalStyle`,
   and wraps `page()` in the `TerminalStyle.page` container.
 - **Page orchestration:** `de.nilsdruyen.portfolio.WebPage.kt` — the top-level `page()`
@@ -78,13 +79,19 @@ rain" canvas background.
   `loadPortfolioRepos()` reads own repos tagged with the `portfolio` topic, while
   `loadContributions()` reads external repos with merged PRs authored by the user; both
   use hardcoded fallback lists if the asset cannot be loaded.
+- **Analytics:** `de.nilsdruyen.portfolio.analytics` — `startAnalytics()` initialises
+  cookieless page-view tracking against the self-hosted Swetrix instance
+  (`analytics2.nilsjr.dev`). The `swetrix` client is an `npm()` dependency bundled by
+  webpack (bindings in `SwetrixExternals.kt`), so no third-party script loads at runtime;
+  `index.html` only keeps the `<noscript>` pixel. Swetrix ignores `localhost` and
+  automated browsers (`navigator.webdriver`).
 - **UI utilities:** `de.nilsdruyen.portfolio.ui` — `Colors` (the terminal palette),
   `CssExt` (CSS helper extensions), and `TerminalStyle` (a Compose `StyleSheet` with the
   page/card/typography classes, `riseIn`/`blink` keyframes, the `rise(delayMs)` staggered
   entrance helper, and a `prefers-reduced-motion` override).
 - **HTML shell:** `src/jsMain/resources/index.html` — loads the JetBrains Mono Google
-  Font (non-blocking, weights 400–600), the favicon, and the compiled deferred
-  `nils.github.io.js` bundle.
+  Font (non-blocking, weights 400–600), the favicon, the compiled deferred
+  `nils.github.io.js` bundle, and the Swetrix `<noscript>` tracking pixel.
 - **Assets:** `src/jsMain/resources/assets/` — images and SVGs, copied into the
   distribution by `jsBrowserDistribution`.
 
