@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "de.nilsdruyen"
-version = "2026.9.0"
+version = "2026.10.0"
 
 kotlin {
   js {
@@ -34,6 +34,7 @@ kotlin {
         implementation(libs.compose.runtime)
         implementation(libs.compose.html.core)
         implementation(libs.compose.html.svg)
+        implementation(npm("swetrix", "4.7.0"))
       }
     }
   }
@@ -51,12 +52,14 @@ rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
     lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
 
-    resolution("body-parser", "1.20.5")
-    resolution("brace-expansion", "5.0.9")
+    resolution("body-parser", "1.20.6")
+    resolution("brace-expansion", "5.0.11")
     resolution("braces", "3.0.3")
     resolution("browserslist", "4.28.7")
     resolution("cross-spawn", "7.0.6")
-    resolution("fast-uri", "3.1.6")
+    resolution("diff", "5.2.2")
+    resolution("engine.io", "6.6.10")
+    resolution("fast-uri", "3.1.7")
     resolution("flatted", "3.4.2")
     resolution("glob", "10.5.0")
     resolution("http-proxy-middleware", "2.0.10")
@@ -65,10 +68,12 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("nanoid", "3.3.18")
     resolution("node-forge", "1.4.0")
     resolution("path-to-regexp", "0.1.13")
-    resolution("qs", "6.15.2")
-    resolution("serialize-javascript", "7.0.3")
+    resolution("qs", "6.16.0")
+    resolution("serialize-javascript", "7.0.5")
     resolution("shell-quote", "1.10.0")
     resolution("socket.io-parser", "4.2.7")
+    resolution("uuid", "11.1.1")
+    resolution("webpack-dev-middleware", "7.4.6")
     resolution("ws", "8.21.0")
   }
   rootProject.the<NodeJsRootExtension>().apply {

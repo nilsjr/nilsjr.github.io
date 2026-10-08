@@ -3,13 +3,13 @@ coroutines = "1.11.0"
 datetime = "0.8.0-0.6.x-compat"
 detekt = "2.0.0-alpha.6"
 gradleVersionsPlugin = "0.64.0"
-jetbrainsCompose = "1.12.0"
+jetbrainsCompose = "1.12.1"
 karma = "6.4.0"
 kotlin = "2.4.20"
 mocha = "10.0.0"
 webpack = "5.107.2"
 webpackCli = "7.0.3"
-webpackDevServer = "5.2.5"
+webpackDevServer = "5.2.6"
 
 [libraries]
 compose-html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "jetbrainsCompose" }

@@ -6,6 +6,7 @@
 package de.nilsdruyen.portfolio.data
 
 import kotlinx.browser.window
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.await
 
 private const val REPOS_ASSET_URL = "assets/repos.json"
@@ -67,6 +68,7 @@ suspend fun loadPortfolioRepos(): List<Repo>? = try {
       ?.ifEmpty { null }
   }
 } catch (e: Throwable) {
+  if (e is CancellationException) throw e
   console.warn("Failed to load repos.json", e.message)
   null
 }
@@ -117,6 +119,7 @@ suspend fun loadContributions(): List<Repo>? = try {
       ?.ifEmpty { null }
   }
 } catch (e: Throwable) {
+  if (e is CancellationException) throw e
   console.warn("Failed to load contributions from repos.json", e.message)
   null
 }

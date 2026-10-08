@@ -11,8 +11,9 @@ import { execFileSync } from "node:child_process";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const SCRIPTS = new URL("../", import.meta.url).pathname;
+const SCRIPTS = fileURLToPath(new URL("../", import.meta.url));
 
 // A minimal osv-scanner report: one package, one advisory, one fixed version.
 function report(ecosystem, entries) {

@@ -1,0 +1,67 @@
+name: GitHub Release
+
+# Turns every release PR that lands on main into a tagged GitHub release with an
+# auto-generated changelog. The version comes from build.gradle.kts, which the
+# scheduled-deployment workflow bumps right before it opens the release PR.
+#
+# The changelog is built by GitHub from the pull requests merged since the previous
+# release tag, so it only needs tags to be consistent (`v<version>`).
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Create release
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # A manual dispatch can be started from any branch; only main may be released.
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      # Creating a release also creates its tag.
+      contents: write
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Create the release if it does not exist yet
+        env:
+          # A release created with GITHUB_TOKEN triggers no further workflow, and
+          # nothing needs to react to it.
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          VERSION=$(grep '^version = "' build.gradle.kts | cut -d '"' -f 2)
+          [ -n "$VERSION" ] || { echo "::error::version not found in build.gradle.kts"; exit 1; }
+          TAG="v$VERSION"
+
+          # Pushes to main that are not a version bump (a hotfix, a back-merge) must
+          # not produce a second release for the same version, and a re-run after a
+          # partial failure must be harmless.
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; nothing to do." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # Pinned to the commit this run checked out, not to whatever main is by now.
+          gh release create "$TAG" \
+            --target "$GITHUB_SHA" \
+            --title "$VERSION" \
+            --generate-notes \
+            --latest
+
+          echo "Created release $TAG." >> "$GITHUB_STEP_SUMMARY"

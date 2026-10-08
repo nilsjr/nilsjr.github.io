@@ -16,7 +16,7 @@ There are **no Kotlin tests** (`./gradlew build` still runs the standard `test`/
 tasks, but no test sources exist); the only test suite is the Node one covering the CI
 security scripts under `.github/scripts/`. The site is mostly presentational, with a small amount of
 client-side logic: canvas/coroutine-driven animations (`CodeRain`, `MiniTerminal`) and
-repo lists fetched from the public GitHub API at runtime (`data/GitHubRepos.kt`).
+repo lists loaded from the generated `repos.json` asset (`data/GitHubRepos.kt`).
 
 ## Common Commands
 
@@ -56,7 +56,8 @@ Standard Compose HTML rendering pattern. All Kotlin sources live under
 The site is a single dark, terminal-styled landing page with an animated "Kotlin code
 rain" canvas background.
 
-- **Entry point:** `Main.kt` — `main()` calls `renderComposable(rootElementId = "root")`,
+- **Entry point:** `Main.kt` — `main()` starts analytics, then calls
+  `renderComposable(rootElementId = "root")`,
   mounting Compose into `<div id="root">` from `index.html`, installs `TerminalStyle`,
   and wraps `page()` in the `TerminalStyle.page` container.
 - **Page orchestration:** `de.nilsdruyen.portfolio.WebPage.kt` — the top-level `page()`
@@ -73,24 +74,31 @@ rain" canvas background.
   when `prefers-reduced-motion` is set, cleaned up via the `ref` disposable).
   `MiniTerminal.kt` is a coroutine-driven fake terminal that types randomized
   shell/Kotlin sessions (static snapshot under reduced motion; hidden below 1120px).
-- **Data:** `de.nilsdruyen.portfolio.data.GitHubRepos.kt` — fetches the repo lists from
-  the public GitHub API at runtime: `loadPortfolioRepos()` (own repos tagged with the
-  `portfolio` topic) and `loadContributions()` (external repos with merged PRs authored
-  by the user), both sorted by stars with hardcoded fallback lists on failure.
+- **Data:** `de.nilsdruyen.portfolio.data.GitHubRepos.kt` — loads `assets/repos.json`,
+  generated weekly by `.github/workflows/update-repos-data.yml` from the GitHub API.
+  `loadPortfolioRepos()` reads own repos tagged with the `portfolio` topic, while
+  `loadContributions()` reads external repos with merged PRs authored by the user; both
+  use hardcoded fallback lists if the asset cannot be loaded.
+- **Analytics:** `de.nilsdruyen.portfolio.analytics` — `startAnalytics()` initialises
+  cookieless page-view tracking against the self-hosted Swetrix instance
+  (`analytics2.nilsjr.dev`). The `swetrix` client is an `npm()` dependency bundled by
+  webpack (bindings in `SwetrixExternals.kt`), so no third-party script loads at runtime;
+  `index.html` only keeps the `<noscript>` pixel. Swetrix ignores `localhost` and
+  automated browsers (`navigator.webdriver`).
 - **UI utilities:** `de.nilsdruyen.portfolio.ui` — `Colors` (the terminal palette),
   `CssExt` (CSS helper extensions), and `TerminalStyle` (a Compose `StyleSheet` with the
   page/card/typography classes, `riseIn`/`blink` keyframes, the `rise(delayMs)` staggered
   entrance helper, and a `prefers-reduced-motion` override).
 - **HTML shell:** `src/jsMain/resources/index.html` — loads the JetBrains Mono Google
-  Font (non-blocking, weights 400–600), the favicon, and the compiled deferred
-  `nils.github.io.js` bundle.
+  Font (non-blocking, weights 400–600), the favicon, the compiled deferred
+  `nils.github.io.js` bundle, and the Swetrix `<noscript>` tracking pixel.
 - **Assets:** `src/jsMain/resources/assets/` — images and SVGs, copied into the
   distribution by `jsBrowserDistribution`.
 
 ## Tech Stack
 
-- **Kotlin 2.4.10** (Multiplatform, JS/IR target, compiling to `es2015`)
-- **JetBrains Compose for Web 1.11.1** — `compose.runtime`, `compose.html.core`,
+- **Kotlin 2.4.20** (Multiplatform, JS/IR target, compiling to `es2015`)
+- **JetBrains Compose for Web 1.12.1** — `compose.runtime`, `compose.html.core`,
   `compose.html.svg`
 - **kotlinx-coroutines** and **kotlinx-datetime** (declared in `commonMain`)
 - **detekt 2.0.0-alpha.6** with the ktlint-wrapper ruleset for static analysis/formatting
@@ -162,6 +170,9 @@ GitHub Actions workflows in `.github/workflows/` (all run on JDK 21):
 - **`scheduled-deployment.yml`** — runs on the 1st of each month (and manual dispatch);
   if `develop` is ahead of `main`, it bumps the version in `build.gradle.kts`, pushes to
   `develop`, and opens (or updates) an auto-merge `develop → main` release PR.
+- **`github-release.yml`** — on push to `main` (and manual dispatch), reads the version
+  from `build.gradle.kts` and, unless the `v<version>` release already exists, creates it
+  with GitHub's auto-generated changelog (pull requests merged since the previous tag).
 - **`update-yarn-lock.yml`** — on Renovate PRs touching `build.gradle.kts`, regenerates
   `.kotlin-js-store/yarn.lock` (`kotlinUpgradeYarnLock`) and commits it back.
 - **`security-yarn-lock.yml`** — Friday 18:17 UTC (and manual dispatch, defaulting to a
