@@ -56,6 +56,15 @@
     },
     {
       customType: "regex",
+      description: "Update Kotlin/JS npm() dependencies in build.gradle.kts",
+      managerFilePatterns: ["(^|.*/)build\\.gradle\\.kts$"],
+      matchStrings: [
+        "npm\\(\"(?<depName>[^\"]+)\",\\s*\"(?<currentValue>[^\"]+)\"\\)",
+      ],
+      datasourceTemplate: "npm",
+    },
+    {
+      customType: "regex",
       description: "Update the pinned osv-scanner release in the security workflows",
       managerFilePatterns: ["^\\.github/workflows/security-(yarn-lock|gradle)\\.yml$"],
       matchStrings: ["OSV_SCANNER_VERSION:\\s*(?<currentValue>v[\\d.]+)"],
