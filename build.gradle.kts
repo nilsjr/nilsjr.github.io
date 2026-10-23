@@ -52,7 +52,7 @@ rootProject.plugins.withType<YarnPlugin> {
   rootProject.the<YarnRootExtension>().apply {
     lockFileDirectory = project.rootDir.resolve(".kotlin-js-store")
 
-    resolution("body-parser", "1.20.6")
+    resolution("body-parser", "1.20.9")
     resolution("brace-expansion", "5.0.12")
     resolution("braces", "3.0.3")
     resolution("browserslist", "4.28.7")
