@@ -81,7 +81,7 @@ rain" canvas background.
   use hardcoded fallback lists if the asset cannot be loaded.
 - **Analytics:** `de.nilsdruyen.portfolio.analytics` — `startAnalytics()` initialises
   cookieless page-view tracking against the self-hosted Swetrix instance
-  (`analytics2.nilsjr.dev`). The `swetrix` client is an `npm()` dependency bundled by
+  (`analytics.nilsjr.dev`). The `swetrix` client is an `npm()` dependency bundled by
   webpack (bindings in `SwetrixExternals.kt`), so no third-party script loads at runtime;
   `index.html` only keeps the `<noscript>` pixel. Swetrix ignores `localhost` and
   automated browsers (`navigator.webdriver`).
