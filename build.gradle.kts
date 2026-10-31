@@ -69,7 +69,6 @@ rootProject.plugins.withType<YarnPlugin> {
     resolution("launch-editor", "2.14.2")
     resolution("minimatch", "9.0.7")
     resolution("nanoid", "3.3.18")
-    resolution("node-forge", "1.4.0")
     resolution("path-to-regexp", "0.1.13")
     resolution("proxy-addr", "2.0.8")
     resolution("qs", "6.16.0")
