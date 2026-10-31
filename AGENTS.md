@@ -71,7 +71,10 @@ rain" canvas background.
   Composable function names are lowercase (e.g. `hero()`), which detekt is configured to
   allow. `CodeRain.kt` renders a fixed `<canvas>` and drives a
   `requestAnimationFrame` matrix-style rain of Kotlin keywords/glyphs (DPI-aware, stopped
-  when `prefers-reduced-motion` is set, cleaned up via the `ref` disposable).
+  when `prefers-reduced-motion` is set, cleaned up via the `ref` disposable). The mouse
+  pointer acts as an umbrella (drops bend around it, are tinted mint nearby and drift back
+  slowly), and a primary click or tap splashes a burst of glyphs that fall with gravity (hover
+  tracking ignores touch).
   `MiniTerminal.kt` is a coroutine-driven fake terminal that types randomized
   shell/Kotlin sessions (static snapshot under reduced motion; hidden below 1120px).
 - **Data:** `de.nilsdruyen.portfolio.data.GitHubRepos.kt` — loads `assets/repos.json`,
