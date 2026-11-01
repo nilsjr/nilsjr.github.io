@@ -6,7 +6,7 @@
 package de.nilsdruyen.portfolio.analytics
 
 private const val SWETRIX_PROJECT_ID = "nU9VrRLm1S9R"
-private const val SWETRIX_API_URL = "https://analytics2.nilsjr.dev/backend/v1/log"
+private const val SWETRIX_API_URL = "https://analytics.nilsjr.dev/backend/v1/log"
 
 /**
  * Starts cookieless page-view tracking against the self-hosted Swetrix instance.
