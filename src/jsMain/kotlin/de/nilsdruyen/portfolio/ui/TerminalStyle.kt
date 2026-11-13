@@ -9,6 +9,7 @@ import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.AnimationFillMode
 import org.jetbrains.compose.web.css.AnimationTimingFunction
+import org.jetbrains.compose.web.css.CSSBuilder
 import org.jetbrains.compose.web.css.CSSMediaQuery
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.FlexDirection
@@ -52,11 +53,14 @@ import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
+import org.jetbrains.compose.web.css.selectors.CSSSelector
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.timingFunction
 import org.jetbrains.compose.web.css.transform
 import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.css.width
+
+private const val GREEN_GLOW = "0 0 12px rgba(87,217,163,0.55)"
 
 @OptIn(ExperimentalComposeWebApi::class)
 fun StyleScope.rise(delayMs: Int = 0) {
@@ -302,28 +306,62 @@ object TerminalStyle : StyleSheet() {
     }
   }
 
+  @OptIn(ExperimentalComposeWebApi::class)
   val repoLink by style {
     display(DisplayStyle.Flex)
     gap(20.px)
     alignItems(AlignItems.Baseline)
     textDecoration("none")
     color(Colors.Text)
+    // Negative margin keeps the text aligned with the card label while the hover highlight gets breathing room.
+    padding(5.px, 12.px)
+    property("margin", "0 -12px")
+    borderRadius(6.px)
+    property("transition", "background-color 180ms ease, box-shadow 180ms ease")
+
+    highlighted(self) {
+      backgroundColor(rgba(127, 82, 255, 0.1))
+      property("box-shadow", "inset 2px 0 0 ${Colors.Green}")
+    }
+
+    self + focusVisible style {
+      property("outline", "2px solid ${Colors.Green}")
+      property("outline-offset", "2px")
+    }
   }
 
+  // The children slide instead of the link itself, so the hit box stays put and hover can't flicker at its edge.
+  @OptIn(ExperimentalComposeWebApi::class)
   val repoName by style {
     color(Colors.PurpleText)
     fontWeight(600)
+    property("transition", "color 180ms ease, text-shadow 180ms ease, transform 180ms ease")
+
+    highlighted(className(repoLink), self) {
+      color(Colors.Green)
+      property("text-shadow", GREEN_GLOW)
+      transform { translateX(4.px) }
+    }
   }
 
+  @OptIn(ExperimentalComposeWebApi::class)
   val repoDesc by style {
     color(Colors.Body)
     fontSize(14.px)
+    property("transition", "color 180ms ease, transform 180ms ease")
+
+    highlighted(className(repoLink), self) {
+      color(Colors.Text)
+      transform { translateX(4.px) }
+    }
   }
 
   val repoList by style {
     display(DisplayStyle.Flex)
     flexDirection(FlexDirection.Column)
-    gap(10.px)
+    gap(0.px)
+    // Cancels the links' vertical padding at the list edges, keeping the card the same height as without it.
+    property("margin", "-5px 0")
   }
 
   val timeline by style {
@@ -340,11 +378,18 @@ object TerminalStyle : StyleSheet() {
   }
 
   val arrowLink by style {
-    display(DisplayStyle.Block)
+    display(DisplayStyle.InlineBlock)
     marginTop(12.px)
     color(Colors.Green)
     textDecoration("none")
     fontSize(14.px)
+    // Padding grows the box to the right instead of moving it, so its left edge stays under the cursor.
+    property("transition", "padding-left 180ms ease, text-shadow 180ms ease")
+
+    highlighted(self) {
+      property("text-shadow", GREEN_GLOW)
+      property("padding-left", "6px")
+    }
   }
 
   val contactList by style {
@@ -357,9 +402,11 @@ object TerminalStyle : StyleSheet() {
   val contactLink by style {
     color(Colors.Text)
     textDecoration("none")
+    property("transition", "color 180ms ease, text-shadow 180ms ease")
 
-    self + hover style {
+    highlighted(self) {
       color(Colors.Green)
+      property("text-shadow", GREEN_GLOW)
     }
   }
 
@@ -433,5 +480,17 @@ object TerminalStyle : StyleSheet() {
       timingFunction(AnimationTimingFunction.StepEnd)
       iterationCount = listOf(null)
     }
+  }
+
+  /**
+   * Applies [rules] to [selected] (or to [link] itself) while [link] is hovered or keyboard-focused. Hover is
+   * limited to devices that can really hover, so a tap on a touch screen doesn't leave the highlight stuck.
+   */
+  private fun CSSBuilder.highlighted(link: CSSSelector, selected: CSSSelector? = null, rules: CSSBuilder.() -> Unit) {
+    fun target(state: CSSSelector) = if (selected == null) link + state else desc(link + state, selected)
+    media(CSSMediaQuery.Raw("(hover: hover)")) {
+      target(hover) style rules
+    }
+    target(focusVisible) style rules
   }
 }
